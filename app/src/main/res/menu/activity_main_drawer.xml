@@ -10,15 +10,15 @@
             android:title="Home" />
         <item
             android:id="@+id/nav_holidays"
-            android:icon="@drawable/ic_menu_gallery"
+            android:icon="@drawable/ic_plane_black_24dp"
             android:title="Holidays" />
         <item
             android:id="@+id/nav_visited"
-            android:icon="@drawable/ic_menu_slideshow"
+            android:icon="@drawable/ic_globe_black_24dp"
             android:title="Places Visited" />
         <item
             android:id="@+id/nav_gallery"
-            android:icon="@drawable/ic_menu_manage"
+            android:icon="@drawable/ic_photo_library_black_24dp"
             android:title="Travel Gallery" />
         <item
             android:id="@+id/nav_camera"
@@ -26,7 +26,7 @@
             android:title="Camera" />
         <item
             android:id="@+id/nav_places"
-            android:icon="@drawable/ic_menu_manage"
+            android:icon="@drawable/ic_near_me_black_24dp"
             android:title="Nearby Places" />
     </group>
 
