@@ -41,8 +41,8 @@ public class HolidaysActivity extends AppCompatActivity implements NavigationVie
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
         } else {
-            navigationView.getMenu().getItem(0).setChecked(true);
             super.onBackPressed();
+            navigationView.getMenu().getItem(0).setChecked(true);
         }
     }
 
