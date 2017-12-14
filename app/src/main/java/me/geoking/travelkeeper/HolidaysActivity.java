@@ -12,10 +12,9 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.Toast;
 
-import me.geoking.travelkeeper.Fragments.HolidayDetailsFragment;
-import me.geoking.travelkeeper.Fragments.HolidayFragment;
+import me.geoking.travelkeeper.fragments.HolidayDetailsFragment;
+import me.geoking.travelkeeper.fragments.HolidayFragment;
 import me.geoking.travelkeeper.dummy.DummyContent;
 
 public class HolidaysActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener,
@@ -109,7 +108,6 @@ public class HolidaysActivity extends AppCompatActivity implements NavigationVie
 
     @Override
     public void onListFragmentInteraction(DummyContent.DummyItem item) {
-        Toast.makeText(this, "You clicked " + item.toString(), Toast.LENGTH_LONG).show();
         // Create the new fragment,
         HolidayDetailsFragment newFragment = new HolidayDetailsFragment();
         // add an argument specifying the item it should show

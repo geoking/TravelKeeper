@@ -9,7 +9,10 @@
     android:layout_marginLeft="16dp"
     android:layout_marginRight="16dp"
     app:layoutManager="LinearLayoutManager"
-    tools:context="me.geoking.travelkeeper.Fragments.HolidayFragment"
+    tools:context="me.geoking.travelkeeper.fragments.HolidayFragment"
     tools:listitem="@layout/fragment_holiday" >
 
+
+
 </android.support.v7.widget.RecyclerView>
+

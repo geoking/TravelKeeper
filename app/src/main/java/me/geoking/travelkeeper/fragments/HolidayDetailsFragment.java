@@ -1,4 +1,4 @@
-package me.geoking.travelkeeper.Fragments;
+package me.geoking.travelkeeper.fragments;
 
 import android.content.Context;
 import android.net.Uri;

@@ -3,8 +3,16 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="me.geoking.travelkeeper.Fragments.HolidayDetailsFragment">
+    tools:context="me.geoking.travelkeeper.fragments.HolidayDetailsFragment">
 
+
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/fab_edit"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|end"
+        android:layout_margin="@dimen/fab_margin"
+        app:srcCompat="@android:drawable/ic_menu_edit" />
     <!-- TODO: Update blank fragment layout -->
 
     <android.support.constraint.ConstraintLayout
@@ -46,6 +54,7 @@
             android:layout_width="match_parent"
             android:layout_height="204dp"
             android:src="@drawable/side_nav_bar" />
+
 
     </android.support.constraint.ConstraintLayout>
 
