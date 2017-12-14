@@ -19,6 +19,15 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity
+            android:name=".HolidaysActivity"
+            android:label="@string/title_activity_holidays"
+            android:parentActivityName=".MainActivity"
+            android:theme="@style/AppTheme.NoActionBar">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="me.geoking.travelkeeper.MainActivity" />
+        </activity>
     </application>
 
 </manifest>

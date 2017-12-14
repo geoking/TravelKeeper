@@ -1,5 +1,6 @@
 package me.geoking.travelkeeper;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -69,9 +70,9 @@ public class MainActivity extends AppCompatActivity
         int id = item.getItemId();
 
         if (id == R.id.nav_home) {
-            // Handle the home action
         } else if (id == R.id.nav_holidays) {
-
+            Intent intent = new Intent(this, HolidaysActivity.class);
+            startActivity(intent);
         } else if (id == R.id.nav_visited) {
 
         } else if (id == R.id.nav_gallery) {
