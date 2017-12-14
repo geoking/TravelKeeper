@@ -23,25 +23,25 @@
         tools:showIn="@layout/app_bar_main">
 
         <TextView
-            android:id="@+id/notesView"
+            android:id="@+id/holiday_notes"
             android:layout_width="match_parent"
             android:layout_height="262dp"
             android:layout_marginEnd="8dp"
             android:layout_marginStart="8dp"
-            android:text="TextView"
+            android:text="@string/holiday_notes"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/titleView"
+            app:layout_constraintTop_toBottomOf="@+id/holiday_details_title"
             app:layout_constraintVertical_bias="0.100000024" />
 
         <TextView
-            android:id="@+id/titleView"
+            android:id="@+id/holiday_details_title"
             android:layout_width="match_parent"
             android:layout_height="29dp"
             android:layout_marginEnd="8dp"
             android:layout_marginStart="8dp"
-            android:text="TextView"
+            android:text="@string/holiday_details_title"
             android:textAppearance="@android:style/TextAppearance.Material.Medium"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
