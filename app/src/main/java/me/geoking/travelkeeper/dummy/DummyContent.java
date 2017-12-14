@@ -44,7 +44,7 @@ public class DummyContent {
 
     private static String makeDetails(int position) {
         StringBuilder builder = new StringBuilder();
-        builder.append("This is Holiday: ").append(position);
+        builder.append("\nThis is Holiday: ").append(position);
         for (int i = 0; i < position; i++) {
             builder.append("\nMore details information here.");
         }
