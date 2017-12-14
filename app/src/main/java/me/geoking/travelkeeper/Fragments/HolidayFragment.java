@@ -1,4 +1,4 @@
-package me.geoking.travelkeeper;
+package me.geoking.travelkeeper.Fragments;
 
 import android.content.Context;
 import android.os.Bundle;
@@ -10,10 +10,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import me.geoking.travelkeeper.R;
 import me.geoking.travelkeeper.dummy.DummyContent;
 import me.geoking.travelkeeper.dummy.DummyContent.DummyItem;
-
-import java.util.List;
 
 /**
  * A fragment representing a list of Items.

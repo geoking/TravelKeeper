@@ -1,10 +1,10 @@
 package me.geoking.travelkeeper;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
-import android.support.design.widget.Snackbar;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -12,12 +12,15 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
 import android.widget.Toast;
 
+import me.geoking.travelkeeper.Fragments.HolidayDetailsFragment;
+import me.geoking.travelkeeper.Fragments.HolidayFragment;
 import me.geoking.travelkeeper.dummy.DummyContent;
 
-public class HolidaysActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, HolidayFragment.OnListFragmentInteractionListener {
+public class HolidaysActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener,
+        HolidayFragment.OnListFragmentInteractionListener, HolidayDetailsFragment.OnFragmentInteractionListener
+{
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,7 +60,6 @@ public class HolidaysActivity extends AppCompatActivity implements NavigationVie
             drawer.closeDrawer(GravityCompat.START);
         } else {
             super.onBackPressed();
-            navigationView.getMenu().getItem(0).setChecked(true);
         }
     }
 
@@ -108,6 +110,29 @@ public class HolidaysActivity extends AppCompatActivity implements NavigationVie
     @Override
     public void onListFragmentInteraction(DummyContent.DummyItem item) {
         Toast.makeText(this, "You clicked " + item.toString(), Toast.LENGTH_LONG).show();
+        // Create the new fragment,
+        HolidayDetailsFragment newFragment = new HolidayDetailsFragment();
+        // add an argument specifying the item it should show
+        // note that the DummyItem class must implement Serializable
+        Bundle args = new Bundle();
+        args.putSerializable("Item", item);
+        newFragment.setArguments(args);
+
+        FragmentTransaction transaction =
+                getSupportFragmentManager().beginTransaction();
+
+        // Replace whatever is in the fragment_container view with this fragment,
+        // and add the transaction to the back stack so the user can navigate back
+        transaction.replace(R.id.fragment_container, newFragment);
+        transaction.addToBackStack(null);
+
+        // Commit the transaction
+        transaction.commit();
+    }
+
+    @Override
+    public void onFragmentInteraction(Uri uri) {
+
     }
 
 }

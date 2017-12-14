@@ -1,4 +1,4 @@
-package me.geoking.travelkeeper;
+package me.geoking.travelkeeper.Fragments;
 
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -6,7 +6,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import me.geoking.travelkeeper.HolidayFragment.OnListFragmentInteractionListener;
+import me.geoking.travelkeeper.Fragments.HolidayFragment.OnListFragmentInteractionListener;
+import me.geoking.travelkeeper.R;
 import me.geoking.travelkeeper.dummy.DummyContent.DummyItem;
 
 import java.util.List;
