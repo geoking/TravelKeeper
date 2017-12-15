@@ -13,11 +13,12 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import me.geoking.travelkeeper.dummy.DummyContent;
 import me.geoking.travelkeeper.fragments.HolidayDetailsFragment;
 import me.geoking.travelkeeper.fragments.HolidayFragment;
-import me.geoking.travelkeeper.dummy.DummyContent;
+import me.geoking.travelkeeper.model.Holiday;
 
-public class HolidaysActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener,
+public class VisitedActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener,
         HolidayFragment.OnListFragmentInteractionListener, HolidayDetailsFragment.OnFragmentInteractionListener
 {
 
@@ -25,7 +26,7 @@ public class HolidaysActivity extends AppCompatActivity implements NavigationVie
     protected void onCreate(Bundle savedInstanceState) {
         overridePendingTransition(R.anim.slide_in, R.anim.slide_out);
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_holidays);
+        setContentView(R.layout.activity_visited);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
@@ -38,17 +39,6 @@ public class HolidaysActivity extends AppCompatActivity implements NavigationVie
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.getMenu().getItem(1).setChecked(true);
         navigationView.setNavigationItemSelectedListener(this);
-
-        // Create a new Fragment to be placed in the activity layout
-        HolidayFragment firstFragment = new HolidayFragment();
-
-        // In case this activity was started with special instructions from an
-        // Intent, pass the Intent's extras to the fragment as arguments
-        firstFragment.setArguments(getIntent().getExtras());
-
-        // Add the fragment to the 'fragment_container' FrameLayout
-        getSupportFragmentManager().beginTransaction()
-                .add(R.id.fragment_container, firstFragment).commit();
     }
 
     @Override

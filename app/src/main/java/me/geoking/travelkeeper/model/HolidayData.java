@@ -2,18 +2,21 @@ package me.geoking.travelkeeper.model;
 
 import android.content.Context;
 
+import java.util.ArrayList;
+
 /**
  * Created by george on 14/12/2017.
  */
 
 public class HolidayData {
     private Context context;
-    private Holiday currentHoliday;
     private static HolidayData instance;
+    private ArrayList<Holiday> holidays;
 
     private HolidayData (Context context) {
         this.context = context;
-        setCurrentHoliday(new Holiday(context));
+        holidays = new ArrayList<Holiday>();
+        createData();
     }
 
     public static HolidayData getInstance(Context context) {
@@ -23,19 +26,11 @@ public class HolidayData {
         return instance;
     }
 
-    /**
-     * In case we don't have a context...
-     * @return the singleton instance
-     */
-    public static HolidayData getInstance() {
-        return instance;
+    private void createData() {
+
     }
 
-    public Holiday getCurrentHoliday() {
-        return currentHoliday;
-    }
-
-    public void setCurrentHoliday(Holiday currentHoliday) {
-        this.currentHoliday = currentHoliday;
+    public ArrayList<Holiday> getHolidays() {
+        return holidays;
     }
 }

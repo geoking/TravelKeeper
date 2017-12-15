@@ -42,6 +42,14 @@ public class MainActivity extends AppCompatActivity
                 startActivity(intent);
             }
         });
+
+        final Button visitedbutton = findViewById(R.id.button_visited);
+        visitedbutton.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                Intent intent = new Intent(MainActivity.this, VisitedActivity.class);
+                startActivity(intent);
+            }
+        });
     }
 
     @Override
@@ -83,7 +91,8 @@ public class MainActivity extends AppCompatActivity
             Intent intent = new Intent(this, HolidaysActivity.class);
             startActivity(intent);
         } else if (id == R.id.nav_visited) {
-
+            Intent intent = new Intent(this, VisitedActivity.class);
+            startActivity(intent);
         } else if (id == R.id.nav_gallery) {
 
         } else if (id == R.id.nav_camera) {

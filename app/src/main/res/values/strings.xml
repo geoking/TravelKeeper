@@ -7,10 +7,15 @@
     <string name="action_settings">Settings</string>
     <string name="main_title">Travel Keeper</string>
     <string name="title_activity_holidays">Holidays</string>
+    <string name="title_activity_visited">Places Visited</string>
     <string name="holiday_notes">Holiday Notes</string>
     <string name="holiday_details_title">Holiday Title</string>
     <string name="holiday_details_tags">Holiday Tags</string>
     <string name="holiday_details_start">Start Date</string>
     <string name="holiday_details_end">End Date</string>
+    <string name="button_nearby">Nearby Places</string>
+    <string name="button_gallery">Travel Gallery</string>
+    <string name="button_visited">Places Visited</string>
+    <string name="button_holidays">Holidays</string>
 
 </resources>
