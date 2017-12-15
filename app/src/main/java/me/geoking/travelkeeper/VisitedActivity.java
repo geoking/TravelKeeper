@@ -18,8 +18,7 @@ import me.geoking.travelkeeper.fragments.HolidayDetailsFragment;
 import me.geoking.travelkeeper.fragments.HolidayFragment;
 import me.geoking.travelkeeper.model.Holiday;
 
-public class VisitedActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener,
-        HolidayFragment.OnListFragmentInteractionListener, HolidayDetailsFragment.OnFragmentInteractionListener
+public class VisitedActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener
 {
 
     @Override
@@ -37,7 +36,7 @@ public class VisitedActivity extends AppCompatActivity implements NavigationView
         toggle.syncState();
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
-        navigationView.getMenu().getItem(1).setChecked(true);
+        navigationView.getMenu().getItem(2).setChecked(true);
         navigationView.setNavigationItemSelectedListener(this);
     }
 
@@ -96,33 +95,6 @@ public class VisitedActivity extends AppCompatActivity implements NavigationView
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
-    }
-
-    @Override
-    public void onListFragmentInteraction(DummyContent.DummyItem item) {
-        // Create the new fragment,
-        HolidayDetailsFragment newFragment = new HolidayDetailsFragment();
-        // add an argument specifying the item it should show
-        // note that the DummyItem class must implement Serializable
-        Bundle args = new Bundle();
-        args.putSerializable("Item", item);
-        newFragment.setArguments(args);
-
-        FragmentTransaction transaction =
-                getSupportFragmentManager().beginTransaction();
-
-        // Replace whatever is in the fragment_container view with this fragment,
-        // and add the transaction to the back stack so the user can navigate back
-        transaction.replace(R.id.fragment_container, newFragment);
-        transaction.addToBackStack(null);
-
-        // Commit the transaction
-        transaction.commit();
-    }
-
-    @Override
-    public void onFragmentInteraction(Uri uri) {
-
     }
 
 }
