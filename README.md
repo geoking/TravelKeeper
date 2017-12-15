@@ -1,2 +1,2 @@
 # TravelKeeper
-A simple holiday journal app! Test
+A simple holiday journal app!
