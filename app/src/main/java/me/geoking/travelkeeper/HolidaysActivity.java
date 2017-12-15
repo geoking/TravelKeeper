@@ -90,7 +90,8 @@ public class HolidaysActivity extends AppCompatActivity implements NavigationVie
             Intent intent = new Intent(this, MainActivity.class);
             startActivity(intent);
         } else if (id == R.id.nav_holidays) {
-
+            Intent intent = new Intent(this, HolidaysActivity.class);
+            startActivity(intent);
         } else if (id == R.id.nav_visited) {
 
         } else if (id == R.id.nav_gallery) {

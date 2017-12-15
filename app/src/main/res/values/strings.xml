@@ -9,5 +9,8 @@
     <string name="title_activity_holidays">Holidays</string>
     <string name="holiday_notes">Holiday Notes</string>
     <string name="holiday_details_title">Holiday Title</string>
+    <string name="holiday_details_tags">Holiday Tags</string>
+    <string name="holiday_details_start">Start Date</string>
+    <string name="holiday_details_end">End Date</string>
 
 </resources>
