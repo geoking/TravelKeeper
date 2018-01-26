@@ -38,16 +38,14 @@ public class MainActivity extends AppCompatActivity
         final Button holidaysbutton = findViewById(R.id.button_holidays);
         holidaysbutton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                Intent intent = new Intent(MainActivity.this, HolidaysActivity.class);
-                startActivity(intent);
+
             }
         });
 
         final Button visitedbutton = findViewById(R.id.button_visited);
         visitedbutton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                Intent intent = new Intent(MainActivity.this, VisitedActivity.class);
-                startActivity(intent);
+                
             }
         });
     }
@@ -88,11 +86,9 @@ public class MainActivity extends AppCompatActivity
 
         if (id == R.id.nav_home) {
         } else if (id == R.id.nav_holidays) {
-            Intent intent = new Intent(this, HolidaysActivity.class);
-            startActivity(intent);
+
         } else if (id == R.id.nav_visited) {
-            Intent intent = new Intent(this, VisitedActivity.class);
-            startActivity(intent);
+
         } else if (id == R.id.nav_gallery) {
 
         } else if (id == R.id.nav_camera) {
