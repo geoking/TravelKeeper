@@ -20,8 +20,9 @@ import android.widget.Button;
 import me.geoking.travelkeeper.dummy.DummyContent;
 import me.geoking.travelkeeper.fragments.HolidayDetailsFragment;
 import me.geoking.travelkeeper.fragments.HolidayFragment;
+import me.geoking.travelkeeper.fragments.MainFragment;
 
-public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener,
+public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, MainFragment.OnFragmentInteractionListener,
         HolidayFragment.OnListFragmentInteractionListener, HolidayDetailsFragment.OnFragmentInteractionListener {
 
     @Override
@@ -40,7 +41,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.getMenu().getItem(0).setChecked(true);
         navigationView.setNavigationItemSelectedListener(this);
-
+/*
         final Button holidaysbutton = findViewById(R.id.button_holidays);
         holidaysbutton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
@@ -53,7 +54,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             public void onClick(View v) {
                 
             }
-        });
+        }); */
     }
 
     @Override
@@ -92,7 +93,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         Fragment fragment = null;
         Class fragmentClass = null;
         if (id == R.id.nav_home) {
-
+            fragmentClass  = MainFragment.class;
         } else if (id == R.id.nav_holidays) {
             fragmentClass = HolidayFragment.class;
         } else if (id == R.id.nav_visited) {

@@ -1,0 +1,47 @@
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="me.geoking.travelkeeper.fragments.MainFragment">
+
+    <Button
+        android:id="@+id/button_nearby"
+        android:layout_width="362dp"
+        android:layout_height="72dp"
+        android:text="@string/button_nearby" />
+
+    <Button
+        android:id="@+id/button_gallery"
+        android:layout_width="362dp"
+        android:layout_height="72dp"
+        android:text="@string/button_gallery"/>
+
+    <Button
+        android:id="@+id/button_visited"
+        android:layout_width="362dp"
+        android:layout_height="72dp"
+        android:text="@string/button_visited" />
+
+    <Button
+        android:id="@+id/button_holidays"
+        android:layout_width="362dp"
+        android:layout_height="72dp"
+        android:text="@string/button_holidays"/>
+
+    <ImageView
+        android:id="@+id/imageView2"
+        android:layout_width="144dp"
+        android:layout_height="157dp"
+        android:layout_marginEnd="8dp"/>
+
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="187dp"
+        android:layout_height="161dp"
+        android:layout_marginStart="8dp"
+        android:text="@string/main_title"
+        android:textAlignment="textStart"
+        android:textAppearance="@android:style/TextAppearance.Material.Display3"
+        android:textColor="@android:color/black"/>
+
+</FrameLayout>
