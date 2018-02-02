@@ -5,6 +5,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -75,7 +76,12 @@ public class HolidayDetailsFragment extends Fragment {
         FloatingActionButton myFab = (FloatingActionButton) view.findViewById(R.id.fab_edit);
         myFab.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                
+                Fragment fragment = new HolidayDetailsEditFragment();
+                FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
+                FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+                fragmentTransaction.replace(R.id.fragment_container, fragment);
+                fragmentTransaction.addToBackStack(null);
+                fragmentTransaction.commit();
             }
         });
         return view;
