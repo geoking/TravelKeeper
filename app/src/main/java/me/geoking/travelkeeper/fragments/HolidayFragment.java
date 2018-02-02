@@ -55,6 +55,13 @@ public class HolidayFragment extends Fragment {
     }
 
     @Override
+    public void onResume() {
+        super.onResume();
+        String title = getActivity().getResources().getString(R.string.title_holidays);
+        getActivity().setTitle(title);
+    }
+
+    @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_holiday_list, container, false);

@@ -15,7 +15,7 @@ public class Holiday implements Serializable {
     private String endDate;
 
     public Holiday(Context context) {
-        description = context.getString(R.string.holiday_details_title);
+        description = context.getString(R.string.title_holiday_details);
         notes = context.getString(R.string.holiday_notes);
      //   startDate = context.getString(R.string.start_date);
      //   endDate = context.getString(R.string.end_date);

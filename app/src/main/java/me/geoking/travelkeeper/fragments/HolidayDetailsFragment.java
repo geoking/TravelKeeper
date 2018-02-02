@@ -63,12 +63,19 @@ public class HolidayDetailsFragment extends Fragment {
     }
 
     @Override
+    public void onResume() {
+        super.onResume();
+        String title = getActivity().getResources().getString(R.string.title_holiday_details);
+        getActivity().setTitle(title);
+    }
+
+    @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_holiday_details, container, false);
 
-        TextView titleField = view.findViewById(R.id.holiday_details_title);
+        TextView titleField = view.findViewById(R.id.title_holiday_details);
         titleField.setText(item.content);
         TextView notesField = view.findViewById(R.id.holiday_notes);
         notesField.setText(item.details);

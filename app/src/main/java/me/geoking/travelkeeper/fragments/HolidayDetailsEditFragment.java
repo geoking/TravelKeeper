@@ -62,6 +62,13 @@ public class HolidayDetailsEditFragment extends Fragment {
     }
 
     @Override
+    public void onResume() {
+        super.onResume();
+        String title = getActivity().getResources().getString(R.string.title_holiday_details_edit);
+        getActivity().setTitle(title);
+    }
+
+    @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
