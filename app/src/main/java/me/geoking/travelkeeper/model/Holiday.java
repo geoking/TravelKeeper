@@ -13,11 +13,13 @@ public class Holiday implements Serializable {
     private String notes;
     private String startDate;
     private String endDate;
+    private String tags;
 
     public Holiday(Context context) {
         description = context.getString(R.string.title_holiday_details);
         notes = context.getString(R.string.holiday_notes);
-     //   startDate = context.getString(R.string.start_date);
-     //   endDate = context.getString(R.string.end_date);
+        startDate = context.getString(R.string.start_date);
+        endDate = context.getString(R.string.end_date);
+        tags = context.getString(R.string.holiday_details_tags);
     }
 }
