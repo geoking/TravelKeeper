@@ -11,8 +11,8 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import me.geoking.travelkeeper.R;
-import me.geoking.travelkeeper.dummy.DummyContent;
-import me.geoking.travelkeeper.dummy.DummyContent.DummyItem;
+import me.geoking.travelkeeper.model.Holiday;
+import me.geoking.travelkeeper.model.HolidayData;
 
 /**
  * A fragment representing a list of Items.
@@ -75,7 +75,7 @@ public class HolidayFragment extends Fragment {
             } else {
                 recyclerView.setLayoutManager(new GridLayoutManager(context, mColumnCount));
             }
-            recyclerView.setAdapter(new MyHolidayRecyclerViewAdapter(DummyContent.ITEMS, mListener));
+            recyclerView.setAdapter(new MyHolidayRecyclerViewAdapter(HolidayData.getInstance().getHolidays(), mListener));
         }
         return view;
     }
@@ -110,6 +110,6 @@ public class HolidayFragment extends Fragment {
      */
     public interface OnListFragmentInteractionListener {
         // TODO: Update argument type and name
-        void onListFragmentInteraction(DummyItem item);
+        void onListFragmentInteraction(Holiday holiday);
     }
 }

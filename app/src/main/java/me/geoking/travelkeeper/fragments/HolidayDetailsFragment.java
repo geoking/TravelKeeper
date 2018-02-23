@@ -13,7 +13,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import me.geoking.travelkeeper.R;
-import me.geoking.travelkeeper.dummy.DummyContent;
+import me.geoking.travelkeeper.model.Holiday;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -29,7 +29,7 @@ public class HolidayDetailsFragment extends Fragment {
     private static final String ARG_PARAM1 = "Item";
 
     // TODO: Rename and change types of parameters
-    private DummyContent.DummyItem item;
+    private Holiday item;
 
     private OnFragmentInteractionListener mListener;
 
@@ -58,7 +58,7 @@ public class HolidayDetailsFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
-            item = (DummyContent.DummyItem) getArguments().getSerializable(ARG_PARAM1);
+            item = (Holiday) getArguments().getSerializable(ARG_PARAM1);
         }
     }
 
@@ -76,11 +76,11 @@ public class HolidayDetailsFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_holiday_details, container, false);
 
         TextView titleField = view.findViewById(R.id.title_holiday_details);
-        titleField.setText(item.content);
+        titleField.setText(item.getDescription());
         TextView notesField = view.findViewById(R.id.holiday_notes);
-        notesField.setText(item.details);
+        notesField.setText(item.getNotes());
 
-        FloatingActionButton myFab = (FloatingActionButton) view.findViewById(R.id.fab_edit);
+        FloatingActionButton myFab = (FloatingActionButton) view.findViewById(R.id.fab_edit_holiday);
         myFab.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 Fragment fragment = new HolidayDetailsEditFragment();

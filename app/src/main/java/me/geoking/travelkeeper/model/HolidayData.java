@@ -19,10 +19,14 @@ public class HolidayData {
         createData();
     }
 
-    public static HolidayData getInstance(Context context) {
+    public static HolidayData createInstance(Context context) {
         if (instance == null) {
             instance = new HolidayData(context);
         }
+        return instance;
+    }
+
+    public static HolidayData getInstance() {
         return instance;
     }
 

@@ -3,7 +3,6 @@ package me.geoking.travelkeeper;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -13,15 +12,13 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
-import android.widget.Button;
-import android.widget.Toast;
 
-import me.geoking.travelkeeper.dummy.DummyContent;
 import me.geoking.travelkeeper.fragments.HolidayDetailsEditFragment;
 import me.geoking.travelkeeper.fragments.HolidayDetailsFragment;
 import me.geoking.travelkeeper.fragments.HolidayFragment;
 import me.geoking.travelkeeper.fragments.MainFragment;
+import me.geoking.travelkeeper.model.Holiday;
+import me.geoking.travelkeeper.model.HolidayData;
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, MainFragment.OnFragmentInteractionListener,
         HolidayFragment.OnListFragmentInteractionListener, HolidayDetailsFragment.OnFragmentInteractionListener, HolidayDetailsEditFragment.OnFragmentInteractionListener {
@@ -36,6 +33,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         tx.commit();
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+        HolidayData.createInstance(this);
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
@@ -128,7 +126,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     }
 
     @Override
-    public void onListFragmentInteraction(DummyContent.DummyItem item) {
+    public void onListFragmentInteraction(Holiday item) {
         // Create the new fragment,
         HolidayDetailsFragment newFragment = new HolidayDetailsFragment();
         // add an argument specifying the item it should show

@@ -15,11 +15,51 @@ public class Holiday implements Serializable {
     private String endDate;
     private String tags;
 
-    public Holiday(Context context) {
-        description = context.getString(R.string.title_holiday_details);
-        notes = context.getString(R.string.holiday_notes);
-        startDate = context.getString(R.string.start_date);
-        endDate = context.getString(R.string.end_date);
-        tags = context.getString(R.string.holiday_details_tags);
+    public Holiday() {
+        description = "enter a title";
+        notes = "enter notes";
+        startDate = "enter start date";
+        endDate = "enter end date";
+        tags = "enter tags";
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public String getNotes() {
+        return notes;
+    }
+
+    public void setNotes(String notes) {
+        this.notes = notes;
+    }
+
+    public String getStartDate() {
+        return startDate;
+    }
+
+    public void setStartDate(String startDate) {
+        this.startDate = startDate;
+    }
+
+    public String getEndDate() {
+        return endDate;
+    }
+
+    public void setEndDate(String endDate) {
+        this.endDate = endDate;
+    }
+
+    public String getTags() {
+        return tags;
+    }
+
+    public void setTags(String tags) {
+        this.tags = tags;
     }
 }

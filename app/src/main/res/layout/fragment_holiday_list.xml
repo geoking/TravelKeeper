@@ -2,6 +2,8 @@
 <android.support.v7.widget.RecyclerView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+
+
     android:id="@+id/list"
     android:name="me.geoking.travelkeeper.HolidayFragment"
     android:layout_width="match_parent"
@@ -12,7 +14,12 @@
     tools:context="me.geoking.travelkeeper.fragments.HolidayFragment"
     tools:listitem="@layout/fragment_holiday" >
 
-
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/fab_add_holiday"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:clickable="true"
+        android:src="@android:drawable/ic_menu_add" />
 
 </android.support.v7.widget.RecyclerView>
 
