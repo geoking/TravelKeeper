@@ -5,7 +5,6 @@
     android:layout_height="match_parent"
     tools:context="me.geoking.travelkeeper.fragments.HolidayDetailsFragment">
 
-
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/fab_edit_holiday"
         android:layout_width="wrap_content"
@@ -24,10 +23,11 @@
         <EditText
             android:id="@+id/holiday_notes"
             android:layout_width="match_parent"
-            android:layout_height="110dp"
+            android:layout_height="127dp"
             android:layout_marginEnd="8dp"
             android:layout_marginStart="8dp"
             android:inputType="textMultiLine"
+            android:singleLine="false"
             android:text="@string/holiday_notes"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
@@ -36,14 +36,16 @@
             app:layout_constraintTop_toBottomOf="@+id/title_holiday_details"
             app:layout_constraintVertical_bias="0.849" />
 
-        <EditText
-            android:id="@+id/holiday_details_title"
+        <Button
+            android:id="@+id/holiday_details_end"
             android:layout_width="156dp"
             android:layout_height="49dp"
             android:layout_marginEnd="8dp"
             android:layout_marginStart="8dp"
+            android:inputType="date"
             android:text="@string/holiday_details_end"
-            android:textAppearance="@android:style/TextAppearance.Material.Medium"
+            android:textAppearance="@android:style/TextAppearance.Material.Button"
+            android:textSize="18sp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.96"
@@ -51,14 +53,16 @@
             app:layout_constraintTop_toBottomOf="@+id/imageView3"
             app:layout_constraintVertical_bias="0.503" />
 
-        <EditText
+        <Button
             android:id="@+id/holiday_details_start"
             android:layout_width="156dp"
             android:layout_height="49dp"
             android:layout_marginEnd="8dp"
             android:layout_marginStart="8dp"
+            android:inputType="date"
             android:text="@string/holiday_details_start"
-            android:textAppearance="@android:style/TextAppearance.Material.Medium"
+            android:textAppearance="@android:style/TextAppearance.Material.Button"
+            android:textSize="18sp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"
@@ -67,11 +71,12 @@
             app:layout_constraintVertical_bias="0.503" />
 
         <EditText
-            android:id="@+id/holiday_details_end"
+            android:id="@+id/holiday_details_title"
             android:layout_width="match_parent"
             android:layout_height="49dp"
             android:layout_marginEnd="8dp"
             android:layout_marginStart="8dp"
+            android:singleLine="true"
             android:text="@string/title_holiday_details"
             android:textAppearance="@android:style/TextAppearance.Material.Medium"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -87,6 +92,7 @@
             android:layout_height="49dp"
             android:layout_marginEnd="8dp"
             android:layout_marginStart="8dp"
+            android:singleLine="true"
             android:text="@string/holiday_details_tags"
             android:textAppearance="@android:style/TextAppearance.Material.Medium"
             app:layout_constraintBottom_toBottomOf="parent"
