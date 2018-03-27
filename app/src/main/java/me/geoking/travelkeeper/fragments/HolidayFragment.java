@@ -2,7 +2,10 @@ package me.geoking.travelkeeper.fragments;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -77,6 +80,18 @@ public class HolidayFragment extends Fragment {
             }
             recyclerView.setAdapter(new MyHolidayRecyclerViewAdapter(HolidayData.getInstance().getHolidays(), mListener));
         }
+
+        FloatingActionButton myFab = (FloatingActionButton) view.findViewById(R.id.fab_edit_holiday);
+        myFab.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                Fragment fragment = new HolidayDetailsEditFragment();
+                FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
+                FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+                fragmentTransaction.replace(R.id.fragment_container, fragment);
+                fragmentTransaction.addToBackStack(null);
+                fragmentTransaction.commit();
+            }
+        });
         return view;
     }
 
