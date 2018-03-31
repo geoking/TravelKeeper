@@ -105,6 +105,25 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             case R.id.edit:
                 Fragment currentFragment = getSupportFragmentManager().findFragmentById(R.id.fragment_container);
                 Holiday holiday = (Holiday) currentFragment.getArguments().getSerializable("Holiday");
+                HolidayDetailsEditFragment newFragment = new HolidayDetailsEditFragment();
+                Bundle args = new Bundle();
+                args.putSerializable("Holiday", holiday);
+                newFragment.setArguments(args);
+                NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+                navigationView.setCheckedItem(R.id.nav_holidays);
+                FragmentTransaction editTransaction =
+                        getSupportFragmentManager().beginTransaction();
+                editTransaction.replace(R.id.fragment_container, newFragment);
+                editTransaction.addToBackStack(null);
+                editTransaction.commit();
+                return true;
+            case R.id.add:
+                HolidayDetailsEditFragment editFragment = new HolidayDetailsEditFragment();
+                FragmentTransaction addTransaction =
+                        getSupportFragmentManager().beginTransaction();
+                addTransaction.replace(R.id.fragment_container, editFragment);
+                addTransaction.addToBackStack(null);
+                addTransaction.commit();
                 return true;
             default:
                 return super.onOptionsItemSelected(item);

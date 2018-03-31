@@ -1,34 +1,32 @@
 package me.geoking.travelkeeper.model;
 
-import android.content.Context;
 import java.io.Serializable;
-import me.geoking.travelkeeper.R;
 
 /**
  * Created by george on 14/12/2017.
  */
 
 public class Holiday implements Serializable {
-    private String description;
+    private String title;
     private String notes;
     private String startDate;
     private String endDate;
     private String tags;
 
     public Holiday() {
-        description = "enter a title";
+        title = "enter a title";
         notes = "enter notes";
         startDate = "enter start date";
         endDate = "enter end date";
         tags = "enter tags";
     }
 
-    public String getDescription() {
-        return description;
+    public String getTitle() {
+        return title;
     }
 
-    public void setDescription(String description) {
-        this.description = description;
+    public void setTitle(String title) {
+        this.title = title;
     }
 
     public String getNotes() {

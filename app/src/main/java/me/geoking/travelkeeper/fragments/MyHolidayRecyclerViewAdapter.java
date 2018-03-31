@@ -32,7 +32,7 @@ public class MyHolidayRecyclerViewAdapter extends RecyclerView.Adapter<MyHoliday
     @Override
     public void onBindViewHolder(final ViewHolder holder, int position) {
         holder.mItem = mValues.get(position);
-        holder.mIdView.setText(mValues.get(position).getDescription());
+        holder.mIdView.setText(mValues.get(position).getTitle());
         holder.mContentView.setText(mValues.get(position).getNotes());
 
         holder.mView.setOnClickListener(new View.OnClickListener() {

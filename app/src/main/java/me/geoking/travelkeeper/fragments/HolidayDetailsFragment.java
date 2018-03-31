@@ -65,7 +65,7 @@ public class HolidayDetailsFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_holiday_details, container, false);
 
         TextView titleField = view.findViewById(R.id.title_holiday_details);
-        titleField.setText(holiday.getDescription());
+        titleField.setText(holiday.getTitle());
         TextView notesField = view.findViewById(R.id.holiday_notes);
         notesField.setText(holiday.getNotes());
         setHasOptionsMenu(true);
