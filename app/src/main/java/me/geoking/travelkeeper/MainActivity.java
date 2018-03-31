@@ -103,7 +103,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         // as you specify a parent activity in AndroidManifest.xml.
         switch (item.getItemId()) {
             case R.id.edit:
-                HolidayData instance = HolidayData.getInstance();
+                Fragment currentFragment = getSupportFragmentManager().findFragmentById(R.id.fragment_container);
+                Holiday holiday = (Holiday) currentFragment.getArguments().getSerializable("Holiday");
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
