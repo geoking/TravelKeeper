@@ -31,7 +31,9 @@ public class HolidayData {
     }
 
     private void createData() {
-
+        Holiday holday = new Holiday();
+        holidays.add(holday);
+        holidays.add(holday);
     }
 
     public ArrayList<Holiday> getHolidays() {

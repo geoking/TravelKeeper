@@ -10,6 +10,8 @@ import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
@@ -58,6 +60,12 @@ public class HolidayFragment extends Fragment {
     }
 
     @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        inflater.inflate(R.menu.holiday_details_add, menu);
+    }
+
+    @Override
     public void onResume() {
         super.onResume();
         String title = getActivity().getResources().getString(R.string.title_holidays);
@@ -68,6 +76,7 @@ public class HolidayFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_holiday_list, container, false);
+        setHasOptionsMenu(true);
 
         // Set the adapter
         if (view instanceof RecyclerView) {
@@ -81,7 +90,7 @@ public class HolidayFragment extends Fragment {
             recyclerView.setAdapter(new MyHolidayRecyclerViewAdapter(HolidayData.getInstance().getHolidays(), mListener));
         }
 
-        FloatingActionButton myFab = (FloatingActionButton) view.findViewById(R.id.fab_edit_holiday);
+     /*   FloatingActionButton myFab = (FloatingActionButton) view.findViewById(R.id.fab_edit_holiday);
         myFab.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 Fragment fragment = new HolidayDetailsEditFragment();
@@ -91,7 +100,7 @@ public class HolidayFragment extends Fragment {
                 fragmentTransaction.addToBackStack(null);
                 fragmentTransaction.commit();
             }
-        });
+        }); */
         return view;
     }
 

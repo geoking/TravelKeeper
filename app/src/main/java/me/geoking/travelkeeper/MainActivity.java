@@ -13,6 +13,8 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import java.util.Objects;
+
 import me.geoking.travelkeeper.fragments.HolidayDetailsEditFragment;
 import me.geoking.travelkeeper.fragments.HolidayDetailsFragment;
 import me.geoking.travelkeeper.fragments.HolidayFragment;
@@ -28,8 +30,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         FragmentTransaction tx = getSupportFragmentManager().beginTransaction();
-        tx.replace(R.id.fragment_container, new MainFragment());
-        tx.addToBackStack(null);
+        tx.add(R.id.fragment_container, new MainFragment(), "main");
         tx.commit();
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -64,11 +65,18 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     @Override
     public void onBackPressed() {
+        Fragment currentFragment = getSupportFragmentManager().findFragmentById(R.id.fragment_container);
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        String tag = currentFragment.getTag();
+
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
-        } else {
+        }
+        else if (Objects.equals("main", tag)) {
             finish();
+        }
+        else {
+            super.onBackPressed();
         }
     }
 
@@ -95,10 +103,12 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     public boolean onNavigationItemSelected(MenuItem item) {
         // Handle navigation view item clicks here.
         int id = item.getItemId();
+        String tag = null;
         Fragment fragment = null;
         Class fragmentClass = null;
         if (id == R.id.nav_home) {
             fragmentClass  = MainFragment.class;
+            tag = "main";
         } else if (id == R.id.nav_holidays) {
             fragmentClass = HolidayFragment.class;
         } else if (id == R.id.nav_visited) {
@@ -117,7 +127,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         }
 
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-        transaction.replace(R.id.fragment_container, fragment);
+        transaction.replace(R.id.fragment_container, fragment, tag);
         transaction.addToBackStack(null);
         transaction.commit();
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);

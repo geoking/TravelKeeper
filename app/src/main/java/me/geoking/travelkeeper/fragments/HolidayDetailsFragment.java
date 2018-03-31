@@ -8,6 +8,8 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
@@ -79,20 +81,15 @@ public class HolidayDetailsFragment extends Fragment {
         titleField.setText(item.getDescription());
         TextView notesField = view.findViewById(R.id.holiday_notes);
         notesField.setText(item.getNotes());
-
-        FloatingActionButton myFab = (FloatingActionButton) view.findViewById(R.id.fab_edit_holiday);
-        myFab.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-                Fragment fragment = new HolidayDetailsEditFragment();
-                FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
-                FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-                fragmentTransaction.replace(R.id.fragment_container, fragment);
-                fragmentTransaction.addToBackStack(null);
-                fragmentTransaction.commit();
-            }
-        });
+        setHasOptionsMenu(true);
         return view;
 
+    }
+
+    @Override
+    public void onCreateOptionsMenu(
+            Menu menu, MenuInflater inflater) {
+        inflater.inflate(R.menu.holiday_details_edit, menu);
     }
 
     @Override
