@@ -90,17 +90,6 @@ public class HolidayFragment extends Fragment {
             recyclerView.setAdapter(new MyHolidayRecyclerViewAdapter(HolidayData.getInstance().getHolidays(), mListener));
         }
 
-     /*   FloatingActionButton myFab = (FloatingActionButton) view.findViewById(R.id.fab_edit_holiday);
-        myFab.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-                Fragment fragment = new HolidayDetailsEditFragment();
-                FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
-                FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-                fragmentTransaction.replace(R.id.fragment_container, fragment);
-                fragmentTransaction.addToBackStack(null);
-                fragmentTransaction.commit();
-            }
-        }); */
         return view;
     }
 

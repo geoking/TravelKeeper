@@ -43,7 +43,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         toggle.syncState();
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
-        navigationView.getMenu().getItem(0).setChecked(true);
+        navigationView.setCheckedItem(R.id.nav_home);
         navigationView.setNavigationItemSelectedListener(this);
 
 
@@ -66,6 +66,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     @Override
     public void onBackPressed() {
         Fragment currentFragment = getSupportFragmentManager().findFragmentById(R.id.fragment_container);
+        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         String tag = currentFragment.getTag();
 
@@ -77,6 +78,14 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         }
         else {
             super.onBackPressed();
+            currentFragment = getSupportFragmentManager().findFragmentById(R.id.fragment_container);
+            tag = currentFragment.getTag();
+            if (Objects.equals("main", tag)) {
+                navigationView.setCheckedItem(R.id.nav_home);
+            }
+            else if (Objects.equals("holidays", tag)) {
+                navigationView.setCheckedItem(R.id.nav_holidays);
+            }
         }
     }
 
@@ -92,10 +101,13 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         // Handle action bar item clicks here. The action bar will
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-
-
-        return super.onOptionsItemSelected(item);
+        switch (item.getItemId()) {
+            case R.id.edit:
+                HolidayData instance = HolidayData.getInstance();
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
     }
 
     @SuppressWarnings("StatementWithEmptyBody")
@@ -111,6 +123,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             tag = "main";
         } else if (id == R.id.nav_holidays) {
             fragmentClass = HolidayFragment.class;
+            tag = "holidays";
         } else if (id == R.id.nav_visited) {
 
         } else if (id == R.id.nav_gallery) {
@@ -136,15 +149,17 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     }
 
     @Override
-    public void onListFragmentInteraction(Holiday item) {
+    public void onListFragmentInteraction(Holiday holiday) {
         // Create the new fragment,
         HolidayDetailsFragment newFragment = new HolidayDetailsFragment();
-        // add an argument specifying the item it should show
+        // add an argument specifying the holiday it should show
         // note that the DummyItem class must implement Serializable
         Bundle args = new Bundle();
-        args.putSerializable("Item", item);
+        args.putSerializable("Holiday", holiday);
         newFragment.setArguments(args);
 
+        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+        navigationView.setCheckedItem(R.id.nav_holidays);
         FragmentTransaction transaction =
                 getSupportFragmentManager().beginTransaction();
 

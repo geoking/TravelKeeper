@@ -40,9 +40,9 @@ public class MyHolidayRecyclerViewAdapter extends RecyclerView.Adapter<MyHoliday
             public void onClick(View v) {
                 if (null != mListener) {
                     // Notify the active callbacks interface (the activity, if the
-                    // fragment is attached to one) that an item has been selected.
-                    Holiday item = holder.mItem;
-                    mListener.onListFragmentInteraction(item);
+                    // fragment is attached to one) that an holiday has been selected.
+                    Holiday holiday = holder.mItem;
+                    mListener.onListFragmentInteraction(holiday);
                 }
             }
         });

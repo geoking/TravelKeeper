@@ -3,10 +3,7 @@ package me.geoking.travelkeeper.fragments;
 import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -28,10 +25,9 @@ import me.geoking.travelkeeper.model.Holiday;
 public class HolidayDetailsFragment extends Fragment {
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "Item";
+    private static final String HOLIDAY = "Holiday";
 
-    // TODO: Rename and change types of parameters
-    private Holiday item;
+    private Holiday holiday;
 
     private OnFragmentInteractionListener mListener;
 
@@ -39,19 +35,10 @@ public class HolidayDetailsFragment extends Fragment {
         // Required empty public constructor
     }
 
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment HolidayDetailsFragment.
-     */
-    // TODO: Rename and change types and number of parameters
     public static HolidayDetailsFragment newInstance(String param1, String param2) {
         HolidayDetailsFragment fragment = new HolidayDetailsFragment();
         Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
+        args.putString(HOLIDAY, param1);
         fragment.setArguments(args);
         return fragment;
     }
@@ -60,7 +47,7 @@ public class HolidayDetailsFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
-            item = (Holiday) getArguments().getSerializable(ARG_PARAM1);
+            holiday = (Holiday) getArguments().getSerializable(HOLIDAY);
         }
     }
 
@@ -78,9 +65,9 @@ public class HolidayDetailsFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_holiday_details, container, false);
 
         TextView titleField = view.findViewById(R.id.title_holiday_details);
-        titleField.setText(item.getDescription());
+        titleField.setText(holiday.getDescription());
         TextView notesField = view.findViewById(R.id.holiday_notes);
-        notesField.setText(item.getNotes());
+        notesField.setText(holiday.getNotes());
         setHasOptionsMenu(true);
         return view;
 
