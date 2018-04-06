@@ -38,4 +38,8 @@ public class HolidayData {
     public ArrayList<Holiday> getHolidays() {
         return holidays;
     }
+
+    public void addHoliday (Holiday holiday) {
+        holidays.add(holiday);
+    }
 }

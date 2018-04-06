@@ -130,11 +130,17 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 return true;
             case R.id.confirm:
                 currentFragment = getSupportFragmentManager().findFragmentById(R.id.fragment_container);
-                holiday = (Holiday) currentFragment.getArguments().getSerializable("Holiday");
+                if (currentFragment.getArguments() != null) {
+                    holiday = (Holiday) currentFragment.getArguments().getSerializable("Holiday");
+                }
+                else {
+                    holiday = new Holiday();
+                }
                 EditText edit = (EditText)findViewById(R.id.holiday_details_title);
                 String newTitle = edit.getText().toString();
                 holiday.setTitle(newTitle);
                 HolidayDetailsFragment newDetailsFragment = new HolidayDetailsFragment();
+                HolidayData.getInstance().addHoliday(holiday);
                 Bundle args2 = new Bundle();
                 args2.putSerializable("Holiday", holiday);
                 newDetailsFragment.setArguments(args2);

@@ -9,6 +9,7 @@
     <string name="title_holidays">Holidays</string>
     <string name="title_holiday_details">Holiday Title</string>
     <string name="title_holiday_details_edit">Edit Holiday</string>
+    <string name="title_holiday_details_add">Add Holiday</string>
     <string name="title_places_visited">Places Visited</string>
     <string name="holiday_notes">Holiday Notes</string>
     <string name="holiday_details_tags">Holiday Tags</string>

@@ -9,6 +9,7 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
 
 import me.geoking.travelkeeper.R;
 import me.geoking.travelkeeper.model.Holiday;
@@ -61,9 +62,11 @@ public class HolidayDetailsEditFragment extends Fragment {
 
             String title = holiday.getTitle();
             getActivity().setTitle(title);
+            EditText edit = getActivity().findViewById(R.id.holiday_details_title);
+            edit.setText(title);
         }
         else {
-            String title = getActivity().getResources().getString(R.string.title_holiday_details_edit);
+            String title = getActivity().getResources().getString(R.string.title_holiday_details_add);
             getActivity().setTitle(title);
         }
 
