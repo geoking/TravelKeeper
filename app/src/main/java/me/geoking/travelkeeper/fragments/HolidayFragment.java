@@ -75,22 +75,29 @@ public class HolidayFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_holiday_list, container, false);
-        setHasOptionsMenu(true);
-
-        // Set the adapter
-        if (view instanceof RecyclerView) {
-            Context context = view.getContext();
-            RecyclerView recyclerView = (RecyclerView) view;
-            if (mColumnCount <= 1) {
-                recyclerView.setLayoutManager(new LinearLayoutManager(context));
-            } else {
-                recyclerView.setLayoutManager(new GridLayoutManager(context, mColumnCount));
-            }
-            recyclerView.setAdapter(new MyHolidayRecyclerViewAdapter(HolidayData.getInstance().getHolidays(), mListener));
+        if (HolidayData.getInstance().getHolidays().size() == 0) {
+            View view = inflater.inflate(R.layout.fragment_holiday_noholiday, container, false);
+            setHasOptionsMenu(true);
+            return view;
         }
+        else {
+            View view = inflater.inflate(R.layout.fragment_holiday_list, container, false);
+            setHasOptionsMenu(true);
 
-        return view;
+            // Set the adapter
+            if (view instanceof RecyclerView) {
+                Context context = view.getContext();
+                RecyclerView recyclerView = (RecyclerView) view;
+                if (mColumnCount <= 1) {
+                    recyclerView.setLayoutManager(new LinearLayoutManager(context));
+                } else {
+                    recyclerView.setLayoutManager(new GridLayoutManager(context, mColumnCount));
+                }
+                recyclerView.setAdapter(new MyHolidayRecyclerViewAdapter(HolidayData.getInstance().getHolidays(), mListener));
+            }
+
+            return view;
+        }
     }
 
 
