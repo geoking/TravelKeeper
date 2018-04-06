@@ -12,6 +12,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.EditText;
 
 import java.util.Objects;
 
@@ -101,10 +102,12 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         // Handle action bar item clicks here. The action bar will
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
+        Fragment currentFragment;
+        Holiday holiday;
         switch (item.getItemId()) {
             case R.id.edit:
-                Fragment currentFragment = getSupportFragmentManager().findFragmentById(R.id.fragment_container);
-                Holiday holiday = (Holiday) currentFragment.getArguments().getSerializable("Holiday");
+                currentFragment = getSupportFragmentManager().findFragmentById(R.id.fragment_container);
+                holiday = (Holiday) currentFragment.getArguments().getSerializable("Holiday");
                 HolidayDetailsEditFragment newFragment = new HolidayDetailsEditFragment();
                 Bundle args = new Bundle();
                 args.putSerializable("Holiday", holiday);
@@ -125,6 +128,27 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 addTransaction.addToBackStack(null);
                 addTransaction.commit();
                 return true;
+            case R.id.confirm:
+                currentFragment = getSupportFragmentManager().findFragmentById(R.id.fragment_container);
+                holiday = (Holiday) currentFragment.getArguments().getSerializable("Holiday");
+                EditText edit = (EditText)findViewById(R.id.holiday_details_title);
+                String newTitle = edit.getText().toString();
+                holiday.setTitle(newTitle);
+                HolidayDetailsFragment newDetailsFragment = new HolidayDetailsFragment();
+                Bundle args2 = new Bundle();
+                args2.putSerializable("Holiday", holiday);
+                newDetailsFragment.setArguments(args2);
+
+                FragmentTransaction transaction =
+                        getSupportFragmentManager().beginTransaction();
+
+                // Replace whatever is in the fragment_container view with this fragment,
+                // and add the transaction to the back stack so the user can navigate back
+                transaction.replace(R.id.fragment_container, newDetailsFragment);
+                transaction.addToBackStack(null);
+
+                // Commit the transaction
+                transaction.commit();
             default:
                 return super.onOptionsItemSelected(item);
         }
