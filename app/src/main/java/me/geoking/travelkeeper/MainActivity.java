@@ -104,6 +104,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         // as you specify a parent activity in AndroidManifest.xml.
         Fragment currentFragment;
         Holiday holiday;
+        FragmentTransaction transaction;
+        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         switch (item.getItemId()) {
             case R.id.edit:
                 currentFragment = getSupportFragmentManager().findFragmentById(R.id.fragment_container);
@@ -112,7 +114,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 Bundle args = new Bundle();
                 args.putSerializable("Holiday", holiday);
                 newFragment.setArguments(args);
-                NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
                 navigationView.setCheckedItem(R.id.nav_holidays);
                 FragmentTransaction editTransaction =
                         getSupportFragmentManager().beginTransaction();
@@ -126,35 +127,59 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                         getSupportFragmentManager().beginTransaction();
                 addTransaction.replace(R.id.fragment_container, editFragment);
                 addTransaction.addToBackStack(null);
+                navigationView.setCheckedItem(R.id.nav_holidays);
                 addTransaction.commit();
                 return true;
             case R.id.confirm:
                 currentFragment = getSupportFragmentManager().findFragmentById(R.id.fragment_container);
                 if (currentFragment.getArguments() != null) {
                     holiday = (Holiday) currentFragment.getArguments().getSerializable("Holiday");
+                    EditText edit = (EditText)findViewById(R.id.holiday_details_title);
+                    String newTitle = edit.getText().toString();
+                    holiday.setTitle(newTitle);
                 }
                 else {
                     holiday = new Holiday();
+                    EditText edit = (EditText)findViewById(R.id.holiday_details_title);
+                    String newTitle = edit.getText().toString();
+                    holiday.setTitle(newTitle);
+                    HolidayData.getInstance().addHoliday(holiday);
                 }
-                EditText edit = (EditText)findViewById(R.id.holiday_details_title);
-                String newTitle = edit.getText().toString();
-                holiday.setTitle(newTitle);
+
                 HolidayDetailsFragment newDetailsFragment = new HolidayDetailsFragment();
-                HolidayData.getInstance().addHoliday(holiday);
                 Bundle args2 = new Bundle();
                 args2.putSerializable("Holiday", holiday);
                 newDetailsFragment.setArguments(args2);
 
-                FragmentTransaction transaction =
+                transaction =
                         getSupportFragmentManager().beginTransaction();
 
                 // Replace whatever is in the fragment_container view with this fragment,
                 // and add the transaction to the back stack so the user can navigate back
                 transaction.replace(R.id.fragment_container, newDetailsFragment);
                 transaction.addToBackStack(null);
-
+                navigationView.setCheckedItem(R.id.nav_holidays);
                 // Commit the transaction
                 transaction.commit();
+                return true;
+            case R.id.delete:
+                currentFragment = getSupportFragmentManager().findFragmentById(R.id.fragment_container);
+                HolidayFragment newHolidayFragment = new HolidayFragment();
+                if (currentFragment.getArguments() != null) {
+                    holiday = (Holiday) currentFragment.getArguments().getSerializable("Holiday");
+                    HolidayData.getInstance().deleteHoliday(holiday);
+                }
+                transaction =
+                        getSupportFragmentManager().beginTransaction();
+
+                // Replace whatever is in the fragment_container view with this fragment,
+                // and add the transaction to the back stack so the user can navigate back
+                transaction.replace(R.id.fragment_container, newHolidayFragment);
+                transaction.addToBackStack(null);
+                navigationView.setCheckedItem(R.id.nav_holidays);
+                // Commit the transaction
+                transaction.commit();
+                return true;
             default:
                 return super.onOptionsItemSelected(item);
         }
@@ -183,16 +208,20 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         } else if (id == R.id.nav_places) {
 
         }
-        try {
-            fragment = (Fragment) fragmentClass.newInstance();
-        } catch (Exception e) {
-            e.printStackTrace();
+
+        if (fragmentClass != null) {
+            try {
+                fragment = (Fragment) fragmentClass.newInstance();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+            transaction.replace(R.id.fragment_container, fragment, tag);
+            transaction.addToBackStack(null);
+            transaction.commit();
         }
 
-        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-        transaction.replace(R.id.fragment_container, fragment, tag);
-        transaction.addToBackStack(null);
-        transaction.commit();
+
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;

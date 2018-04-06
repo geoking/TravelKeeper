@@ -3,10 +3,19 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <item
+        android:id="@+id/delete"
+        android:icon="@drawable/ic_delete_white_24dp"
+        android:title="Confirm"
+        app:showAsAction="always"
+        />
+
+    <item
         android:id="@+id/confirm"
         android:icon="@drawable/ic_check_white_24dp"
         android:title="Confirm"
         app:showAsAction="always"
     />
+
+
 
 </menu>

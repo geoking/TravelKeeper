@@ -42,4 +42,8 @@ public class HolidayData {
     public void addHoliday (Holiday holiday) {
         holidays.add(holiday);
     }
+
+    public void deleteHoliday (Holiday holiday) {
+        holidays.remove(holiday);
+    }
 }
