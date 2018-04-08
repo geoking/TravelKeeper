@@ -1,6 +1,7 @@
 package me.geoking.travelkeeper.fragments;
 
 import android.content.Context;
+import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -76,8 +77,10 @@ public class MainFragment extends Fragment implements View.OnClickListener {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_main, container, false);
 
-        Button holidaybutton = (Button) view.findViewById(R.id.button_holidays);
-        holidaybutton.setOnClickListener(this);
+        Button holidayButton = (Button) view.findViewById(R.id.button_holidays);
+        //Button nearbyButton = (Button) view.findViewById(R.id.button_nearby);
+        holidayButton.setOnClickListener(this);
+        //nearbyButton.setOnClickListener(this);
 
         return view;
     }

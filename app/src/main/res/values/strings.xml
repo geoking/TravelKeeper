@@ -11,7 +11,7 @@
     <string name="title_holiday_details_edit">Edit Holiday</string>
     <string name="title_holiday_details_add">Add Holiday</string>
     <string name="title_places_visited">Places Visited</string>
-    <string name="holiday_notes">Holiday Notes</string>
+    <string name="holiday_details_notes">Holiday Notes</string>
     <string name="holiday_details_tags">Holiday Tags</string>
     <string name="holiday_details_start">Start Date</string>
     <string name="holiday_details_end">End Date</string>
@@ -26,5 +26,6 @@
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="navigation_title">TravelKeeper Navigation</string>
     <string name="no_holiday_text">No holidays!</string>
+    <string name="title_activity_nearby">Nearby Places</string>
 
 </resources>
