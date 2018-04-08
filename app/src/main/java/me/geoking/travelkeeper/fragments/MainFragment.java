@@ -1,9 +1,9 @@
 package me.geoking.travelkeeper.fragments;
 
 import android.content.Context;
-import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.view.LayoutInflater;
@@ -78,9 +78,9 @@ public class MainFragment extends Fragment implements View.OnClickListener {
         View view = inflater.inflate(R.layout.fragment_main, container, false);
 
         Button holidayButton = (Button) view.findViewById(R.id.button_holidays);
-        //Button nearbyButton = (Button) view.findViewById(R.id.button_nearby);
+        Button nearbyButton = (Button) view.findViewById(R.id.button_nearby);
         holidayButton.setOnClickListener(this);
-        //nearbyButton.setOnClickListener(this);
+        nearbyButton.setOnClickListener(this);
 
         return view;
     }
@@ -88,11 +88,17 @@ public class MainFragment extends Fragment implements View.OnClickListener {
     @Override
     public void onClick(View view) {
         Fragment fragment = null;
+        NavigationView navigationView = (NavigationView) getActivity().findViewById(R.id.nav_view);
         switch (view.getId()) {
             case R.id.button_holidays:
+                navigationView.setCheckedItem(R.id.nav_holidays);
                 fragment = new HolidayFragment();
                 replaceFragment(fragment);
                 break;
+            case R.id.button_nearby:
+                navigationView.setCheckedItem(R.id.nav_nearby);
+                fragment = new MapViewFragment();
+                replaceFragment(fragment);
         }
     }
 

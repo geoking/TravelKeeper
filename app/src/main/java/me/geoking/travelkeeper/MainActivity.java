@@ -23,6 +23,7 @@ import me.geoking.travelkeeper.fragments.HolidayDetailsEditFragment;
 import me.geoking.travelkeeper.fragments.HolidayDetailsFragment;
 import me.geoking.travelkeeper.fragments.HolidayFragment;
 import me.geoking.travelkeeper.fragments.MainFragment;
+import me.geoking.travelkeeper.fragments.MapViewFragment;
 import me.geoking.travelkeeper.model.Holiday;
 import me.geoking.travelkeeper.model.HolidayData;
 
@@ -157,7 +158,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 HolidayDetailsEditFragment newFragment = new HolidayDetailsEditFragment();
                 args.putSerializable("Holiday", holiday);
                 newFragment.setArguments(args);
-                navigationView.setCheckedItem(R.id.nav_holidays);
                 FragmentTransaction editTransaction =
                         getSupportFragmentManager().beginTransaction();
                 editTransaction.replace(R.id.fragment_container, newFragment);
@@ -170,7 +170,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                         getSupportFragmentManager().beginTransaction();
                 addTransaction.replace(R.id.fragment_container, editFragment);
                 addTransaction.addToBackStack(null);
-                navigationView.setCheckedItem(R.id.nav_holidays);
                 addTransaction.commit();
                 return true;
             case R.id.confirm:
@@ -199,7 +198,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 // and add the transaction to the back stack so the user can navigate back
                 transaction.replace(R.id.fragment_container, newDetailsFragment);
                 transaction.addToBackStack(null);
-                navigationView.setCheckedItem(R.id.nav_holidays);
                 // Commit the transaction
                 transaction.commit();
                 return true;
@@ -231,7 +229,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                                 }
                                 transaction.replace(R.id.fragment_container, newHolidayFragment);
                                 transaction.addToBackStack(null);
-                                navigationView.setCheckedItem(R.id.nav_holidays);
                                 transaction.commit();
                             }
                         })
@@ -269,8 +266,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         } else if (id == R.id.nav_camera) {
 
-        } else if (id == R.id.nav_places) {
-
+        } else if (id == R.id.nav_nearby) {
+            fragmentClass = MapViewFragment.class;
+            tag = "nearby";
         }
 
         if (fragmentClass != null) {
@@ -302,7 +300,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         newFragment.setArguments(args);
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
-        navigationView.setCheckedItem(R.id.nav_holidays);
         FragmentTransaction transaction =
                 getSupportFragmentManager().beginTransaction();
 
