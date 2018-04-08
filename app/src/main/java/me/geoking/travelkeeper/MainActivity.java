@@ -1,6 +1,8 @@
 package me.geoking.travelkeeper;
 
+import android.content.DialogInterface;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
@@ -8,6 +10,7 @@ import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
@@ -78,16 +81,54 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             finish();
         }
         else {
-            super.onBackPressed();
             currentFragment = getSupportFragmentManager().findFragmentById(R.id.fragment_container);
-            tag = currentFragment.getTag();
-            if (Objects.equals("main", tag)) {
-                navigationView.setCheckedItem(R.id.nav_home);
-            }
-            else if (Objects.equals("holidays", tag)) {
+            if (currentFragment instanceof  HolidayDetailsEditFragment) {
+                if (currentFragment.getArguments() != null) {
+                    buildAlertBackDialog("Discard changes?", "Are you sure you want to discard any changes made?\n\nNOTE: This will NOT delete the currently selected holiday");
+                }
+                else {
+                    buildAlertBackDialog("Discard changes?", "Are you sure you want to discard any changes made?");
+                }
                 navigationView.setCheckedItem(R.id.nav_holidays);
+
+            }
+            else {
+                super.onBackPressed();
+                tag = currentFragment.getTag();
+                if (Objects.equals("main", tag)) {
+                    navigationView.setCheckedItem(R.id.nav_home);
+                } else if (Objects.equals("holidays", tag)) {
+                    navigationView.setCheckedItem(R.id.nav_holidays);
+                }
             }
         }
+    }
+
+    public void goFragmentBack () {
+        super.onBackPressed();
+    }
+
+    public void buildAlertBackDialog(String title, String message) {
+        AlertDialog.Builder builder;
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            builder = new AlertDialog.Builder(this, android.R.style.Theme_Material_Dialog_Alert);
+        } else {
+            builder = new AlertDialog.Builder(this);
+        }
+        builder.setTitle(title)
+                .setMessage(message)
+                .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        goFragmentBack();
+                    }
+                })
+                .setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        // do nothing
+                    }
+                })
+                .setIcon(android.R.drawable.ic_dialog_alert)
+                .show();
     }
 
     @Override
@@ -103,15 +144,17 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
         Fragment currentFragment;
-        Holiday holiday;
-        FragmentTransaction transaction;
-        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+        final Holiday holiday;
+        final FragmentTransaction transaction;
+        transaction =
+                getSupportFragmentManager().beginTransaction();
+        final NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+        Bundle args = new Bundle();
         switch (item.getItemId()) {
             case R.id.edit:
                 currentFragment = getSupportFragmentManager().findFragmentById(R.id.fragment_container);
                 holiday = (Holiday) currentFragment.getArguments().getSerializable("Holiday");
                 HolidayDetailsEditFragment newFragment = new HolidayDetailsEditFragment();
-                Bundle args = new Bundle();
                 args.putSerializable("Holiday", holiday);
                 newFragment.setArguments(args);
                 navigationView.setCheckedItem(R.id.nav_holidays);
@@ -147,12 +190,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 }
 
                 HolidayDetailsFragment newDetailsFragment = new HolidayDetailsFragment();
-                Bundle args2 = new Bundle();
-                args2.putSerializable("Holiday", holiday);
-                newDetailsFragment.setArguments(args2);
+                args.putSerializable("Holiday", holiday);
+                newDetailsFragment.setArguments(args);
 
-                transaction =
-                        getSupportFragmentManager().beginTransaction();
+
 
                 // Replace whatever is in the fragment_container view with this fragment,
                 // and add the transaction to the back stack so the user can navigate back
@@ -164,21 +205,44 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 return true;
             case R.id.delete:
                 currentFragment = getSupportFragmentManager().findFragmentById(R.id.fragment_container);
-                HolidayFragment newHolidayFragment = new HolidayFragment();
-                if (currentFragment.getArguments() != null) {
-                    holiday = (Holiday) currentFragment.getArguments().getSerializable("Holiday");
-                    HolidayData.getInstance().deleteHoliday(holiday);
-                }
-                transaction =
-                        getSupportFragmentManager().beginTransaction();
 
-                // Replace whatever is in the fragment_container view with this fragment,
-                // and add the transaction to the back stack so the user can navigate back
-                transaction.replace(R.id.fragment_container, newHolidayFragment);
-                transaction.addToBackStack(null);
-                navigationView.setCheckedItem(R.id.nav_holidays);
-                // Commit the transaction
-                transaction.commit();
+                final boolean holidayBool;
+                if (currentFragment.getArguments() != null) {
+                    holidayBool = true;
+                    holiday = (Holiday) currentFragment.getArguments().getSerializable("Holiday");
+                }
+                else {
+                    holidayBool = false;
+                    holiday = null;
+                }
+                AlertDialog.Builder builder;
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                    builder = new AlertDialog.Builder(this, android.R.style.Theme_Material_Dialog_Alert);
+                } else {
+                    builder = new AlertDialog.Builder(this);
+                }
+                builder.setTitle("Delete holiday")
+                        .setMessage("Are you sure you want to delete this holiday?")
+                        .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int which) {
+                                HolidayFragment newHolidayFragment = new HolidayFragment();
+                                if (holidayBool == true) {
+                                    HolidayData.getInstance().deleteHoliday(holiday);
+                                }
+                                transaction.replace(R.id.fragment_container, newHolidayFragment);
+                                transaction.addToBackStack(null);
+                                navigationView.setCheckedItem(R.id.nav_holidays);
+                                transaction.commit();
+                            }
+                        })
+                        .setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int which) {
+                                // do nothing
+                            }
+                        })
+                        .setIcon(android.R.drawable.ic_dialog_alert)
+                        .show();
+
                 return true;
             default:
                 return super.onOptionsItemSelected(item);

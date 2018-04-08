@@ -54,7 +54,7 @@ public class HolidayDetailsFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-        String title = getActivity().getResources().getString(R.string.title_holiday_details);
+        String title = holiday.getTitle();
         getActivity().setTitle(title);
     }
 
