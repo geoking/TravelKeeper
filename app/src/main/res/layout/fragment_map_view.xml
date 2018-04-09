@@ -20,6 +20,8 @@
             android:layout_marginEnd="13dp"
             android:layout_marginStart="13dp"
             android:layout_marginTop="8dp"
+            tools:context="me.geoking.travelkeeper.fragments.HolidayFragment"
+            tools:listitem="@layout/fragment_holiday"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"

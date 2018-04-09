@@ -7,10 +7,13 @@ import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 
+import me.geoking.travelkeeper.MainActivity;
 import me.geoking.travelkeeper.R;
 
 /**
@@ -87,18 +90,20 @@ public class MainFragment extends Fragment implements View.OnClickListener {
 
     @Override
     public void onClick(View view) {
-        Fragment fragment = null;
         NavigationView navigationView = (NavigationView) getActivity().findViewById(R.id.nav_view);
+        Menu menuNav = navigationView.getMenu();
+        MenuItem item;
         switch (view.getId()) {
             case R.id.button_holidays:
+                item = menuNav.findItem(R.id.nav_holidays);
+                ((MainActivity)getActivity()).onNavigationItemSelected(item);
                 navigationView.setCheckedItem(R.id.nav_holidays);
-                fragment = new HolidayFragment();
-                replaceFragment(fragment);
                 break;
             case R.id.button_nearby:
+                item = menuNav.findItem(R.id.nav_nearby);
+                ((MainActivity)getActivity()).onNavigationItemSelected(item);
                 navigationView.setCheckedItem(R.id.nav_nearby);
-                fragment = new MapViewFragment();
-                replaceFragment(fragment);
+                break;
         }
     }
 

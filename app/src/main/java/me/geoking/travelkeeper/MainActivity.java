@@ -1,9 +1,12 @@
 package me.geoking.travelkeeper;
 
+import android.Manifest;
 import android.content.DialogInterface;
+import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.design.widget.NavigationView;
@@ -85,16 +88,17 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             currentFragment = getSupportFragmentManager().findFragmentById(R.id.fragment_container);
             if (currentFragment instanceof  HolidayDetailsEditFragment) {
                 if (currentFragment.getArguments() != null) {
-                    buildAlertBackDialog("Discard changes?", "Are you sure you want to discard any changes made?\n\nNOTE: This will NOT delete the currently selected holiday");
+                    buildAlertDialog("Discard changes?", "Are you sure you want to discard any changes made?\n\nNOTE: This will NOT delete the currently selected holiday", false);
                 }
                 else {
-                    buildAlertBackDialog("Discard changes?", "Are you sure you want to discard any changes made?");
+                    buildAlertDialog("Discard changes?", "Are you sure you want to discard any changes made?", false);
                 }
                 navigationView.setCheckedItem(R.id.nav_holidays);
 
             }
             else {
                 super.onBackPressed();
+                currentFragment = getSupportFragmentManager().findFragmentById(R.id.fragment_container);
                 tag = currentFragment.getTag();
                 if (Objects.equals("main", tag)) {
                     navigationView.setCheckedItem(R.id.nav_home);
@@ -109,27 +113,41 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         super.onBackPressed();
     }
 
-    public void buildAlertBackDialog(String title, String message) {
+    public void buildAlertDialog(String title, String message, boolean noLocationPermission) {
         AlertDialog.Builder builder;
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             builder = new AlertDialog.Builder(this, android.R.style.Theme_Material_Dialog_Alert);
         } else {
             builder = new AlertDialog.Builder(this);
         }
-        builder.setTitle(title)
-                .setMessage(message)
-                .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int which) {
-                        goFragmentBack();
-                    }
-                })
-                .setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int which) {
-                        // do nothing
-                    }
-                })
-                .setIcon(android.R.drawable.ic_dialog_alert)
-                .show();
+        if (!(noLocationPermission)) {
+            builder.setTitle(title)
+                    .setMessage(message)
+                    .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int which) {
+                            goFragmentBack();
+                        }
+                    })
+                    .setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int which) {
+                            // do nothing
+                        }
+                    })
+                    .setIcon(android.R.drawable.ic_dialog_alert)
+                    .show();
+        }
+        else {
+            builder.setTitle(title)
+                    .setMessage(message)
+                    .setNeutralButton(android.R.string.ok, new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int which) {
+                            checkLocationPermission();
+                        }
+                    })
+                    .setIcon(android.R.drawable.ic_dialog_alert)
+                    .show();
+        }
+
     }
 
     @Override
@@ -250,6 +268,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
         // Handle navigation view item clicks here.
+        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         int id = item.getItemId();
         String tag = null;
         Fragment fragment = null;
@@ -267,6 +286,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         } else if (id == R.id.nav_camera) {
 
         } else if (id == R.id.nav_nearby) {
+            if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+                buildAlertDialog("We need your location!", "This feature only works when we can receive your location. Please let the app find your location to enable this feature.", true);
+                drawer.closeDrawer(GravityCompat.START);
+                return false;
+            }
             fragmentClass = MapViewFragment.class;
             tag = "nearby";
         }
@@ -284,7 +308,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         }
 
 
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
     }
@@ -316,4 +339,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     public void onFragmentInteraction(Uri uri) {
 
     }
+
+    public void checkLocationPermission() {
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, 1);
+        }
+    }
+
 }
