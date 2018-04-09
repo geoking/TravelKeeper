@@ -268,6 +268,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
         // Handle navigation view item clicks here.
+        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         int id = item.getItemId();
         String tag = null;
@@ -276,9 +277,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         if (id == R.id.nav_home) {
             fragmentClass  = MainFragment.class;
             tag = "main";
+            navigationView.setCheckedItem(R.id.nav_home);
         } else if (id == R.id.nav_holidays) {
             fragmentClass = HolidayFragment.class;
             tag = "holidays";
+            navigationView.setCheckedItem(R.id.nav_holidays);
         } else if (id == R.id.nav_visited) {
 
         } else if (id == R.id.nav_gallery) {
@@ -293,6 +296,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             }
             fragmentClass = MapViewFragment.class;
             tag = "nearby";
+            navigationView.setCheckedItem(R.id.nav_nearby);
         }
 
         if (fragmentClass != null) {

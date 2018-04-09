@@ -97,12 +97,10 @@ public class MainFragment extends Fragment implements View.OnClickListener {
             case R.id.button_holidays:
                 item = menuNav.findItem(R.id.nav_holidays);
                 ((MainActivity)getActivity()).onNavigationItemSelected(item);
-                navigationView.setCheckedItem(R.id.nav_holidays);
                 break;
             case R.id.button_nearby:
                 item = menuNav.findItem(R.id.nav_nearby);
                 ((MainActivity)getActivity()).onNavigationItemSelected(item);
-                navigationView.setCheckedItem(R.id.nav_nearby);
                 break;
         }
     }
