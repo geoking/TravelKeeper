@@ -17,6 +17,7 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.text.TextUtils;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.inputmethod.InputMethodManager;
@@ -193,17 +194,18 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 addTransaction.commit();
                 return true;
             case R.id.confirm:
-                currentFragment = getSupportFragmentManager().findFragmentById(R.id.fragment_container);
-                if (currentFragment.getArguments() != null) {
-                    holiday = (Holiday) currentFragment.getArguments().getSerializable("Holiday");
-                    EditText edit = (EditText)findViewById(R.id.holiday_details_title);
-                    String newTitle = edit.getText().toString();
+                HolidayDetailsEditFragment detailsEditFragment = (HolidayDetailsEditFragment) getSupportFragmentManager().findFragmentById(R.id.fragment_container);
+                EditText edit = (EditText)findViewById(R.id.holiday_details_title);
+                String newTitle = edit.getText().toString();
+                if (detailsEditFragment.checkInputErrors() == false) {
+                    return false;
+                }
+                if (detailsEditFragment.getArguments() != null) {
+                    holiday = (Holiday) detailsEditFragment.getArguments().getSerializable("Holiday");
                     holiday.setTitle(newTitle);
                 }
                 else {
                     holiday = new Holiday();
-                    EditText edit = (EditText)findViewById(R.id.holiday_details_title);
-                    String newTitle = edit.getText().toString();
                     holiday.setTitle(newTitle);
                     HolidayData.getInstance().addHoliday(holiday);
                 }
