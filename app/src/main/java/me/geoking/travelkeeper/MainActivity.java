@@ -1,6 +1,7 @@
 package me.geoking.travelkeeper;
 
 import android.Manifest;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.pm.PackageManager;
 import android.net.Uri;
@@ -18,6 +19,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 
 import java.util.Objects;
@@ -26,7 +28,7 @@ import me.geoking.travelkeeper.fragments.HolidayDetailsEditFragment;
 import me.geoking.travelkeeper.fragments.HolidayDetailsFragment;
 import me.geoking.travelkeeper.fragments.HolidayFragment;
 import me.geoking.travelkeeper.fragments.MainFragment;
-import me.geoking.travelkeeper.fragments.MapViewFragment;
+import me.geoking.travelkeeper.fragments.NearbyPlacesFragment;
 import me.geoking.travelkeeper.model.Holiday;
 import me.geoking.travelkeeper.model.HolidayData;
 
@@ -116,7 +118,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     public void buildAlertDialog(String title, String message, boolean noLocationPermission) {
         AlertDialog.Builder builder;
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            builder = new AlertDialog.Builder(this, android.R.style.Theme_Material_Dialog_Alert);
+            builder = new AlertDialog.Builder(this, android.R.style.Theme_Material_Light_Dialog_Alert);
         } else {
             builder = new AlertDialog.Builder(this);
         }
@@ -133,18 +135,18 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                             // do nothing
                         }
                     })
-                    .setIcon(android.R.drawable.ic_dialog_alert)
+                    .setIcon(R.drawable.ic_warning_black_24dp)
                     .show();
         }
         else {
             builder.setTitle(title)
                     .setMessage(message)
-                    .setNeutralButton(android.R.string.ok, new DialogInterface.OnClickListener() {
+                    .setNegativeButton(android.R.string.ok, new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface dialog, int which) {
                             checkLocationPermission();
                         }
                     })
-                    .setIcon(android.R.drawable.ic_dialog_alert)
+                    .setIcon(R.drawable.ic_warning_black_24dp)
                     .show();
         }
 
@@ -205,19 +207,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                     holiday.setTitle(newTitle);
                     HolidayData.getInstance().addHoliday(holiday);
                 }
-
-                HolidayDetailsFragment newDetailsFragment = new HolidayDetailsFragment();
-                args.putSerializable("Holiday", holiday);
-                newDetailsFragment.setArguments(args);
-
-
-
-                // Replace whatever is in the fragment_container view with this fragment,
-                // and add the transaction to the back stack so the user can navigate back
-                transaction.replace(R.id.fragment_container, newDetailsFragment);
-                transaction.addToBackStack(null);
-                // Commit the transaction
-                transaction.commit();
+                super.onBackPressed();
+                InputMethodManager inputManager = (InputMethodManager) this.getSystemService(Context.INPUT_METHOD_SERVICE);
+                inputManager.hideSoftInputFromWindow(this.getCurrentFocus().getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
                 return true;
             case R.id.delete:
                 currentFragment = getSupportFragmentManager().findFragmentById(R.id.fragment_container);
@@ -233,7 +225,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 }
                 AlertDialog.Builder builder;
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                    builder = new AlertDialog.Builder(this, android.R.style.Theme_Material_Dialog_Alert);
+                    builder = new AlertDialog.Builder(this, android.R.style.Theme_Material_Light_Dialog_Alert);
                 } else {
                     builder = new AlertDialog.Builder(this);
                 }
@@ -255,7 +247,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                                 // do nothing
                             }
                         })
-                        .setIcon(android.R.drawable.ic_dialog_alert)
+                        .setIcon(R.drawable.ic_warning_black_24dp)
                         .show();
 
                 return true;
@@ -290,11 +282,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         } else if (id == R.id.nav_nearby) {
             if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-                buildAlertDialog("We need your location!", "This feature only works when we can receive your location. Please let the app find your location to enable this feature.", true);
+                buildAlertDialog("Where are you again?", "This feature only works when we can receive your location. Please click 'OK' followed by 'Allow' and try that again!", true);
                 drawer.closeDrawer(GravityCompat.START);
                 return false;
             }
-            fragmentClass = MapViewFragment.class;
+            fragmentClass = NearbyPlacesFragment.class;
             tag = "nearby";
             navigationView.setCheckedItem(R.id.nav_nearby);
         }

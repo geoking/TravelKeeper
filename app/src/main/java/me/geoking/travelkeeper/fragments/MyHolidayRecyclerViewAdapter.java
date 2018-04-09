@@ -14,11 +14,11 @@ import java.util.List;
 
 public class MyHolidayRecyclerViewAdapter extends RecyclerView.Adapter<MyHolidayRecyclerViewAdapter.ViewHolder> {
 
-    private final List<Holiday> mValues;
+    private final List<Holiday> mHolidays;
     private final OnListFragmentInteractionListener mListener;
 
-    public MyHolidayRecyclerViewAdapter(List<Holiday> items, OnListFragmentInteractionListener listener) {
-        mValues = items;
+    public MyHolidayRecyclerViewAdapter(List<Holiday> holidays, OnListFragmentInteractionListener listener) {
+        mHolidays = holidays;
         mListener = listener;
     }
 
@@ -31,9 +31,9 @@ public class MyHolidayRecyclerViewAdapter extends RecyclerView.Adapter<MyHoliday
 
     @Override
     public void onBindViewHolder(final ViewHolder holder, int position) {
-        holder.mItem = mValues.get(position);
-        holder.mIdView.setText(mValues.get(position).getTitle());
-        holder.mContentView.setText(mValues.get(position).getNotes());
+        holder.mHoliday = mHolidays.get(position);
+        holder.mHolidayTitleView.setText(mHolidays.get(position).getTitle());
+        holder.mHolidayNotesView.setText(mHolidays.get(position).getNotes());
 
         holder.mView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -41,7 +41,7 @@ public class MyHolidayRecyclerViewAdapter extends RecyclerView.Adapter<MyHoliday
                 if (null != mListener) {
                     // Notify the active callbacks interface (the activity, if the
                     // fragment is attached to one) that an holiday has been selected.
-                    Holiday holiday = holder.mItem;
+                    Holiday holiday = holder.mHoliday;
                     mListener.onListFragmentInteraction(holiday);
                 }
             }
@@ -50,25 +50,25 @@ public class MyHolidayRecyclerViewAdapter extends RecyclerView.Adapter<MyHoliday
 
     @Override
     public int getItemCount() {
-        return mValues.size();
+        return mHolidays.size();
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
         public final View mView;
-        public final TextView mIdView;
-        public final TextView mContentView;
-        public Holiday mItem;
+        public final TextView mHolidayTitleView;
+        public final TextView mHolidayNotesView;
+        public Holiday mHoliday;
 
         public ViewHolder(View view) {
             super(view);
             mView = view;
-            mIdView = (TextView) view.findViewById(R.id.id);
-            mContentView = (TextView) view.findViewById(R.id.content);
+            mHolidayTitleView = (TextView) view.findViewById(R.id.holiday_title_view);
+            mHolidayNotesView = (TextView) view.findViewById(R.id.holiday_notes_view);
         }
 
         @Override
         public String toString() {
-            return super.toString() + " '" + mContentView.getText() + "'";
+            return super.toString() + " '" + mHolidayNotesView.getText() + "'";
         }
     }
 }

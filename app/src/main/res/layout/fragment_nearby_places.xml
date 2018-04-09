@@ -20,7 +20,7 @@
             android:layout_marginEnd="13dp"
             android:layout_marginStart="13dp"
             android:layout_marginTop="8dp"
-            tools:context="me.geoking.travelkeeper.fragments.HolidayFragment"
+            tools:context="me.geoking.travelkeeper.fragments.NearbyPlacesFragment"
             tools:listitem="@layout/fragment_holiday"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
@@ -31,6 +31,8 @@
     <com.google.android.gms.maps.MapView
         android:id="@+id/mapView"
         android:layout_width="match_parent"
-        android:layout_height="359dp" />
+        android:layout_height="314dp"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true" />
 
 </RelativeLayout>

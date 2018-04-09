@@ -4,7 +4,6 @@ import android.content.Context;
 import android.content.pm.PackageManager;
 import android.location.Location;
 import android.location.LocationManager;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
@@ -23,14 +22,14 @@ import com.google.android.gms.maps.model.MarkerOptions;
 import android.Manifest;
 import me.geoking.travelkeeper.R;
 
-public class MapViewFragment extends Fragment {
+public class NearbyPlacesFragment extends Fragment {
 
     MapView mMapView;
     private GoogleMap googleMap;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View rootView = inflater.inflate(R.layout.fragment_map_view, container, false);
+        View rootView = inflater.inflate(R.layout.fragment_nearby_places, container, false);
 
         mMapView = (MapView) rootView.findViewById(R.id.mapView);
         mMapView.onCreate(savedInstanceState);
