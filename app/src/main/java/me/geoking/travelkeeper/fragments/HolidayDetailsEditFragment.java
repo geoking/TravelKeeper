@@ -171,6 +171,8 @@ public class HolidayDetailsEditFragment extends Fragment implements View.OnClick
                 datePickerDialogEnd.show();
             }
         });
+
+
         return view;
     }
 

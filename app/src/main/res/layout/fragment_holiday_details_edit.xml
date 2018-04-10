@@ -13,6 +13,16 @@
         tools:context="me.geoking.travelkeeper.MainActivity"
         tools:showIn="@layout/app_bar_main">
 
+        <ImageView
+            android:id="@+id/holiday_details_image"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:src="@drawable/side_nav_bar"
+            app:layout_constraintBottom_toTopOf="@+id/holiday_details_title"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
         <EditText
             android:id="@+id/holiday_details_title"
             android:layout_width="match_parent"
@@ -28,7 +38,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/imageView3"
+            app:layout_constraintTop_toBottomOf="@+id/holiday_details_image"
             app:layout_constraintVertical_bias="1.0" />
 
         <EditText
@@ -45,7 +55,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/imageView3"
+            app:layout_constraintTop_toBottomOf="@+id/holiday_details_image"
             app:layout_constraintVertical_bias="0.984" />
 
         <Button
@@ -61,7 +71,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/imageView3"
+            app:layout_constraintTop_toBottomOf="@+id/holiday_details_image"
             app:layout_constraintVertical_bias="1.0" />
 
         <TextView
@@ -89,7 +99,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.962"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/imageView3"
+            app:layout_constraintTop_toBottomOf="@+id/holiday_details_image"
             app:layout_constraintVertical_bias="1.0" />
 
         <EditText
@@ -109,18 +119,8 @@
             app:layout_constraintTop_toBottomOf="@+id/holiday_details_title"
             app:layout_constraintVertical_bias="0.849" />
 
-        <ImageView
-            android:id="@+id/imageView3"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:src="@drawable/side_nav_bar"
-            app:layout_constraintBottom_toTopOf="@+id/holiday_details_title"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
         <Button
-            android:id="@+id/button2"
+            android:id="@+id/holiday_details_upload"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginBottom="8dp"
@@ -129,11 +129,11 @@
             android:layout_marginTop="8dp"
             android:text="@string/upload"
             android:textAppearance="@android:style/TextAppearance.Material.Menu"
-            app:layout_constraintBottom_toBottomOf="@+id/imageView3"
-            app:layout_constraintEnd_toEndOf="@+id/imageView3"
+            app:layout_constraintBottom_toBottomOf="@+id/holiday_details_image"
+            app:layout_constraintEnd_toEndOf="@+id/holiday_details_image"
             app:layout_constraintHorizontal_bias="1.0"
-            app:layout_constraintStart_toStartOf="@+id/imageView3"
-            app:layout_constraintTop_toTopOf="@+id/imageView3"
+            app:layout_constraintStart_toStartOf="@+id/holiday_details_image"
+            app:layout_constraintTop_toTopOf="@+id/holiday_details_image"
             app:layout_constraintVertical_bias="0.0" />
 
 
