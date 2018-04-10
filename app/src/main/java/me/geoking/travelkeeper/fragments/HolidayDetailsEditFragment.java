@@ -1,17 +1,25 @@
 package me.geoking.travelkeeper.fragments;
 
+import android.app.DatePickerDialog;
 import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.DatePicker;
 import android.widget.EditText;
 
+import java.util.Calendar;
+
+import me.geoking.travelkeeper.MainActivity;
 import me.geoking.travelkeeper.R;
 import me.geoking.travelkeeper.model.Holiday;
 
@@ -23,13 +31,15 @@ import me.geoking.travelkeeper.model.Holiday;
  * Use the {@link HolidayDetailsEditFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class HolidayDetailsEditFragment extends Fragment {
+public class HolidayDetailsEditFragment extends Fragment implements View.OnClickListener,  DatePickerDialog.OnDateSetListener{
 
     private static final String HOLIDAY = "Holiday";
 
     private Holiday holiday;
 
     private OnFragmentInteractionListener mListener;
+
+
 
     public HolidayDetailsEditFragment() {
         // Required empty public constructor
@@ -87,7 +97,37 @@ public class HolidayDetailsEditFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_holiday_details_edit, container, false);
+        View view = inflater.inflate(R.layout.fragment_holiday_details_edit, container, false);
+        final Button holidayDateStart = (Button) view.findViewById(R.id.holiday_details_start);
+        final Calendar c = Calendar.getInstance();
+        int mYear = c.get(Calendar.YEAR); // current year
+        int mMonth = c.get(Calendar.MONTH); // current month
+        int mDay = c.get(Calendar.DAY_OF_MONTH); // current day
+        final DatePickerDialog datePickerDialog = new DatePickerDialog(
+                getActivity(), new DatePickerDialog.OnDateSetListener() {
+
+            @Override
+            public void onDateSet(DatePicker view, int year,
+                                  int monthOfYear, int dayOfMonth) {
+                // set day of month , month and year value in the edit text
+                holidayDateStart.setText(dayOfMonth + "/"
+                        + (monthOfYear + 1) + "/" + year);
+
+            }
+        }, mYear, mMonth, mDay);
+        holidayDateStart.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                datePickerDialog.show();
+            }
+        });
+        return view;
+    }
+
+    @Override
+    public void onClick(View view) {
+
     }
 
     // TODO: Rename method, update argument and hook method into UI event
@@ -113,6 +153,12 @@ public class HolidayDetailsEditFragment extends Fragment {
         super.onDetach();
         mListener = null;
     }
+
+    @Override
+    public void onDateSet(DatePicker datePicker, int i, int i1, int i2) {
+
+    }
+
 
     /**
      * This interface must be implemented by activities that contain this
