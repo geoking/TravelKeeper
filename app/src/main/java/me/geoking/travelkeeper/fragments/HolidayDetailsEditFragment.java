@@ -96,13 +96,30 @@ public class HolidayDetailsEditFragment extends Fragment implements View.OnClick
     }
 
     public boolean checkInputErrors() {
-        EditText edit = (EditText)getActivity().findViewById(R.id.holiday_details_title);
-        String newTitle = edit.getText().toString();
+        EditText holidayTitle = (EditText)getActivity().findViewById(R.id.holiday_details_title);
+        Button startDateButton = (Button)getActivity().findViewById(R.id.holiday_details_start);
+        Button endDateButton = (Button)getActivity().findViewById(R.id.holiday_details_end);
+        String newTitle = holidayTitle.getText().toString();
+        String newStartDate = startDateButton.getText().toString();
+        String newEndDate = endDateButton.getText().toString();
+        boolean error = false;
         if (TextUtils.isEmpty(newTitle)) {
-            edit.setError("This must not be empty!");
-            return false;
+            holidayTitle.setError("This must not be empty!");
+            error = true;
         }
-        return true;
+        if (newStartDate.equals("Start Date")) {
+            startDateButton.setError("This must not be empty!");
+            error = true;
+        }
+        if (newEndDate.equals("End Date")) {
+            endDateButton.setError("This must not be empty!");
+            error = true;
+        }
+
+        if (!(error)) {
+            return true;
+        }
+        return false;
     }
 
     @Override
