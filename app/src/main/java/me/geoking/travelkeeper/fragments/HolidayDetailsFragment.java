@@ -11,6 +11,7 @@ import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import me.geoking.travelkeeper.R;
@@ -71,12 +72,16 @@ public class HolidayDetailsFragment extends Fragment {
         TextView startButton = view.findViewById(R.id.holiday_view_details_start);
         TextView endButton = view.findViewById(R.id.holiday_view_details_end);
         TextView notesField = view.findViewById(R.id.holiday_view_details_notes);
+        ImageView holidayImage = view.findViewById(R.id.holiday_view_details_image);
         titleField.setText(holiday.getTitle());
         tagsField.setText(holiday.getTags());
         startButton.setText(holiday.getStartDate());
         endButton.setText(holiday.getEndDate());
         notesField.setText(holiday.getNotes());
         notesField.setMovementMethod(new ScrollingMovementMethod());
+        if (holiday.getImage() != null) {
+            holidayImage.setImageBitmap(holiday.getImage());
+        }
         setHasOptionsMenu(true);
         return view;
 

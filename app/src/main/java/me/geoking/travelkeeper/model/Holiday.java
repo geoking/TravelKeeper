@@ -1,5 +1,8 @@
 package me.geoking.travelkeeper.model;
 
+import android.graphics.Bitmap;
+import android.widget.ImageView;
+
 import java.io.Serializable;
 
 /**
@@ -12,6 +15,7 @@ public class Holiday implements Serializable {
     private String startDate;
     private String endDate;
     private String tags;
+    private Bitmap image;
 
     public Holiday() {
         title = "enter a title";
@@ -59,5 +63,13 @@ public class Holiday implements Serializable {
 
     public void setTags(String tags) {
         this.tags = tags;
+    }
+
+    public Bitmap getImage() {
+        return image;
+    }
+
+    public void setImage(Bitmap image) {
+        this.image = image;
     }
 }

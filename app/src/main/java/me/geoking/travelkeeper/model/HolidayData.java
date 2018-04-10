@@ -1,6 +1,7 @@
 package me.geoking.travelkeeper.model;
 
 import android.content.Context;
+import android.graphics.Bitmap;
 
 import java.util.ArrayList;
 
@@ -38,12 +39,13 @@ public class HolidayData {
         return holidays;
     }
 
-    public void addHoliday (Holiday holiday, String title, String tags, String startDate, String endDate, String notes) {
+    public void addHoliday (Holiday holiday, String title, String tags, String startDate, String endDate, String notes, Bitmap image) {
         holiday.setTitle(title);
         holiday.setTags(tags);
         holiday.setStartDate(startDate);
         holiday.setEndDate(endDate);
         holiday.setNotes(notes);
+        holiday.setImage(image);
         holidays.add(holiday);
     }
 

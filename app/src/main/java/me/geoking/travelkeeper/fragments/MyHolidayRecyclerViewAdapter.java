@@ -1,5 +1,6 @@
 package me.geoking.travelkeeper.fragments;
 
+import android.graphics.Typeface;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -67,6 +68,8 @@ public class MyHolidayRecyclerViewAdapter extends RecyclerView.Adapter<MyHoliday
             mHolidayLetterView = (TextView) view.findViewById(R.id.holiday_letter_view);
             mHolidayTitleView = (TextView) view.findViewById(R.id.holiday_title_view);
             mHolidayNotesView = (TextView) view.findViewById(R.id.holiday_notes_view);
+            mHolidayTitleView.setTypeface(null, Typeface.BOLD);
+            mHolidayLetterView.setTypeface(null, Typeface.BOLD);
             mHolidayLetterView.setAllCaps(true);
         }
 

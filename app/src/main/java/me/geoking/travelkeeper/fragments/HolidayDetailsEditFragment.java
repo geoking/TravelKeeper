@@ -1,9 +1,15 @@
 package me.geoking.travelkeeper.fragments;
 
+import android.app.Activity;
 import android.app.DatePickerDialog;
 import android.content.Context;
+import android.content.Intent;
+import android.graphics.Bitmap;
+import android.media.Image;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
+import android.provider.MediaStore;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
 import android.text.TextUtils;
@@ -16,7 +22,14 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.ImageView;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.RandomAccessFile;
+import java.nio.MappedByteBuffer;
+import java.nio.channels.FileChannel;
 import java.util.Calendar;
 
 import me.geoking.travelkeeper.MainActivity;
@@ -39,6 +52,9 @@ public class HolidayDetailsEditFragment extends Fragment implements View.OnClick
 
     private OnFragmentInteractionListener mListener;
 
+    public static final int GET_FROM_GALLERY = 3;
+
+    public Bitmap bitmap = null;
 
 
     public HolidayDetailsEditFragment() {
@@ -76,12 +92,17 @@ public class HolidayDetailsEditFragment extends Fragment implements View.OnClick
             String startDate = holiday.getStartDate();
             String endDate = holiday.getEndDate();
             String notes = holiday.getNotes();
+            Bitmap image = holiday.getImage();
             getActivity().setTitle(title);
             EditText holidayTitle = getActivity().findViewById(R.id.holiday_details_title);
             EditText holidayTags = getActivity().findViewById(R.id.holiday_details_tags);
             Button holidayDateStart = (Button) getActivity().findViewById(R.id.holiday_details_start);
             Button holidayDateEnd = (Button) getActivity().findViewById(R.id.holiday_details_end);
             EditText holidayNotes = getActivity().findViewById(R.id.holiday_details_notes);
+            if (image != null) {
+                ImageView holidayImage = getActivity().findViewById(R.id.holiday_details_image);
+                holidayImage.setImageBitmap(image);
+            }
             holidayTitle.setText(title);
             holidayTags.setText(tags);
             holidayDateStart.setText(startDate);
@@ -172,13 +193,44 @@ public class HolidayDetailsEditFragment extends Fragment implements View.OnClick
             }
         });
 
-
+        Button uploadButton = (Button) view.findViewById(R.id.holiday_details_upload);
+        uploadButton.setOnClickListener(this);
         return view;
     }
 
     @Override
     public void onClick(View view) {
+        switch (view.getId()) {
+            case R.id.holiday_details_upload:
+                startActivityForResult(new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.INTERNAL_CONTENT_URI), GET_FROM_GALLERY);
 
+                break;
+        }
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+
+        //Detects request codes
+        if(requestCode==GET_FROM_GALLERY && resultCode == Activity.RESULT_OK) {
+            Uri selectedImage = data.getData();
+            try {
+                bitmap = MediaStore.Images.Media.getBitmap(getActivity().getContentResolver(), selectedImage);
+            } catch (FileNotFoundException e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+            } catch (IOException e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+            }
+            if (!(bitmap == null)) {
+                ImageView holidayImg = getActivity().findViewById(R.id.holiday_details_image);
+                Bitmap test = Bitmap.createScaledBitmap(bitmap, 600, 405, false);
+                holidayImg.setImageBitmap(test);
+            }
+        }
     }
 
     // TODO: Rename method, update argument and hook method into UI event

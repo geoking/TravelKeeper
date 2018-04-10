@@ -5,6 +5,9 @@ import android.app.DatePickerDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -25,6 +28,7 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.ImageView;
 
 import java.util.Objects;
 
@@ -175,6 +179,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 getSupportFragmentManager().beginTransaction();
         final NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         Bundle args = new Bundle();
+        Bitmap newHolidayBitmap = null;
         switch (item.getItemId()) {
             case R.id.edit:
                 currentFragment = getSupportFragmentManager().findFragmentById(R.id.fragment_container);
@@ -203,6 +208,13 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 Button startButton = (Button)findViewById(R.id.holiday_details_start);
                 Button endButton = (Button)findViewById(R.id.holiday_details_end);
                 EditText editNotes = (EditText)findViewById(R.id.holiday_details_notes);
+                ImageView holidayImg = (ImageView)findViewById(R.id.holiday_details_image);
+                Drawable drawable = holidayImg.getDrawable();
+                boolean hasImage = (drawable != null);
+
+                if (hasImage && (drawable instanceof BitmapDrawable)) {
+                    newHolidayBitmap = ((BitmapDrawable) holidayImg.getDrawable()).getBitmap();
+                }
                 String newTitle = editTitle.getText().toString();
                 String newTags = editTags.getText().toString();
                 String newStart = startButton.getText().toString();
@@ -218,10 +230,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                     holiday.setStartDate(newStart);
                     holiday.setEndDate(newEnd);
                     holiday.setNotes(newNotes);
+                    holiday.setImage(newHolidayBitmap);
                 }
                 else {
                     holiday = new Holiday();
-                    HolidayData.getInstance().addHoliday(holiday, newTitle, newTags, newStart, newEnd, newNotes);
+                    HolidayData.getInstance().addHoliday(holiday, newTitle, newTags, newStart, newEnd, newNotes, newHolidayBitmap);
                 }
                 super.onBackPressed();
                 InputMethodManager inputManager = (InputMethodManager) this.getSystemService(Context.INPUT_METHOD_SERVICE);
