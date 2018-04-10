@@ -4,11 +4,13 @@ import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.text.method.ScrollingMovementMethod;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TextView;
 
 import me.geoking.travelkeeper.R;
@@ -65,9 +67,16 @@ public class HolidayDetailsFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_holiday_details, container, false);
 
         TextView titleField = view.findViewById(R.id.holiday_view_details_title);
+        TextView tagsField = view.findViewById(R.id.holiday_view_details_tags);
+        TextView startButton = view.findViewById(R.id.holiday_view_details_start);
+        TextView endButton = view.findViewById(R.id.holiday_view_details_end);
+        TextView notesField = view.findViewById(R.id.holiday_view_details_notes);
         titleField.setText(holiday.getTitle());
-        TextView notesField = view.findViewById(R.id.holiday_view_notes);
+        tagsField.setText(holiday.getTags());
+        startButton.setText(holiday.getStartDate());
+        endButton.setText(holiday.getEndDate());
         notesField.setText(holiday.getNotes());
+        notesField.setMovementMethod(new ScrollingMovementMethod());
         setHasOptionsMenu(true);
         return view;
 

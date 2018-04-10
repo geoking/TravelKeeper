@@ -32,6 +32,7 @@ public class MyHolidayRecyclerViewAdapter extends RecyclerView.Adapter<MyHoliday
     @Override
     public void onBindViewHolder(final ViewHolder holder, int position) {
         holder.mHoliday = mHolidays.get(position);
+        holder.mHolidayLetterView.setText(mHolidays.get(position).getTitle());
         holder.mHolidayTitleView.setText(mHolidays.get(position).getTitle());
         holder.mHolidayNotesView.setText(mHolidays.get(position).getNotes());
 
@@ -57,13 +58,16 @@ public class MyHolidayRecyclerViewAdapter extends RecyclerView.Adapter<MyHoliday
         public final View mView;
         public final TextView mHolidayTitleView;
         public final TextView mHolidayNotesView;
+        public final TextView mHolidayLetterView;
         public Holiday mHoliday;
 
         public ViewHolder(View view) {
             super(view);
             mView = view;
+            mHolidayLetterView = (TextView) view.findViewById(R.id.holiday_letter_view);
             mHolidayTitleView = (TextView) view.findViewById(R.id.holiday_title_view);
             mHolidayNotesView = (TextView) view.findViewById(R.id.holiday_notes_view);
+            mHolidayLetterView.setAllCaps(true);
         }
 
         @Override

@@ -27,5 +27,6 @@
     <string name="navigation_title">TravelKeeper Navigation</string>
     <string name="no_holiday_text">No holidays! \n\n\nTo add a holiday, click the \'\+\' button in the top right corner. </string>
     <string name="title_activity_nearby">Nearby Places</string>
+    <string name="holiday_details_to">to</string>
 
 </resources>

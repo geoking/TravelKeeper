@@ -72,9 +72,21 @@ public class HolidayDetailsEditFragment extends Fragment implements View.OnClick
         if (getArguments() != null) {
 
             String title = holiday.getTitle();
+            String tags = holiday.getTags();
+            String startDate = holiday.getStartDate();
+            String endDate = holiday.getEndDate();
+            String notes = holiday.getNotes();
             getActivity().setTitle(title);
-            EditText edit = getActivity().findViewById(R.id.holiday_details_title);
-            edit.setText(title);
+            EditText holidayTitle = getActivity().findViewById(R.id.holiday_details_title);
+            EditText holidayTags = getActivity().findViewById(R.id.holiday_details_tags);
+            Button holidayDateStart = (Button) getActivity().findViewById(R.id.holiday_details_start);
+            Button holidayDateEnd = (Button) getActivity().findViewById(R.id.holiday_details_end);
+            EditText holidayNotes = getActivity().findViewById(R.id.holiday_details_notes);
+            holidayTitle.setText(title);
+            holidayTags.setText(tags);
+            holidayDateStart.setText(startDate);
+            holidayDateEnd.setText(endDate);
+            holidayNotes.setText(notes);
         }
         else {
             String title = getActivity().getResources().getString(R.string.title_holiday_details_add);
@@ -99,11 +111,12 @@ public class HolidayDetailsEditFragment extends Fragment implements View.OnClick
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_holiday_details_edit, container, false);
         final Button holidayDateStart = (Button) view.findViewById(R.id.holiday_details_start);
+        final Button holidayDateEnd = (Button) view.findViewById(R.id.holiday_details_end);
         final Calendar c = Calendar.getInstance();
         int mYear = c.get(Calendar.YEAR); // current year
         int mMonth = c.get(Calendar.MONTH); // current month
         int mDay = c.get(Calendar.DAY_OF_MONTH); // current day
-        final DatePickerDialog datePickerDialog = new DatePickerDialog(
+        final DatePickerDialog datePickerDialogStart = new DatePickerDialog(
                 getActivity(), new DatePickerDialog.OnDateSetListener() {
 
             @Override
@@ -115,11 +128,30 @@ public class HolidayDetailsEditFragment extends Fragment implements View.OnClick
 
             }
         }, mYear, mMonth, mDay);
+        final DatePickerDialog datePickerDialogEnd = new DatePickerDialog(
+                getActivity(), new DatePickerDialog.OnDateSetListener() {
+
+            @Override
+            public void onDateSet(DatePicker view, int year,
+                                  int monthOfYear, int dayOfMonth) {
+                // set day of month , month and year value in the edit text
+                holidayDateEnd.setText(dayOfMonth + "/"
+                        + (monthOfYear + 1) + "/" + year);
+
+            }
+        }, mYear, mMonth, mDay);
         holidayDateStart.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 
-                datePickerDialog.show();
+                datePickerDialogStart.show();
+            }
+        });
+        holidayDateEnd.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                datePickerDialogEnd.show();
             }
         });
         return view;

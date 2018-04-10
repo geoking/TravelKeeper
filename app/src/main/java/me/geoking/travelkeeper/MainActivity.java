@@ -22,6 +22,7 @@ import android.text.TextUtils;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 
@@ -197,19 +198,30 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 return true;
             case R.id.confirm:
                 HolidayDetailsEditFragment detailsEditFragment = (HolidayDetailsEditFragment) getSupportFragmentManager().findFragmentById(R.id.fragment_container);
-                EditText edit = (EditText)findViewById(R.id.holiday_details_title);
-                String newTitle = edit.getText().toString();
-                if (detailsEditFragment.checkInputErrors() == false) {
+                EditText editTitle = (EditText)findViewById(R.id.holiday_details_title);
+                EditText editTags = (EditText)findViewById(R.id.holiday_details_tags);
+                Button startButton = (Button)findViewById(R.id.holiday_details_start);
+                Button endButton = (Button)findViewById(R.id.holiday_details_end);
+                EditText editNotes = (EditText)findViewById(R.id.holiday_details_notes);
+                String newTitle = editTitle.getText().toString();
+                String newTags = editTags.getText().toString();
+                String newStart = startButton.getText().toString();
+                String newEnd = endButton.getText().toString();
+                String newNotes = editNotes.getText().toString();
+                if (!detailsEditFragment.checkInputErrors()) {
                     return false;
                 }
                 if (detailsEditFragment.getArguments() != null) {
                     holiday = (Holiday) detailsEditFragment.getArguments().getSerializable("Holiday");
                     holiday.setTitle(newTitle);
+                    holiday.setTags(newTags);
+                    holiday.setStartDate(newStart);
+                    holiday.setEndDate(newEnd);
+                    holiday.setNotes(newNotes);
                 }
                 else {
                     holiday = new Holiday();
-                    holiday.setTitle(newTitle);
-                    HolidayData.getInstance().addHoliday(holiday);
+                    HolidayData.getInstance().addHoliday(holiday, newTitle, newTags, newStart, newEnd, newNotes);
                 }
                 super.onBackPressed();
                 InputMethodManager inputManager = (InputMethodManager) this.getSystemService(Context.INPUT_METHOD_SERVICE);
@@ -238,7 +250,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                         .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int which) {
                                 HolidayFragment newHolidayFragment = new HolidayFragment();
-                                if (holidayBool == true) {
+                                if (holidayBool) {
                                     HolidayData.getInstance().deleteHoliday(holiday);
                                 }
                                 transaction.replace(R.id.fragment_container, newHolidayFragment);

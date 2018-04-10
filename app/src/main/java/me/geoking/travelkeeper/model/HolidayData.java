@@ -38,7 +38,12 @@ public class HolidayData {
         return holidays;
     }
 
-    public void addHoliday (Holiday holiday) {
+    public void addHoliday (Holiday holiday, String title, String tags, String startDate, String endDate, String notes) {
+        holiday.setTitle(title);
+        holiday.setTags(tags);
+        holiday.setStartDate(startDate);
+        holiday.setEndDate(endDate);
+        holiday.setNotes(notes);
         holidays.add(holiday);
     }
 
