@@ -32,6 +32,16 @@ public class HolidayData {
     }
 
     private void createData() {
+        Holiday hol = new Holiday();
+        holidays.add(hol);
+        holidays.add(hol);
+        holidays.add(hol);
+        holidays.add(hol);
+        holidays.add(hol);
+        holidays.add(hol);
+        holidays.add(hol);
+        holidays.add(hol);
+        holidays.add(hol);
 
     }
 
@@ -46,7 +56,7 @@ public class HolidayData {
         holiday.setEndDate(endDate);
         holiday.setNotes(notes);
         holiday.setImage(image);
-        holidays.add(holiday);
+        holidays.add(0, holiday);
     }
 
     public void deleteHoliday (Holiday holiday) {

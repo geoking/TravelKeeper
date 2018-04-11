@@ -29,5 +29,6 @@
     <string name="title_activity_nearby">Nearby Places</string>
     <string name="holiday_details_to">to</string>
     <string name="upload">Upload Image</string>
+    <string name="holidays_title_text">A Holiday</string>
 
 </resources>

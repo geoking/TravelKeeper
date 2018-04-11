@@ -216,6 +216,7 @@ public class HolidayDetailsEditFragment extends Fragment implements View.OnClick
         //Detects request codes
         if(requestCode==GET_FROM_GALLERY && resultCode == Activity.RESULT_OK) {
             Uri selectedImage = data.getData();
+            String uriString = selectedImage.toString();
             try {
                 bitmap = MediaStore.Images.Media.getBitmap(getActivity().getContentResolver(), selectedImage);
             } catch (FileNotFoundException e) {

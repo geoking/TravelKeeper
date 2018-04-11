@@ -180,6 +180,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         final NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         Bundle args = new Bundle();
         Bitmap newHolidayBitmap = null;
+        java.io.ObjectOutputStream bitmapRW;
         switch (item.getItemId()) {
             case R.id.edit:
                 currentFragment = getSupportFragmentManager().findFragmentById(R.id.fragment_container);
@@ -214,6 +215,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
                 if (hasImage && (drawable instanceof BitmapDrawable)) {
                     newHolidayBitmap = ((BitmapDrawable) holidayImg.getDrawable()).getBitmap();
+
                 }
                 String newTitle = editTitle.getText().toString();
                 String newTags = editTags.getText().toString();
