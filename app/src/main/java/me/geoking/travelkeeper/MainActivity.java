@@ -242,6 +242,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                         holiday.setImageLocationUUID(uuid);
                         holiday.setImageLocation(saveToInternalStorage(newHolidayBitmap, uuid));
                     }
+                    HolidayDatabase.getInstance(this).getHolidayDao().updateHoliday(holiday);
 
                 }
                 else {
