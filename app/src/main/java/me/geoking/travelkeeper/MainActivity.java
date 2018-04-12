@@ -43,7 +43,6 @@ import me.geoking.travelkeeper.fragments.HolidayFragment;
 import me.geoking.travelkeeper.fragments.MainFragment;
 import me.geoking.travelkeeper.fragments.NearbyPlacesFragment;
 import me.geoking.travelkeeper.model.Holiday;
-import me.geoking.travelkeeper.model.HolidayData;
 import me.geoking.travelkeeper.model.HolidayDatabase;
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, MainFragment.OnFragmentInteractionListener,
@@ -58,7 +57,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         tx.commit();
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        HolidayData.createInstance(this);
+        HolidayDatabase.createInstance(this);
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
@@ -242,7 +241,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                         holiday.setImageLocationUUID(uuid);
                         holiday.setImageLocation(saveToInternalStorage(newHolidayBitmap, uuid));
                     }
-                    HolidayDatabase.getInstance(this).getHolidayDao().updateHoliday(holiday);
+                    HolidayDatabase.getInstance().getHolidayDao().updateHoliday(holiday);
 
                 }
                 else {
@@ -253,8 +252,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                         uuid = UUID.randomUUID();
                         holidayLocation = saveToInternalStorage(newHolidayBitmap, uuid);
                     }
-                    Holiday newHoliday = HolidayData.getInstance().addHoliday(holiday, newTitle, newTags, newStart, newEnd, newNotes, holidayLocation, uuid);
-                    HolidayDatabase.getInstance(this).getHolidayDao().insertHoliday(newHoliday);
+                    Holiday newHoliday = addHoliday(holiday, newTitle, newTags, newStart, newEnd, newNotes, holidayLocation, uuid);
+                    HolidayDatabase.getInstance().getHolidayDao().insertHoliday(newHoliday);
                 }
                 super.onBackPressed();
                 InputMethodManager inputManager = (InputMethodManager) this.getSystemService(Context.INPUT_METHOD_SERVICE);
@@ -284,7 +283,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                             public void onClick(DialogInterface dialog, int which) {
                                 HolidayFragment newHolidayFragment = new HolidayFragment();
                                 if (holidayBool) {
-                                    HolidayDatabase.getInstance(getApplicationContext()).getHolidayDao().deleteHoliday(holiday);
+                                    HolidayDatabase.getInstance().getHolidayDao().deleteHoliday(holiday);
                                 }
                                 transaction.replace(R.id.fragment_container, newHolidayFragment);
                                 transaction.addToBackStack(null);
@@ -431,6 +430,17 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             e.printStackTrace();
         }
         return null;
+    }
+
+    public Holiday addHoliday (Holiday holiday, String title, String tags, String startDate, String endDate, String notes, String imageLocation, UUID uuid) {
+        holiday.setTitle(title);
+        holiday.setTags(tags);
+        holiday.setStartDate(startDate);
+        holiday.setEndDate(endDate);
+        holiday.setNotes(notes);
+        holiday.setImageLocation(imageLocation);
+        holiday.setImageLocationUUID(uuid);
+        return holiday;
     }
 
 }

@@ -15,13 +15,17 @@ public abstract class HolidayDatabase extends RoomDatabase {
     public abstract HolidayDao getHolidayDao();
 
 
-    private static HolidayDatabase holidayDB;
+    private static HolidayDatabase instance;
 
-    public static HolidayDatabase getInstance(Context context) {
-        if (null == holidayDB) {
-            holidayDB = buildDatabaseInstance(context);
+    public static HolidayDatabase createInstance(Context context) {
+        if (null == instance) {
+            instance = buildDatabaseInstance(context);
         }
-        return holidayDB;
+        return instance;
+    }
+
+    public static HolidayDatabase getInstance() {
+        return instance;
     }
 
     private static HolidayDatabase buildDatabaseInstance(Context context) {
@@ -31,6 +35,6 @@ public abstract class HolidayDatabase extends RoomDatabase {
     }
 
     public  void cleanUp(){
-        holidayDB = null;
+        instance = null;
     }
 }

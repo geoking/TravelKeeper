@@ -24,7 +24,6 @@ import java.util.Locale;
 import me.geoking.travelkeeper.MainActivity;
 import me.geoking.travelkeeper.R;
 import me.geoking.travelkeeper.model.Holiday;
-import me.geoking.travelkeeper.model.HolidayData;
 import me.geoking.travelkeeper.model.HolidayDatabase;
 
 public class HolidayFragment extends Fragment {
@@ -75,7 +74,7 @@ public class HolidayFragment extends Fragment {
             HolidayDatabase.getInstance(this.getContext()).getHolidayDao().insertHoliday(holiday);
         }*/
 
-        if (HolidayDatabase.getInstance(this.getContext()).getHolidayDao().getHolidays().size() == 0) {
+        if (HolidayDatabase.getInstance().getHolidayDao().getHolidays().size() == 0) {
             View view = inflater.inflate(R.layout.fragment_holiday_noholiday, container, false);
             setHasOptionsMenu(true);
             return view;
@@ -86,7 +85,7 @@ public class HolidayFragment extends Fragment {
             ImageView holidayImage = view.findViewById(R.id.holidays_image);
             TextView holidayTitle = view.findViewById(R.id.holidays_title);
             TextView holidayDate = view.findViewById(R.id.holidays_dates);
-            ArrayList holidays = (ArrayList) HolidayDatabase.getInstance(this.getContext()).getHolidayDao().getHolidays();
+            ArrayList holidays = (ArrayList) HolidayDatabase.getInstance().getHolidayDao().getHolidays();
             Holiday holiday = (Holiday) holidays.get(0);
             if (holiday.getImageLocation() == null) {
                 holidayImage.setVisibility(View.GONE);
