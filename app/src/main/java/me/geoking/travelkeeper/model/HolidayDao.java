@@ -15,24 +15,12 @@ public interface HolidayDao {
     @Query("SELECT * FROM "+ Constants.TABLE_NAME_HOLIDAYS)
     List<Holiday> getHolidays();
 
-    /*
-     * Insert the object in database
-     * @param note, object to be inserted
-     */
     @Insert
-    long insertHoliday(Holiday holiday);
+    void insertHoliday(Holiday holiday);
 
-    /*
-     * update the object in database
-     * @param note, object to be updated
-     */
     @Update
     void updateHoliday(Holiday holiday);
 
-    /*
-     * delete the object from database
-     * @param note, object to be deleted
-     */
     @Delete
     void deleteHoliday(Holiday holiday);
 

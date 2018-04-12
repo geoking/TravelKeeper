@@ -101,6 +101,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             }
             else {
                 super.onBackPressed();
+                overridePendingTransition(R.anim.slide_in, R.anim.slide_out);
                 currentFragment = getSupportFragmentManager().findFragmentById(R.id.fragment_container);
                 tag = currentFragment.getTag();
                 if (Objects.equals("main", tag)) {
@@ -345,6 +346,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 e.printStackTrace();
             }
             FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+            transaction.setCustomAnimations(R.anim.slide_in, R.anim.slide_out);
             transaction.replace(R.id.fragment_container, fragment, tag);
             transaction.addToBackStack(null);
             transaction.commit();
