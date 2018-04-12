@@ -27,6 +27,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginBottom="8dp"
+            android:layout_marginEnd="8dp"
             android:layout_marginStart="8dp"
             android:ellipsize="end"
             android:maxLines="1"
@@ -35,9 +36,9 @@
             android:shadowDy="1"
             android:shadowRadius="4"
             android:text="@string/holidays_title_text"
+
             android:textColor="@color/white"
             android:textSize="52sp"
-
             app:layout_constraintBottom_toTopOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/holidays_list"
             app:layout_constraintHorizontal_bias="0.0"
@@ -50,6 +51,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginBottom="8dp"
+            android:layout_marginEnd="8dp"
             android:layout_marginStart="10dp"
             android:ellipsize="end"
             android:maxLines="1"
@@ -59,8 +61,8 @@
             android:shadowRadius="4"
             android:text="@string/holidays_title_text"
             android:textColor="@color/white"
-            android:textSize="26sp"
 
+            android:textSize="26sp"
             app:layout_constraintBottom_toTopOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/holidays_list"
             app:layout_constraintHorizontal_bias="0.0"

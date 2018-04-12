@@ -45,6 +45,8 @@ import me.geoking.travelkeeper.fragments.NearbyPlacesFragment;
 import me.geoking.travelkeeper.model.Holiday;
 import me.geoking.travelkeeper.model.HolidayDatabase;
 
+import static android.graphics.BitmapFactory.decodeStream;
+
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, MainFragment.OnFragmentInteractionListener,
         HolidayFragment.OnListFragmentInteractionListener, HolidayDetailsFragment.OnFragmentInteractionListener, HolidayDetailsEditFragment.OnFragmentInteractionListener {
 
@@ -70,20 +72,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         navigationView.setNavigationItemSelectedListener(this);
 
 
-
-  /*      final Button holidaysbutton = findViewById(R.id.button_holidays);
-        holidaysbutton.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-
-            }
-        });
-
-        final Button visitedbutton = findViewById(R.id.button_visited);
-        visitedbutton.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-                
-            }
-        }); */
     }
 
     @Override
@@ -236,10 +224,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                     holiday.setStartDate(newStart);
                     holiday.setEndDate(newEnd);
                     holiday.setNotes(newNotes);
-                    if (hasImage == true) {
+                    if (newHolidayBitmap != null) {
                         UUID uuid = UUID.randomUUID();
-                        holiday.setImageLocationUUID(uuid);
-                        holiday.setImageLocation(saveToInternalStorage(newHolidayBitmap, uuid));
+                        holiday.setImageLocationUUID(uuid.toString());
+                        holiday.setImageLocation(saveToInternalStorage(newHolidayBitmap, uuid.toString()));
                     }
                     HolidayDatabase.getInstance().getHolidayDao().updateHoliday(holiday);
 
@@ -248,11 +236,15 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                     holiday = new Holiday();
                     String holidayLocation=null;
                     UUID uuid=null;
-                    if (hasImage == true) {
+                    if (newHolidayBitmap != null) {
                         uuid = UUID.randomUUID();
-                        holidayLocation = saveToInternalStorage(newHolidayBitmap, uuid);
+                        holidayLocation = saveToInternalStorage(newHolidayBitmap, uuid.toString());
                     }
-                    Holiday newHoliday = addHoliday(holiday, newTitle, newTags, newStart, newEnd, newNotes, holidayLocation, uuid);
+                    String uuidString = null;
+                    if (uuid != null) {
+                        uuidString = uuid.toString();
+                    }
+                    Holiday newHoliday = addHoliday(holiday, newTitle, newTags, newStart, newEnd, newNotes, holidayLocation, uuidString);
                     HolidayDatabase.getInstance().getHolidayDao().insertHoliday(newHoliday);
                 }
                 super.onBackPressed();
@@ -393,12 +385,12 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         }
     }
 
-    public String saveToInternalStorage(Bitmap bitmapImage, UUID uuid){
+    public String saveToInternalStorage(Bitmap bitmapImage, String uuidString){
         ContextWrapper cw = new ContextWrapper(getApplicationContext());
         // path to /data/data/yourapp/app_data/imageDir
         File directory = cw.getDir("imageDir", Context.MODE_PRIVATE);
         // Create imageDir
-        File myPath =new File(directory,uuid.toString());
+        File myPath =new File(directory,uuidString);
 
         FileOutputStream fos = null;
         try {
@@ -417,13 +409,12 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         return directory.getAbsolutePath();
     }
 
-    public Bitmap loadImageFromStorage(String path, UUID uuid)
+    public Bitmap loadImageFromStorage(String path, String uuid)
     {
 
         try {
-            File f=new File(path, uuid.toString());
-            Bitmap b = BitmapFactory.decodeStream(new FileInputStream(f));
-            return b;
+            File f=new File(path, uuid);
+            return decodeStream(new FileInputStream(f));
         }
         catch (FileNotFoundException e)
         {
@@ -432,7 +423,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         return null;
     }
 
-    public Holiday addHoliday (Holiday holiday, String title, String tags, String startDate, String endDate, String notes, String imageLocation, UUID uuid) {
+    public Holiday addHoliday (Holiday holiday, String title, String tags, String startDate, String endDate, String notes, String imageLocation, String uuid) {
         holiday.setTitle(title);
         holiday.setTags(tags);
         holiday.setStartDate(startDate);

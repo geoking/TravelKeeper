@@ -18,6 +18,7 @@ import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Date;
 import java.util.Locale;
 
@@ -86,6 +87,7 @@ public class HolidayFragment extends Fragment {
             TextView holidayTitle = view.findViewById(R.id.holidays_title);
             TextView holidayDate = view.findViewById(R.id.holidays_dates);
             ArrayList holidays = (ArrayList) HolidayDatabase.getInstance().getHolidayDao().getHolidays();
+            Collections.reverse(holidays);
             Holiday holiday = (Holiday) holidays.get(0);
             if (holiday.getImageLocation() == null) {
                 holidayImage.setVisibility(View.GONE);

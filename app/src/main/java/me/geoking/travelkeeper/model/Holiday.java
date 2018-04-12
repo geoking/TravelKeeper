@@ -25,7 +25,7 @@ public class Holiday implements Serializable {
     private String endDate;
     private String tags;
     private String imageLocation;
-    private UUID imageLocationUUID;
+    private String imageLocationUUID;
 
 
     public Holiday() {
@@ -35,7 +35,7 @@ public class Holiday implements Serializable {
         endDate = "enter end date";
         tags = "enter tags";
         imageLocation = "image location";
-        imageLocationUUID = UUID.randomUUID();
+        imageLocationUUID = null;
     }
 
     public String getTitle() {
@@ -86,11 +86,11 @@ public class Holiday implements Serializable {
         this.imageLocation = imageLocation;
     }
 
-    public UUID getImageLocationUUID() {
+    public String getImageLocationUUID() {
         return imageLocationUUID;
     }
 
-    public void setImageLocationUUID(UUID imageLocationUUID) {
+    public void setImageLocationUUID(String imageLocationUUID) {
         this.imageLocationUUID = imageLocationUUID;
     }
 
