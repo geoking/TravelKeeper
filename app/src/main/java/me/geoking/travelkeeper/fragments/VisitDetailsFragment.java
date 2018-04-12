@@ -17,19 +17,19 @@ import me.geoking.travelkeeper.MainActivity;
 import me.geoking.travelkeeper.R;
 import me.geoking.travelkeeper.model.Holiday;
 
-public class HolidayDetailsFragment extends Fragment {
+public class VisitDetailsFragment extends Fragment {
     private static final String HOLIDAY = "Holiday";
 
     private Holiday holiday;
 
     private OnFragmentInteractionListener mListener;
 
-    public HolidayDetailsFragment() {
+    public VisitDetailsFragment() {
         // Required empty public constructor
     }
 
-    public static HolidayDetailsFragment newInstance(String param1, String param2) {
-        HolidayDetailsFragment fragment = new HolidayDetailsFragment();
+    public static VisitDetailsFragment newInstance(String param1, String param2) {
+        VisitDetailsFragment fragment = new VisitDetailsFragment();
         Bundle args = new Bundle();
         args.putString(HOLIDAY, param1);
         fragment.setArguments(args);
@@ -99,7 +99,7 @@ public class HolidayDetailsFragment extends Fragment {
         super.onDetach();
         mListener = null;
     }
-    
+
     public interface OnFragmentInteractionListener {
         // TODO: Update argument type and name
         void onFragmentInteraction(Uri uri);

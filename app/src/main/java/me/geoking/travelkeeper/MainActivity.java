@@ -6,7 +6,6 @@ import android.content.ContextWrapper;
 import android.content.DialogInterface;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
@@ -42,14 +41,14 @@ import me.geoking.travelkeeper.fragments.HolidayDetailsFragment;
 import me.geoking.travelkeeper.fragments.HolidayFragment;
 import me.geoking.travelkeeper.fragments.MainFragment;
 import me.geoking.travelkeeper.fragments.NearbyPlacesFragment;
-import me.geoking.travelkeeper.fragments.PlacesVisitedFragment;
+import me.geoking.travelkeeper.fragments.VisitFragment;
 import me.geoking.travelkeeper.model.Holiday;
 import me.geoking.travelkeeper.model.HolidayDatabase;
 
 import static android.graphics.BitmapFactory.decodeStream;
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, MainFragment.OnFragmentInteractionListener,
-        HolidayFragment.OnListFragmentInteractionListener, HolidayDetailsFragment.OnFragmentInteractionListener, HolidayDetailsEditFragment.OnFragmentInteractionListener, PlacesVisitedFragment.OnFragmentInteractionListener {
+        HolidayFragment.OnListFragmentInteractionListener, HolidayDetailsFragment.OnFragmentInteractionListener, HolidayDetailsEditFragment.OnFragmentInteractionListener, VisitFragment.OnFragmentInteractionListener {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -321,7 +320,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             tag = "holidays";
             navigationView.setCheckedItem(R.id.nav_holidays);
         } else if (id == R.id.nav_visited) {
-            fragmentClass = PlacesVisitedFragment.class;
+            fragmentClass = VisitFragment.class;
             tag = "visited";
             navigationView.setCheckedItem(R.id.nav_visited);
         } else if (id == R.id.nav_gallery) {
@@ -348,7 +347,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 e.printStackTrace();
             }
             FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-            transaction.setCustomAnimations(R.anim.slide_in, R.anim.slide_out);
             transaction.replace(R.id.fragment_container, fragment, tag);
             transaction.addToBackStack(null);
             transaction.commit();
