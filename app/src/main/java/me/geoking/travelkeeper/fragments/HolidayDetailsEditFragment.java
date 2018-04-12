@@ -309,8 +309,10 @@ public class HolidayDetailsEditFragment extends Fragment implements View.OnClick
                         public void onClick(DialogInterface dialog, int which) {
 
                             if (holiday != null) {
-                                File fdelete = new File(holiday.getImageLocation());
-                                fdelete.delete();
+                                if (holiday.getImageLocation() != null) {
+                                    File fdelete = new File(holiday.getImageLocation());
+                                    fdelete.delete();
+                                }
                                 holiday.setImageLocation(null);
                                 holiday.setImageLocationUUID(null);
                             }

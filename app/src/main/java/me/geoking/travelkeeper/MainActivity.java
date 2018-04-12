@@ -42,13 +42,14 @@ import me.geoking.travelkeeper.fragments.HolidayDetailsFragment;
 import me.geoking.travelkeeper.fragments.HolidayFragment;
 import me.geoking.travelkeeper.fragments.MainFragment;
 import me.geoking.travelkeeper.fragments.NearbyPlacesFragment;
+import me.geoking.travelkeeper.fragments.PlacesVisitedFragment;
 import me.geoking.travelkeeper.model.Holiday;
 import me.geoking.travelkeeper.model.HolidayDatabase;
 
 import static android.graphics.BitmapFactory.decodeStream;
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, MainFragment.OnFragmentInteractionListener,
-        HolidayFragment.OnListFragmentInteractionListener, HolidayDetailsFragment.OnFragmentInteractionListener, HolidayDetailsEditFragment.OnFragmentInteractionListener {
+        HolidayFragment.OnListFragmentInteractionListener, HolidayDetailsFragment.OnFragmentInteractionListener, HolidayDetailsEditFragment.OnFragmentInteractionListener, PlacesVisitedFragment.OnFragmentInteractionListener {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -281,10 +282,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                                         fdelete.delete();
                                     }
                                     HolidayDatabase.getInstance().getHolidayDao().deleteHoliday(holiday);
+                                    MainActivity.super.onBackPressed();
                                 }
-                                transaction.replace(R.id.fragment_container, newHolidayFragment);
-                                transaction.addToBackStack(null);
-                                transaction.commit();
+
+                                MainActivity.super.onBackPressed();
                             }
                         })
                         .setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener() {
@@ -320,8 +321,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             tag = "holidays";
             navigationView.setCheckedItem(R.id.nav_holidays);
         } else if (id == R.id.nav_visited) {
-            drawer.closeDrawer(GravityCompat.START);
-            return false;
+            fragmentClass = PlacesVisitedFragment.class;
+            tag = "visited";
+            navigationView.setCheckedItem(R.id.nav_visited);
         } else if (id == R.id.nav_gallery) {
             drawer.closeDrawer(GravityCompat.START);
             return false;
@@ -351,8 +353,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             transaction.addToBackStack(null);
             transaction.commit();
         }
-
-
         drawer.closeDrawer(GravityCompat.START);
         return true;
     }

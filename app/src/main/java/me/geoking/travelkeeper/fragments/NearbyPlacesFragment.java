@@ -19,13 +19,21 @@ import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
+
 import android.Manifest;
+
+import java.util.List;
+
 import me.geoking.travelkeeper.R;
+
+import static android.content.Context.LOCATION_SERVICE;
 
 public class NearbyPlacesFragment extends Fragment {
 
     MapView mMapView;
     private GoogleMap googleMap;
+    LocationManager mLocationManager;
+    Location myLocation;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -58,8 +66,9 @@ public class NearbyPlacesFragment extends Fragment {
                     googleMap.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
                 } else {
                     mMap.setMyLocationEnabled(true);
-                    LocationManager lm = (LocationManager)getActivity().getSystemService(Context.LOCATION_SERVICE);
-                    Location location = lm.getLastKnownLocation(LocationManager.GPS_PROVIDER);
+                    LocationManager lm = (LocationManager) getActivity().getSystemService(LOCATION_SERVICE);
+                    myLocation = getLastKnownLocation();
+                    Location location = myLocation;
                     double longitude = location.getLongitude();
                     double latitude = location.getLatitude();
                     LatLng locationLatLng = new LatLng(latitude, longitude);
@@ -100,5 +109,30 @@ public class NearbyPlacesFragment extends Fragment {
     public void onLowMemory() {
         super.onLowMemory();
         mMapView.onLowMemory();
+    }
+
+    private Location getLastKnownLocation() {
+        mLocationManager = (LocationManager) getContext().getSystemService(LOCATION_SERVICE);
+        List<String> providers = null;
+        if (mLocationManager != null) {
+            providers = mLocationManager.getProviders(true);
+        }
+        Location bestLocation = null;
+        if (providers != null) {
+            for (String provider : providers) {
+                if (ActivityCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+                    return bestLocation;
+                }
+                Location l = mLocationManager.getLastKnownLocation(provider);
+                if (l == null) {
+                    continue;
+                }
+                if (bestLocation == null || l.getAccuracy() < bestLocation.getAccuracy()) {
+                    // Found best last known location: %s", l);
+                    bestLocation = l;
+                }
+            }
+        }
+        return bestLocation;
     }
 }
