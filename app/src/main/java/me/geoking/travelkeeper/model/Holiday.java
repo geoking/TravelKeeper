@@ -1,13 +1,24 @@
 package me.geoking.travelkeeper.model;
 
+import android.arch.persistence.room.ColumnInfo;
+import android.arch.persistence.room.Entity;
+import android.arch.persistence.room.PrimaryKey;
+
 import java.io.Serializable;
 import java.util.UUID;
+
+import me.geoking.travelkeeper.util.Constants;
 
 /**
  * Created by george on 14/12/2017.
  */
-
+@Entity(tableName = Constants.TABLE_NAME_HOLIDAYS)
 public class Holiday implements Serializable {
+    @PrimaryKey(autoGenerate = true)
+    private long holiday_id;
+    @ColumnInfo(name = "holiday_content") // column name will be "holiday_content" instead of "content" in table
+    private String content;
+
     private String title;
     private String notes;
     private String startDate;
@@ -15,6 +26,7 @@ public class Holiday implements Serializable {
     private String tags;
     private String imageLocation;
     private UUID imageLocationUUID;
+
 
     public Holiday() {
         title = "enter a title";
@@ -80,4 +92,19 @@ public class Holiday implements Serializable {
         this.imageLocationUUID = imageLocationUUID;
     }
 
+    public long getHoliday_id() {
+        return holiday_id;
+    }
+
+    public void setHoliday_id(long holiday_id) {
+        this.holiday_id = holiday_id;
+    }
+
+    public String getContent() {
+        return content;
+    }
+
+    public void setContent(String content) {
+        this.content = content;
+    }
 }
