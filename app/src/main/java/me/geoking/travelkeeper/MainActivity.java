@@ -275,6 +275,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                             public void onClick(DialogInterface dialog, int which) {
                                 HolidayFragment newHolidayFragment = new HolidayFragment();
                                 if (holidayBool) {
+                                    if (holiday.getImageLocation()!= null) {
+                                        File fdelete = new File(holiday.getImageLocation());
+                                        fdelete.delete();
+                                    }
                                     HolidayDatabase.getInstance().getHolidayDao().deleteHoliday(holiday);
                                 }
                                 transaction.replace(R.id.fragment_container, newHolidayFragment);

@@ -3,12 +3,15 @@ package me.geoking.travelkeeper.fragments;
 import android.app.Activity;
 import android.app.DatePickerDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.v4.app.Fragment;
+import android.support.v7.app.AlertDialog;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -20,6 +23,7 @@ import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageView;
 
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.Calendar;
@@ -27,6 +31,9 @@ import java.util.Calendar;
 import me.geoking.travelkeeper.MainActivity;
 import me.geoking.travelkeeper.R;
 import me.geoking.travelkeeper.model.Holiday;
+
+import static me.geoking.travelkeeper.R.id.holiday_details_remove;
+import static me.geoking.travelkeeper.R.id.holiday_details_upload;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -184,19 +191,34 @@ public class HolidayDetailsEditFragment extends Fragment implements View.OnClick
                 datePickerDialogEnd.show();
             }
         });
+        Button uploadButton = (Button) view.findViewById(holiday_details_upload);
+        Button removeButton = (Button) view.findViewById(holiday_details_remove);
+        if (holiday != null) {
+            if (holiday.getImageLocation() == null) {
+                removeButton.setVisibility(View.GONE);
+            }
+        }
+        else {
+            removeButton.setVisibility(View.GONE);
 
-        Button uploadButton = (Button) view.findViewById(R.id.holiday_details_upload);
+        }
         uploadButton.setOnClickListener(this);
+        removeButton.setOnClickListener(this);
+
+
+
         return view;
     }
 
     @Override
     public void onClick(View view) {
         switch (view.getId()) {
-            case R.id.holiday_details_upload:
+            case holiday_details_upload:
                 startActivityForResult(new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.INTERNAL_CONTENT_URI), GET_FROM_GALLERY);
-
                 break;
+            case holiday_details_remove:
+                buildAlertDialog("Remove Image", "Are you sure you want to remove this image?\n\nThis process CANNOT be undone!");
+
         }
     }
 
@@ -221,6 +243,10 @@ public class HolidayDetailsEditFragment extends Fragment implements View.OnClick
                 ImageView holidayImg = getActivity().findViewById(R.id.holiday_details_image);
                 Bitmap test = Bitmap.createScaledBitmap(bitmap, 600, 405, false);
                 holidayImg.setImageBitmap(test);
+                Button uploadButton = (Button) getView().findViewById(holiday_details_upload);
+                uploadButton.setVisibility(View.GONE);
+                Button removeButton = (Button) getView().findViewById(holiday_details_remove);
+                removeButton.setVisibility(View.VISIBLE);
             }
         }
     }
@@ -269,4 +295,39 @@ public class HolidayDetailsEditFragment extends Fragment implements View.OnClick
         // TODO: Update argument type and name
         void onFragmentInteraction(Uri uri);
     }
+
+    public void buildAlertDialog(String title, String message) {
+        AlertDialog.Builder builder;
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            builder = new AlertDialog.Builder(getContext(), android.R.style.Theme_Material_Light_Dialog_Alert);
+        } else {
+            builder = new AlertDialog.Builder(getContext());
+        }
+        builder.setTitle(title)
+                    .setMessage(message)
+                    .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int which) {
+
+                            if (holiday != null) {
+                                File fdelete = new File(holiday.getImageLocation());
+                                fdelete.delete();
+                                holiday.setImageLocation(null);
+                                holiday.setImageLocationUUID(null);
+                            }
+                            ImageView holidayImg = getActivity().findViewById(R.id.holiday_details_image);
+                            holidayImg.setImageDrawable(null);
+                            Button removeButton = (Button) getView().findViewById(holiday_details_remove);
+                            removeButton.setVisibility(View.GONE);
+                            Button uploadButton = (Button) getView().findViewById(holiday_details_upload);
+                            uploadButton.setVisibility(View.VISIBLE);
+                        }
+                    })
+                    .setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int which) {
+                            // do nothing
+                        }
+                    })
+                    .setIcon(R.drawable.ic_warning_black_24dp)
+                    .show();
+        }
 }
