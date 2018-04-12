@@ -155,7 +155,7 @@ public class HolidayFragment extends Fragment {
 
     public String getFullDate(String dateStartString, String dateEndString) {
         DateFormat format = new SimpleDateFormat("d/MM/yyyy", Locale.ENGLISH);
-        DateFormat formatDay = new SimpleDateFormat("dd", Locale.ENGLISH);
+        DateFormat formatDay = new SimpleDateFormat("d", Locale.ENGLISH);
         DateFormat formatMonth = new SimpleDateFormat("MMM", Locale.ENGLISH);
         DateFormat formatMonthYear = new SimpleDateFormat("MMM yyyy", Locale.ENGLISH);
         String fullDate = "No date found";
