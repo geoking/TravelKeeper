@@ -34,6 +34,8 @@ public class Holiday implements Serializable {
         startDate = "enter start date";
         endDate = "enter end date";
         tags = "enter tags";
+        imageLocation = "image location";
+        imageLocationUUID = UUID.randomUUID();
     }
 
     public String getTitle() {

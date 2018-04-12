@@ -6,6 +6,8 @@ import android.graphics.Bitmap;
 import java.util.ArrayList;
 import java.util.UUID;
 
+import me.geoking.travelkeeper.MainActivity;
+
 /**
  * Created by george on 14/12/2017.
  */
@@ -33,16 +35,6 @@ public class HolidayData {
     }
 
     private void createData() {
-        Holiday hol = new Holiday();
-        holidays.add(hol);
-        holidays.add(hol);
-        holidays.add(hol);
-        holidays.add(hol);
-        holidays.add(hol);
-        holidays.add(hol);
-        holidays.add(hol);
-        holidays.add(hol);
-        holidays.add(hol);
 
     }
 
@@ -50,7 +42,7 @@ public class HolidayData {
         return holidays;
     }
 
-    public void addHoliday (Holiday holiday, String title, String tags, String startDate, String endDate, String notes, String imageLocation, UUID uuid) {
+    public Holiday addHoliday (Holiday holiday, String title, String tags, String startDate, String endDate, String notes, String imageLocation, UUID uuid) {
         holiday.setTitle(title);
         holiday.setTags(tags);
         holiday.setStartDate(startDate);
@@ -58,7 +50,7 @@ public class HolidayData {
         holiday.setNotes(notes);
         holiday.setImageLocation(imageLocation);
         holiday.setImageLocationUUID(uuid);
-        holidays.add(0, holiday);
+        return holiday;
     }
 
     public void deleteHoliday (Holiday holiday) {

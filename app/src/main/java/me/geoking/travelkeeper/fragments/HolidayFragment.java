@@ -1,7 +1,6 @@
 package me.geoking.travelkeeper.fragments;
 
 import android.content.Context;
-import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.GridLayoutManager;
@@ -26,6 +25,7 @@ import me.geoking.travelkeeper.MainActivity;
 import me.geoking.travelkeeper.R;
 import me.geoking.travelkeeper.model.Holiday;
 import me.geoking.travelkeeper.model.HolidayData;
+import me.geoking.travelkeeper.model.HolidayDatabase;
 
 public class HolidayFragment extends Fragment {
 
@@ -48,6 +48,7 @@ public class HolidayFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+
         if (getArguments() != null) {
             mColumnCount = getArguments().getInt(ARG_COLUMN_COUNT);
         }
@@ -69,7 +70,12 @@ public class HolidayFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        if (HolidayData.getInstance().getHolidays().size() == 0) {
+       /* if (HolidayDatabase.getInstance(this.getContext()).getHolidayDao().getHolidays().size() == 0) {
+            Holiday holiday = new Holiday();
+            HolidayDatabase.getInstance(this.getContext()).getHolidayDao().insertHoliday(holiday);
+        }*/
+
+        if (HolidayDatabase.getInstance(this.getContext()).getHolidayDao().getHolidays().size() == 0) {
             View view = inflater.inflate(R.layout.fragment_holiday_noholiday, container, false);
             setHasOptionsMenu(true);
             return view;
@@ -80,7 +86,7 @@ public class HolidayFragment extends Fragment {
             ImageView holidayImage = view.findViewById(R.id.holidays_image);
             TextView holidayTitle = view.findViewById(R.id.holidays_title);
             TextView holidayDate = view.findViewById(R.id.holidays_dates);
-            ArrayList holidays = HolidayData.getInstance().getHolidays();
+            ArrayList holidays = (ArrayList) HolidayDatabase.getInstance(this.getContext()).getHolidayDao().getHolidays();
             Holiday holiday = (Holiday) holidays.get(0);
             if (holiday.getImageLocation() == null) {
                 holidayImage.setVisibility(View.GONE);

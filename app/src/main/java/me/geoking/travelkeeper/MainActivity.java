@@ -44,6 +44,7 @@ import me.geoking.travelkeeper.fragments.MainFragment;
 import me.geoking.travelkeeper.fragments.NearbyPlacesFragment;
 import me.geoking.travelkeeper.model.Holiday;
 import me.geoking.travelkeeper.model.HolidayData;
+import me.geoking.travelkeeper.model.HolidayDatabase;
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, MainFragment.OnFragmentInteractionListener,
         HolidayFragment.OnListFragmentInteractionListener, HolidayDetailsFragment.OnFragmentInteractionListener, HolidayDetailsEditFragment.OnFragmentInteractionListener {
@@ -251,7 +252,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                         uuid = UUID.randomUUID();
                         holidayLocation = saveToInternalStorage(newHolidayBitmap, uuid);
                     }
-                    HolidayData.getInstance().addHoliday(holiday, newTitle, newTags, newStart, newEnd, newNotes, holidayLocation, uuid);
+                    Holiday newHoliday = HolidayData.getInstance().addHoliday(holiday, newTitle, newTags, newStart, newEnd, newNotes, holidayLocation, uuid);
+                    HolidayDatabase.getInstance(this).getHolidayDao().insertHoliday(newHoliday);
                 }
                 super.onBackPressed();
                 InputMethodManager inputManager = (InputMethodManager) this.getSystemService(Context.INPUT_METHOD_SERVICE);
