@@ -9,7 +9,6 @@ import android.content.Context;
 import me.geoking.travelkeeper.util.Constants;
 
 @Database(entities = { Holiday.class }, version = 1)
-@TypeConverters({DateRoomConverter.class})
 public abstract class HolidayDatabase extends RoomDatabase {
 
     public abstract HolidayDao getHolidayDao();
