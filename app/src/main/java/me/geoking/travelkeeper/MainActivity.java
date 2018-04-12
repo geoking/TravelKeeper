@@ -175,7 +175,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         Bundle args = new Bundle();
         Bitmap newHolidayBitmap = null;
         switch (item.getItemId()) {
-            case R.id.edit:
+            case R.id.holidayEdit:
                 currentFragment = getSupportFragmentManager().findFragmentById(R.id.fragment_container);
                 holiday = (Holiday) currentFragment.getArguments().getSerializable("Holiday");
                 HolidayDetailsEditFragment newFragment = new HolidayDetailsEditFragment();
@@ -187,7 +187,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 editTransaction.addToBackStack(null);
                 editTransaction.commit();
                 return true;
-            case R.id.add:
+            case R.id.holidayAdd:
                 HolidayDetailsEditFragment editFragment = new HolidayDetailsEditFragment();
                 FragmentTransaction addTransaction =
                         getSupportFragmentManager().beginTransaction();
@@ -195,7 +195,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 addTransaction.addToBackStack(null);
                 addTransaction.commit();
                 return true;
-            case R.id.confirm:
+            case R.id.holidayConfirm:
                 HolidayDetailsEditFragment detailsEditFragment = (HolidayDetailsEditFragment) getSupportFragmentManager().findFragmentById(R.id.fragment_container);
                 EditText editTitle = (EditText)findViewById(R.id.holiday_details_title);
                 EditText editTags = (EditText)findViewById(R.id.holiday_details_tags);
@@ -252,7 +252,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 InputMethodManager inputManager = (InputMethodManager) this.getSystemService(Context.INPUT_METHOD_SERVICE);
                 inputManager.hideSoftInputFromWindow(this.getCurrentFocus().getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
                 return true;
-            case R.id.delete:
+            case R.id.holidayDelete:
                 currentFragment = getSupportFragmentManager().findFragmentById(R.id.fragment_container);
 
                 final boolean holidayBool;

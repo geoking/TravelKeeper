@@ -2,7 +2,9 @@ package me.geoking.travelkeeper.fragments;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -81,14 +83,14 @@ public class HolidayFragment extends Fragment {
             return view;
         }
         else {
-            View view = inflater.inflate(R.layout.fragment_holiday_list, container, false);
+            final View view = inflater.inflate(R.layout.fragment_holiday_list, container, false);
             setHasOptionsMenu(true);
             ImageView holidayImage = view.findViewById(R.id.holidays_image);
             TextView holidayTitle = view.findViewById(R.id.holidays_title);
             TextView holidayDate = view.findViewById(R.id.holidays_dates);
             ArrayList holidays = (ArrayList) HolidayDatabase.getInstance().getHolidayDao().getHolidays();
             Collections.reverse(holidays);
-            Holiday holiday = (Holiday) holidays.get(0);
+            final Holiday holiday = (Holiday) holidays.get(0);
             if (holiday.getImageLocation() == null) {
                 holidayImage.setVisibility(View.GONE);
                 holidayTitle.setVisibility(View.GONE);
@@ -102,6 +104,30 @@ public class HolidayFragment extends Fragment {
                 holidayTitle.setText(holiday.getTitle());
 
                 holidayImage.setImageBitmap(((MainActivity)getActivity()).loadImageFromStorage(holiday.getImageLocation(), holiday.getImageLocationUUID()));
+                holidayImage.setClickable(true);
+                holidayImage.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        HolidayDetailsFragment newFragment = new HolidayDetailsFragment();
+                        // add an argument specifying the holiday it should show
+                        // note that the DummyItem class must implement Serializable
+                        Bundle args = new Bundle();
+                        args.putSerializable("Holiday", holiday);
+                        newFragment.setArguments(args);
+
+                        NavigationView navigationView = (NavigationView) view.findViewById(R.id.nav_view);
+                        FragmentTransaction transaction =
+                                getFragmentManager().beginTransaction();
+
+                        // Replace whatever is in the fragment_container view with this fragment,
+                        // and add the transaction to the back stack so the user can navigate back
+                        transaction.replace(R.id.fragment_container, newFragment);
+                        transaction.addToBackStack(null);
+
+                        // Commit the transaction
+                        transaction.commit();
+                    }
+                });
             }
 
             // Set the adapter

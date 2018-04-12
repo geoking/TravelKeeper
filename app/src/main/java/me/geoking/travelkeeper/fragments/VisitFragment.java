@@ -48,6 +48,7 @@ public class VisitFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
+        setHasOptionsMenu(true);
         View view = inflater.inflate(R.layout.fragment_places_visited, container, false);
 
         mMapView = (MapView) view.findViewById(R.id.visited_map);
