@@ -284,7 +284,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                             public void onClick(DialogInterface dialog, int which) {
                                 HolidayFragment newHolidayFragment = new HolidayFragment();
                                 if (holidayBool) {
-                                    HolidayData.getInstance().deleteHoliday(holiday);
+                                    HolidayDatabase.getInstance(getApplicationContext()).getHolidayDao().deleteHoliday(holiday);
                                 }
                                 transaction.replace(R.id.fragment_container, newHolidayFragment);
                                 transaction.addToBackStack(null);
