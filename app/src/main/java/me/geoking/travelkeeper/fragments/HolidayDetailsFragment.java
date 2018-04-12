@@ -28,7 +28,7 @@ public class HolidayDetailsFragment extends Fragment {
         // Required empty public constructor
     }
 
-    public static HolidayDetailsFragment newInstance(String param1, String param2) {
+    public static HolidayDetailsFragment newInstance(String param1) {
         HolidayDetailsFragment fragment = new HolidayDetailsFragment();
         Bundle args = new Bundle();
         args.putString(HOLIDAY, param1);
@@ -99,9 +99,8 @@ public class HolidayDetailsFragment extends Fragment {
         super.onDetach();
         mListener = null;
     }
-    
+
     public interface OnFragmentInteractionListener {
-        // TODO: Update argument type and name
         void onFragmentInteraction(Uri uri);
     }
 }

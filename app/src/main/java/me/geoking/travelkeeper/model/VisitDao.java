@@ -13,7 +13,7 @@ import me.geoking.travelkeeper.util.Constants;
 @Dao
 public interface VisitDao {
 
-    @Query("SELECT * FROM "+ Constants.TABLE_NAME_HOLIDAYS)
+    @Query("SELECT * FROM "+ Constants.TABLE_NAME_VISITED)
     List<Visit> getVisit();
 
     @Insert

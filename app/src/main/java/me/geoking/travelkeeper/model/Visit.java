@@ -89,8 +89,8 @@ public class Visit implements Serializable {
         return visit_id;
     }
 
-    public void setVisit_id(long holiday_id) {
-        this.visit_id = holiday_id;
+    public void setVisit_id(long visit_id) {
+        this.visit_id = visit_id;
     }
 
     public String getContent() {

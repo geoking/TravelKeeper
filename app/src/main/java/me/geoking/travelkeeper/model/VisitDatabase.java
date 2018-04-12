@@ -7,10 +7,10 @@ import android.content.Context;
 
 import me.geoking.travelkeeper.util.Constants;
 
-@Database(entities = { Holiday.class }, version = 1)
+@Database(entities = { Visit.class }, version = 1)
 public abstract class VisitDatabase extends RoomDatabase {
 
-    public abstract HolidayDao getHolidayDao();
+    public abstract VisitDao getVisitDao();
 
 
     private static VisitDatabase instance;
