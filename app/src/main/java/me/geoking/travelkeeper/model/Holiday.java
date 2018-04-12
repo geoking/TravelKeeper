@@ -1,9 +1,7 @@
 package me.geoking.travelkeeper.model;
 
-import android.graphics.Bitmap;
-import android.widget.ImageView;
-
 import java.io.Serializable;
+import java.util.UUID;
 
 /**
  * Created by george on 14/12/2017.
@@ -15,7 +13,8 @@ public class Holiday implements Serializable {
     private String startDate;
     private String endDate;
     private String tags;
-    private Bitmap image;
+    private String imageLocation;
+    private UUID imageLocationUUID;
 
     public Holiday() {
         title = "enter a title";
@@ -65,11 +64,20 @@ public class Holiday implements Serializable {
         this.tags = tags;
     }
 
-    public Bitmap getImage() {
-        return image;
+    public String getImageLocation() {
+        return imageLocation;
     }
 
-    public void setImage(Bitmap image) {
-        this.image = image;
+    public void setImageLocation(String imageLocation) {
+        this.imageLocation = imageLocation;
     }
+
+    public UUID getImageLocationUUID() {
+        return imageLocationUUID;
+    }
+
+    public void setImageLocationUUID(UUID imageLocationUUID) {
+        this.imageLocationUUID = imageLocationUUID;
+    }
+
 }

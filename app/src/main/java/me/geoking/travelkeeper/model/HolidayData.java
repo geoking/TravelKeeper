@@ -4,6 +4,7 @@ import android.content.Context;
 import android.graphics.Bitmap;
 
 import java.util.ArrayList;
+import java.util.UUID;
 
 /**
  * Created by george on 14/12/2017.
@@ -49,13 +50,14 @@ public class HolidayData {
         return holidays;
     }
 
-    public void addHoliday (Holiday holiday, String title, String tags, String startDate, String endDate, String notes, Bitmap image) {
+    public void addHoliday (Holiday holiday, String title, String tags, String startDate, String endDate, String notes, String imageLocation, UUID uuid) {
         holiday.setTitle(title);
         holiday.setTags(tags);
         holiday.setStartDate(startDate);
         holiday.setEndDate(endDate);
         holiday.setNotes(notes);
-        holiday.setImage(image);
+        holiday.setImageLocation(imageLocation);
+        holiday.setImageLocationUUID(uuid);
         holidays.add(0, holiday);
     }
 

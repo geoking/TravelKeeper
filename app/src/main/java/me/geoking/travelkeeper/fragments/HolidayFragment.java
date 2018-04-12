@@ -1,6 +1,7 @@
 package me.geoking.travelkeeper.fragments;
 
 import android.content.Context;
+import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.GridLayoutManager;
@@ -21,6 +22,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.Locale;
 
+import me.geoking.travelkeeper.MainActivity;
 import me.geoking.travelkeeper.R;
 import me.geoking.travelkeeper.model.Holiday;
 import me.geoking.travelkeeper.model.HolidayData;
@@ -80,7 +82,7 @@ public class HolidayFragment extends Fragment {
             TextView holidayDate = view.findViewById(R.id.holidays_dates);
             ArrayList holidays = HolidayData.getInstance().getHolidays();
             Holiday holiday = (Holiday) holidays.get(0);
-            if (holiday.getImage() == null) {
+            if (holiday.getImageLocation() == null) {
                 holidayImage.setVisibility(View.GONE);
                 holidayTitle.setVisibility(View.GONE);
                 holidayDate.setVisibility(View.GONE);
@@ -92,7 +94,7 @@ public class HolidayFragment extends Fragment {
                 holidayDate.setText(getFullDate(dateStartString, dateEndString));
                 holidayTitle.setText(holiday.getTitle());
 
-                holidayImage.setImageBitmap(holiday.getImage());
+                holidayImage.setImageBitmap(((MainActivity)getActivity()).loadImageFromStorage(holiday.getImageLocation(), holiday.getImageLocationUUID()));
             }
 
             // Set the adapter

@@ -5,18 +5,14 @@ import android.app.DatePickerDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
-import android.media.Image;
 import android.net.Uri;
 import android.os.Bundle;
-import android.os.Environment;
 import android.provider.MediaStore;
-import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -24,12 +20,8 @@ import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageView;
 
-import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.io.RandomAccessFile;
-import java.nio.MappedByteBuffer;
-import java.nio.channels.FileChannel;
 import java.util.Calendar;
 
 import me.geoking.travelkeeper.MainActivity;
@@ -92,16 +84,16 @@ public class HolidayDetailsEditFragment extends Fragment implements View.OnClick
             String startDate = holiday.getStartDate();
             String endDate = holiday.getEndDate();
             String notes = holiday.getNotes();
-            Bitmap image = holiday.getImage();
+            String imageLocation = holiday.getImageLocation();
             getActivity().setTitle(title);
             EditText holidayTitle = getActivity().findViewById(R.id.holiday_details_title);
             EditText holidayTags = getActivity().findViewById(R.id.holiday_details_tags);
             Button holidayDateStart = (Button) getActivity().findViewById(R.id.holiday_details_start);
             Button holidayDateEnd = (Button) getActivity().findViewById(R.id.holiday_details_end);
             EditText holidayNotes = getActivity().findViewById(R.id.holiday_details_notes);
-            if (image != null) {
+            if (imageLocation != null) {
                 ImageView holidayImage = getActivity().findViewById(R.id.holiday_details_image);
-                holidayImage.setImageBitmap(image);
+                holidayImage.setImageBitmap(((MainActivity)getActivity()).loadImageFromStorage(holiday.getImageLocation(), holiday.getImageLocationUUID()));
             }
             holidayTitle.setText(title);
             holidayTags.setText(tags);
@@ -216,7 +208,6 @@ public class HolidayDetailsEditFragment extends Fragment implements View.OnClick
         //Detects request codes
         if(requestCode==GET_FROM_GALLERY && resultCode == Activity.RESULT_OK) {
             Uri selectedImage = data.getData();
-            String uriString = selectedImage.toString();
             try {
                 bitmap = MediaStore.Images.Media.getBitmap(getActivity().getContentResolver(), selectedImage);
             } catch (FileNotFoundException e) {

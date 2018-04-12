@@ -10,10 +10,10 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import me.geoking.travelkeeper.MainActivity;
 import me.geoking.travelkeeper.R;
 import me.geoking.travelkeeper.model.Holiday;
 
@@ -79,8 +79,8 @@ public class HolidayDetailsFragment extends Fragment {
         endButton.setText(holiday.getEndDate());
         notesField.setText(holiday.getNotes());
         notesField.setMovementMethod(new ScrollingMovementMethod());
-        if (holiday.getImage() != null) {
-            holidayImage.setImageBitmap(holiday.getImage());
+        if (holiday.getImageLocation() != null) {
+            holidayImage.setImageBitmap(((MainActivity)getActivity()).loadImageFromStorage(holiday.getImageLocation(), holiday.getImageLocationUUID()));
         }
         setHasOptionsMenu(true);
         return view;

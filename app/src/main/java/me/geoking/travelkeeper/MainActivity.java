@@ -1,11 +1,12 @@
 package me.geoking.travelkeeper;
 
 import android.Manifest;
-import android.app.DatePickerDialog;
 import android.content.Context;
+import android.content.ContextWrapper;
 import android.content.DialogInterface;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
@@ -21,16 +22,20 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.text.TextUtils;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
-import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageView;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.util.Objects;
+import java.util.UUID;
 
 import me.geoking.travelkeeper.fragments.HolidayDetailsEditFragment;
 import me.geoking.travelkeeper.fragments.HolidayDetailsFragment;
@@ -180,7 +185,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         final NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         Bundle args = new Bundle();
         Bitmap newHolidayBitmap = null;
-        java.io.ObjectOutputStream bitmapRW;
         switch (item.getItemId()) {
             case R.id.edit:
                 currentFragment = getSupportFragmentManager().findFragmentById(R.id.fragment_container);
@@ -232,11 +236,22 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                     holiday.setStartDate(newStart);
                     holiday.setEndDate(newEnd);
                     holiday.setNotes(newNotes);
-                    holiday.setImage(newHolidayBitmap);
+                    if (hasImage == true) {
+                        UUID uuid = UUID.randomUUID();
+                        holiday.setImageLocationUUID(uuid);
+                        holiday.setImageLocation(saveToInternalStorage(newHolidayBitmap, uuid));
+                    }
+
                 }
                 else {
                     holiday = new Holiday();
-                    HolidayData.getInstance().addHoliday(holiday, newTitle, newTags, newStart, newEnd, newNotes, newHolidayBitmap);
+                    String holidayLocation=null;
+                    UUID uuid=null;
+                    if (hasImage == true) {
+                        uuid = UUID.randomUUID();
+                        holidayLocation = saveToInternalStorage(newHolidayBitmap, uuid);
+                    }
+                    HolidayData.getInstance().addHoliday(holiday, newTitle, newTags, newStart, newEnd, newNotes, holidayLocation, uuid);
                 }
                 super.onBackPressed();
                 InputMethodManager inputManager = (InputMethodManager) this.getSystemService(Context.INPUT_METHOD_SERVICE);
@@ -376,5 +391,43 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         }
     }
 
+    public String saveToInternalStorage(Bitmap bitmapImage, UUID uuid){
+        ContextWrapper cw = new ContextWrapper(getApplicationContext());
+        // path to /data/data/yourapp/app_data/imageDir
+        File directory = cw.getDir("imageDir", Context.MODE_PRIVATE);
+        // Create imageDir
+        File myPath =new File(directory,uuid.toString());
+
+        FileOutputStream fos = null;
+        try {
+            fos = new FileOutputStream(myPath);
+            // Use the compress method on the BitMap object to write image to the OutputStream
+            bitmapImage.compress(Bitmap.CompressFormat.PNG, 100, fos);
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                fos.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+        return directory.getAbsolutePath();
+    }
+
+    public Bitmap loadImageFromStorage(String path, UUID uuid)
+    {
+
+        try {
+            File f=new File(path, uuid.toString());
+            Bitmap b = BitmapFactory.decodeStream(new FileInputStream(f));
+            return b;
+        }
+        catch (FileNotFoundException e)
+        {
+            e.printStackTrace();
+        }
+        return null;
+    }
 
 }
