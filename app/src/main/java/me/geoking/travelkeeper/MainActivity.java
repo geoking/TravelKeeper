@@ -94,19 +94,17 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         }
         else {
             currentFragment = getSupportFragmentManager().findFragmentById(R.id.fragment_container);
-            if (currentFragment instanceof  HolidayDetailsEditFragment) {
+            if ((currentFragment instanceof  HolidayDetailsEditFragment) || (currentFragment instanceof  VisitDetailsEditFragment)) {
                 if (currentFragment.getArguments() != null) {
                     buildAlertDialog("Discard changes?", "Are you sure you want to discard any changes made?\n\nNOTE: This will NOT delete the currently selected holiday", false);
                 }
                 else {
                     buildAlertDialog("Discard changes?", "Are you sure you want to discard any changes made?", false);
                 }
-                navigationView.setCheckedItem(R.id.nav_holidays);
 
             }
             else {
                 super.onBackPressed();
-                overridePendingTransition(R.anim.slide_in, R.anim.slide_out);
                 currentFragment = getSupportFragmentManager().findFragmentById(R.id.fragment_container);
                 tag = currentFragment.getTag();
                 if (Objects.equals("main", tag)) {
@@ -173,12 +171,14 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         // as you specify a parent activity in AndroidManifest.xml.
         Fragment currentFragment;
         final Holiday holiday;
+        final Visit visit;
         final FragmentTransaction transaction;
         transaction =
                 getSupportFragmentManager().beginTransaction();
         final NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         Bundle args = new Bundle();
         Bitmap newHolidayBitmap = null;
+        Bitmap newVisitBitmap = null;
         switch (item.getItemId()) {
             case R.id.holidayEdit:
                 currentFragment = getSupportFragmentManager().findFragmentById(R.id.fragment_container);
@@ -254,8 +254,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                     AppDatabase.getInstance().getHolidayDao().insertHoliday(newHoliday);
                 }
                 super.onBackPressed();
-                InputMethodManager inputManager = (InputMethodManager) this.getSystemService(Context.INPUT_METHOD_SERVICE);
-                inputManager.hideSoftInputFromWindow(this.getCurrentFocus().getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
+                closeKeyboard();
                 return true;
             case R.id.holidayDelete:
                 currentFragment = getSupportFragmentManager().findFragmentById(R.id.fragment_container);
@@ -279,7 +278,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                         .setMessage("Are you sure you want to delete this holiday?\n\nThis CANNOT be undone!")
                         .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int which) {
-                                HolidayFragment newHolidayFragment = new HolidayFragment();
                                 if (holidayBool) {
                                     if (holiday.getImageLocation()!= null) {
                                         File fdelete = new File(holiday.getImageLocation());
@@ -301,7 +299,102 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                         .show();
 
                 return true;
+            case R.id.visitDelete:
+                currentFragment = getSupportFragmentManager().findFragmentById(R.id.fragment_container);
 
+                final boolean visitBool;
+                if (currentFragment.getArguments() != null) {
+                    visitBool = true;
+                    visit = (Visit) currentFragment.getArguments().getSerializable("Visit");
+                }
+                else {
+                    visitBool = false;
+                    visit = null;
+                }
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                    builder = new AlertDialog.Builder(this, android.R.style.Theme_Material_Light_Dialog_Alert);
+                } else {
+                    builder = new AlertDialog.Builder(this);
+                }
+                builder.setTitle("Delete visit")
+                        .setMessage("Are you sure you want to delete this visit?\n\nThis CANNOT be undone!")
+                        .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int which) {
+                                VisitFragment newVisitFragment = new VisitFragment();
+                                if (visitBool) {
+                                    if (visit.getImageLocation()!= null) {
+                                        File fdelete = new File(visit.getImageLocation());
+                                        fdelete.delete();
+                                    }
+                                    AppDatabase.getInstance().getVisitDao().deleteVisit(visit);
+                                    MainActivity.super.onBackPressed();
+                                }
+
+                                MainActivity.super.onBackPressed();
+                            }
+                        })
+                        .setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int which) {
+                                // do nothing
+                            }
+                        })
+                        .setIcon(R.drawable.ic_warning_black_24dp)
+                        .show();
+
+                return true;
+            case R.id.visitConfirm:
+                VisitDetailsEditFragment visitDetailsEditFragment = (VisitDetailsEditFragment) getSupportFragmentManager().findFragmentById(R.id.fragment_container);
+                EditText editVisitTitle = (EditText)findViewById(R.id.visit_details_title);
+                EditText editVisitTags = (EditText)findViewById(R.id.visit_details_tags);
+                Button dateVisitButton = (Button)findViewById(R.id.visit_details_date);
+                EditText editVisitNotes = (EditText)findViewById(R.id.visit_details_notes);
+                ImageView visitImg = (ImageView)findViewById(R.id.visit_details_image);
+                Drawable drawableVisit = visitImg.getDrawable();
+                boolean hasImageVisit = (drawableVisit != null);
+
+                if (hasImageVisit && (drawableVisit instanceof BitmapDrawable)) {
+                    newVisitBitmap = ((BitmapDrawable) visitImg.getDrawable()).getBitmap();
+
+                }
+                String newVisitTitle = editVisitTitle.getText().toString();
+                String newVisitTags = editVisitTags.getText().toString();
+                String newVisitDate = dateVisitButton.getText().toString();
+                String newVisitNotes = editVisitNotes.getText().toString();
+                if (!visitDetailsEditFragment.checkInputErrors()) {
+                    return false;
+                }
+                if (visitDetailsEditFragment.getArguments() != null) {
+                    visit = (Visit) visitDetailsEditFragment.getArguments().getSerializable("Visit");
+                    visit.setTitle(newVisitTitle);
+                    visit.setTags(newVisitTags);
+                    visit.setVisitDate(newVisitDate);
+                    visit.setNotes(newVisitNotes);
+                    if (newVisitBitmap != null) {
+                        UUID uuid = UUID.randomUUID();
+                        visit.setImageLocationUUID(uuid.toString());
+                        visit.setImageLocation(saveToInternalStorage(newVisitBitmap, uuid.toString()));
+                    }
+                    AppDatabase.getInstance().getVisitDao().updateVisit(visit);
+
+                }
+                else {
+                    visit = new Visit();
+                    String visitLocation=null;
+                    UUID uuid=null;
+                    if (newVisitBitmap != null) {
+                        uuid = UUID.randomUUID();
+                        visitLocation = (saveToInternalStorage(newVisitBitmap, uuid.toString()));
+                    }
+                    String uuidString = null;
+                    if (uuid != null) {
+                        uuidString = uuid.toString();
+                    }
+                    Visit newVisit = addVisit(visit, newVisitTitle, newVisitTags, newVisitDate, newVisitNotes, visitLocation, uuidString);
+                    AppDatabase.getInstance().getVisitDao().insertVisit(newVisit);
+                }
+                super.onBackPressed();
+                closeKeyboard();
+                return true;
             default:
                 return super.onOptionsItemSelected(item);
         }
@@ -387,11 +480,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     @Override
     public void onListFragmentInteraction(Visit visit) {
         // Create the new fragment,
-        HolidayDetailsFragment newFragment = new HolidayDetailsFragment();
+        VisitDetailsFragment newFragment = new VisitDetailsFragment();
         // add an argument specifying the holiday it should show
         // note that the DummyItem class must implement Serializable
         Bundle args = new Bundle();
-        args.putSerializable("Holiday", visit);
+        args.putSerializable("Visit", visit);
         newFragment.setArguments(args);
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
@@ -465,6 +558,21 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         holiday.setImageLocation(imageLocation);
         holiday.setImageLocationUUID(uuid);
         return holiday;
+    }
+
+    public Visit addVisit (Visit visit, String title, String tags, String visitDate, String notes, String imageLocation, String uuid) {
+        visit.setTitle(title);
+        visit.setTags(tags);
+        visit.setVisitDate(visitDate);
+        visit.setNotes(notes);
+        visit.setImageLocation(imageLocation);
+        visit.setImageLocationUUID(uuid);
+        return visit;
+    }
+
+    public void closeKeyboard() {
+        InputMethodManager inputManager = (InputMethodManager) this.getSystemService(Context.INPUT_METHOD_SERVICE);
+        inputManager.hideSoftInputFromWindow(this.getCurrentFocus().getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
     }
 
 }

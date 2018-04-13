@@ -6,18 +6,23 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AlertDialog;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
@@ -27,9 +32,11 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.Calendar;
+import java.util.UUID;
 
 import me.geoking.travelkeeper.MainActivity;
 import me.geoking.travelkeeper.R;
+import me.geoking.travelkeeper.model.AppDatabase;
 import me.geoking.travelkeeper.model.Visit;
 
 import static me.geoking.travelkeeper.R.id.visit_details_remove;
@@ -114,7 +121,7 @@ public class VisitDetailsEditFragment extends Fragment implements View.OnClickLi
             visitTitle.setError("This must not be empty!");
             error = true;
         }
-        if (newStartDate.equals("Start Date")) {
+        if (newStartDate.equals("Date Of Visit")) {
             dateButton.setError("This must not be empty!");
             error = true;
         }
@@ -124,6 +131,7 @@ public class VisitDetailsEditFragment extends Fragment implements View.OnClickLi
         }
         return false;
     }
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -135,19 +143,7 @@ public class VisitDetailsEditFragment extends Fragment implements View.OnClickLi
         int mYear = c.get(Calendar.YEAR); // current year
         int mMonth = c.get(Calendar.MONTH); // current month
         int mDay = c.get(Calendar.DAY_OF_MONTH); // current day
-        final DatePickerDialog datePickerDialogStart = new DatePickerDialog(
-                getActivity(), new DatePickerDialog.OnDateSetListener() {
-
-            @Override
-            public void onDateSet(DatePicker view, int year,
-                                  int monthOfYear, int dayOfMonth) {
-                // set day of month , month and year value in the edit text
-                visitDate.setText(dayOfMonth + "/"
-                        + (monthOfYear + 1) + "/" + year);
-
-            }
-        }, mYear, mMonth, mDay);
-        final DatePickerDialog datePickerDialogEnd = new DatePickerDialog(
+        final DatePickerDialog datePickerDialogDate = new DatePickerDialog(
                 getActivity(), new DatePickerDialog.OnDateSetListener() {
 
             @Override
@@ -163,14 +159,7 @@ public class VisitDetailsEditFragment extends Fragment implements View.OnClickLi
             @Override
             public void onClick(View view) {
 
-                datePickerDialogStart.show();
-            }
-        });
-        visitDate.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-
-                datePickerDialogEnd.show();
+                datePickerDialogDate.show();
             }
         });
         Button uploadButton = (Button) view.findViewById(visit_details_upload);

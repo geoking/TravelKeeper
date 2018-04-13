@@ -141,7 +141,7 @@ public class VisitFragment extends Fragment {
             });
 
             Context context = view.getContext();
-            RecyclerView recyclerView = (RecyclerView) view.findViewById(R.id.holidays_list);
+            RecyclerView recyclerView = (RecyclerView) view.findViewById(R.id.visited_list);
             if (mColumnCount <= 1) {
                 recyclerView.setLayoutManager(new LinearLayoutManager(context));
             } else {

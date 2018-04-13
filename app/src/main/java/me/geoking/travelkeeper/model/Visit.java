@@ -57,7 +57,7 @@ public class Visit implements Serializable {
         return visitDate;
     }
 
-    public void setVisitDate(String startDate) {
+    public void setVisitDate(String visitDate) {
         this.visitDate = visitDate;
     }
 
