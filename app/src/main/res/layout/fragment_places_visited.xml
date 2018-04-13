@@ -24,7 +24,7 @@
 
         <android.support.v7.widget.RecyclerView
             android:id="@+id/visited_list"
-            android:name="me.geoking.travelkeeper.HolidayFragment"
+            android:name="me.geoking.travelkeeper.VisitedFragment"
             android:layout_width="0dp"
             android:layout_height="0dp"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -32,8 +32,8 @@
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/visited_map"
-            tools:context="me.geoking.travelkeeper.fragments.HolidayFragment"
-            tools:listitem="@layout/fragment_holiday">
+            tools:context="me.geoking.travelkeeper.fragments.VisitedFragment"
+            tools:listitem="@layout/fragment_visit">
 
         </android.support.v7.widget.RecyclerView>
 

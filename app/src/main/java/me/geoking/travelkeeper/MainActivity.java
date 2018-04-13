@@ -43,7 +43,8 @@ import me.geoking.travelkeeper.fragments.MainFragment;
 import me.geoking.travelkeeper.fragments.NearbyPlacesFragment;
 import me.geoking.travelkeeper.fragments.VisitFragment;
 import me.geoking.travelkeeper.model.Holiday;
-import me.geoking.travelkeeper.model.HolidayDatabase;
+import me.geoking.travelkeeper.model.AppDatabase;
+import me.geoking.travelkeeper.model.Visit;
 
 import static android.graphics.BitmapFactory.decodeStream;
 
@@ -59,7 +60,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         tx.commit();
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        HolidayDatabase.createInstance(this);
+        AppDatabase.createInstance(this);
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
@@ -230,7 +231,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                         holiday.setImageLocationUUID(uuid.toString());
                         holiday.setImageLocation(saveToInternalStorage(newHolidayBitmap, uuid.toString()));
                     }
-                    HolidayDatabase.getInstance().getHolidayDao().updateHoliday(holiday);
+                    AppDatabase.getInstance().getHolidayDao().updateHoliday(holiday);
 
                 }
                 else {
@@ -246,7 +247,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                         uuidString = uuid.toString();
                     }
                     Holiday newHoliday = addHoliday(holiday, newTitle, newTags, newStart, newEnd, newNotes, holidayLocation, uuidString);
-                    HolidayDatabase.getInstance().getHolidayDao().insertHoliday(newHoliday);
+                    AppDatabase.getInstance().getHolidayDao().insertHoliday(newHoliday);
                 }
                 super.onBackPressed();
                 InputMethodManager inputManager = (InputMethodManager) this.getSystemService(Context.INPUT_METHOD_SERVICE);
@@ -280,7 +281,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                                         File fdelete = new File(holiday.getImageLocation());
                                         fdelete.delete();
                                     }
-                                    HolidayDatabase.getInstance().getHolidayDao().deleteHoliday(holiday);
+                                    AppDatabase.getInstance().getHolidayDao().deleteHoliday(holiday);
                                     MainActivity.super.onBackPressed();
                                 }
 
@@ -363,6 +364,29 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         // note that the DummyItem class must implement Serializable
         Bundle args = new Bundle();
         args.putSerializable("Holiday", holiday);
+        newFragment.setArguments(args);
+
+        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+        FragmentTransaction transaction =
+                getSupportFragmentManager().beginTransaction();
+
+        // Replace whatever is in the fragment_container view with this fragment,
+        // and add the transaction to the back stack so the user can navigate back
+        transaction.replace(R.id.fragment_container, newFragment);
+        transaction.addToBackStack(null);
+
+        // Commit the transaction
+        transaction.commit();
+    }
+
+    @Override
+    public void onListFragmentInteraction(Visit visit) {
+        // Create the new fragment,
+        HolidayDetailsFragment newFragment = new HolidayDetailsFragment();
+        // add an argument specifying the holiday it should show
+        // note that the DummyItem class must implement Serializable
+        Bundle args = new Bundle();
+        args.putSerializable("Holiday", visit);
         newFragment.setArguments(args);
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);

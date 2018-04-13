@@ -7,28 +7,29 @@ import android.content.Context;
 
 import me.geoking.travelkeeper.util.Constants;
 
-@Database(entities = { Visit.class }, version = 1)
-public abstract class VisitDatabase extends RoomDatabase {
+@Database(entities = { Holiday.class, Visit.class }, version = 1)
+public abstract class AppDatabase extends RoomDatabase {
 
+    public abstract HolidayDao getHolidayDao();
     public abstract VisitDao getVisitDao();
 
 
-    private static VisitDatabase instance;
+    private static AppDatabase instance;
 
-    public static VisitDatabase createInstance(Context context) {
+    public static AppDatabase createInstance(Context context) {
         if (null == instance) {
             instance = buildDatabaseInstance(context);
         }
         return instance;
     }
 
-    public static VisitDatabase getInstance() {
+    public static AppDatabase getInstance() {
         return instance;
     }
 
-    private static VisitDatabase buildDatabaseInstance(Context context) {
+    private static AppDatabase buildDatabaseInstance(Context context) {
         return Room.databaseBuilder(context,
-                VisitDatabase.class,
+                AppDatabase.class,
                 Constants.DB_NAME).allowMainThreadQueries().build();
     }
 

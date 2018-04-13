@@ -14,7 +14,7 @@ import me.geoking.travelkeeper.util.Constants;
 public interface VisitDao {
 
     @Query("SELECT * FROM "+ Constants.TABLE_NAME_VISITED)
-    List<Visit> getVisit();
+    List<Visit> getVisits();
 
     @Insert
     void insertVisit(Visit visit);
