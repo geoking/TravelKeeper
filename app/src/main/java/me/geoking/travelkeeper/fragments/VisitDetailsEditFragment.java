@@ -6,43 +6,57 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
-import android.graphics.drawable.BitmapDrawable;
-import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AlertDialog;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.inputmethod.InputMethodManager;
+import android.widget.AdapterView;
+import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.Toast;
+
+import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.android.gms.common.api.PendingResult;
+import com.google.android.gms.common.api.ResultCallback;
+import com.google.android.gms.location.places.Place;
+import com.google.android.gms.location.places.PlaceBuffer;
+import com.google.android.gms.location.places.Places;
+import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.LatLngBounds;
 
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.UUID;
 
 import me.geoking.travelkeeper.MainActivity;
 import me.geoking.travelkeeper.R;
+import me.geoking.travelkeeper.adapter.PlaceArrayAdapter;
 import me.geoking.travelkeeper.model.AppDatabase;
 import me.geoking.travelkeeper.model.Visit;
 
 import static me.geoking.travelkeeper.R.id.visit_details_remove;
 import static me.geoking.travelkeeper.R.id.visit_details_upload;
 
-public class VisitDetailsEditFragment extends Fragment implements View.OnClickListener,  DatePickerDialog.OnDateSetListener{
+public class VisitDetailsEditFragment extends Fragment implements View.OnClickListener,  DatePickerDialog.OnDateSetListener,
+        GoogleApiClient.OnConnectionFailedListener,
+        GoogleApiClient.ConnectionCallbacks {
 
     private static final String VISIT = "Visit";
 
@@ -53,6 +67,16 @@ public class VisitDetailsEditFragment extends Fragment implements View.OnClickLi
     public static final int GET_FROM_GALLERY = 3;
 
     public Bitmap bitmap = null;
+
+    private static final String TAG = "MainActivity";
+    private static final int GOOGLE_API_CLIENT_ID = 0;
+    private AutoCompleteTextView mAutocompleteTextView;
+    private static final LatLngBounds BOUNDS_ASTON_UNI = new LatLngBounds(
+            new LatLng(52.485403, -1.891407), new LatLng(52.487153, -1.887759));
+
+
+    private GoogleApiClient mGoogleApiClient;
+    private PlaceArrayAdapter mPlaceArrayAdapter;
 
 
     public VisitDetailsEditFragment() {
@@ -90,6 +114,7 @@ public class VisitDetailsEditFragment extends Fragment implements View.OnClickLi
             String date = visit.getVisitDate();
             String notes = visit.getNotes();
             String imageLocation = visit.getImageLocation();
+            ArrayList holidays = (ArrayList) AppDatabase.getInstance().getHolidayDao().getHolidays();
             getActivity().setTitle(title);
             EditText visitTitle = getActivity().findViewById(R.id.visit_details_title);
             EditText visitTags = getActivity().findViewById(R.id.visit_details_tags);
@@ -176,9 +201,61 @@ public class VisitDetailsEditFragment extends Fragment implements View.OnClickLi
         uploadButton.setOnClickListener(this);
         removeButton.setOnClickListener(this);
 
+        mAutocompleteTextView = (AutoCompleteTextView) view.findViewById(R.id.visit_details_title);
+        mAutocompleteTextView.setThreshold(3);
 
+        mGoogleApiClient = new GoogleApiClient.Builder(getContext())
+                .addApi(Places.GEO_DATA_API)
+                .enableAutoManage(getActivity(), GOOGLE_API_CLIENT_ID, this)
+                .addConnectionCallbacks(this)
+                .build();
+
+        mAutocompleteTextView.setOnItemClickListener(mAutocompleteClickListener);
+        mPlaceArrayAdapter = new PlaceArrayAdapter(getContext(), android.R.layout.simple_list_item_1,
+                BOUNDS_ASTON_UNI, null);
+        mAutocompleteTextView.setAdapter(mPlaceArrayAdapter);
 
         return view;
+    }
+
+    private AdapterView.OnItemClickListener mAutocompleteClickListener
+            = new AdapterView.OnItemClickListener() {
+        @Override
+        public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+
+            final PlaceArrayAdapter.PlaceAutocomplete item = mPlaceArrayAdapter.getItem(position);
+            final String placeId = String.valueOf(item.placeId);
+            Log.i(TAG, "Selected: " + item.description);
+            PendingResult<PlaceBuffer> placeResult = Places.GeoDataApi
+                    .getPlaceById(mGoogleApiClient, placeId);
+            placeResult.setResultCallback(mUpdatePlaceDetailsCallback);
+            Log.i(TAG, "Fetching details for ID: " + item.placeId);
+        }
+    };
+
+    private ResultCallback<PlaceBuffer> mUpdatePlaceDetailsCallback
+            = new ResultCallback<PlaceBuffer>() {
+        @Override
+        public void onResult(PlaceBuffer places) {
+            if (!places.getStatus().isSuccess()) {
+                Log.e(TAG, "Place query did not complete. Error: " +
+                        places.getStatus().toString());
+                return;
+            }
+            // Selecting the first object buffer.
+            final Place place = places.get(0);
+            CharSequence attributions = places.getAttributions();
+
+
+
+        }
+    };
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        mGoogleApiClient.stopAutoManage(getActivity());
+        mGoogleApiClient.disconnect();
     }
 
     @Override
@@ -248,6 +325,33 @@ public class VisitDetailsEditFragment extends Fragment implements View.OnClickLi
 
     @Override
     public void onDateSet(DatePicker datePicker, int i, int i1, int i2) {
+
+    }
+
+    @Override
+    public void onConnected(@Nullable Bundle bundle) {
+
+        mPlaceArrayAdapter.setGoogleApiClient(mGoogleApiClient);
+        Log.i(TAG, "Google Places API connected.");
+
+    }
+
+    @Override
+    public void onConnectionSuspended(int i) {
+        mPlaceArrayAdapter.setGoogleApiClient(null);
+        Log.e(TAG, "Google Places API connection suspended.");
+    }
+
+    @Override
+    public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
+
+        Log.e(TAG, "Google Places API connection failed with error code: "
+                + connectionResult.getErrorCode());
+
+        Toast.makeText(getActivity(),
+                "Google Places API connection failed with error code:" +
+                        connectionResult.getErrorCode(),
+                Toast.LENGTH_LONG).show();
 
     }
 

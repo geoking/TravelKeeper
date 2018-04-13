@@ -27,6 +27,7 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 
 import java.util.ArrayList;
+import java.util.Collections;
 
 import me.geoking.travelkeeper.R;
 import me.geoking.travelkeeper.model.AppDatabase;
@@ -97,6 +98,7 @@ public class VisitFragment extends Fragment {
             setHasOptionsMenu(true);
             View view = inflater.inflate(R.layout.fragment_visited, container, false);
             ArrayList visits = (ArrayList) AppDatabase.getInstance().getVisitDao().getVisits();
+            Collections.reverse(visits);
 
             mMapView = (MapView) view.findViewById(R.id.visited_map);
             mMapView.onCreate(savedInstanceState);
