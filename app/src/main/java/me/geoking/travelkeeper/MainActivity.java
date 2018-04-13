@@ -41,6 +41,8 @@ import me.geoking.travelkeeper.fragments.HolidayDetailsFragment;
 import me.geoking.travelkeeper.fragments.HolidayFragment;
 import me.geoking.travelkeeper.fragments.MainFragment;
 import me.geoking.travelkeeper.fragments.NearbyPlacesFragment;
+import me.geoking.travelkeeper.fragments.VisitDetailsEditFragment;
+import me.geoking.travelkeeper.fragments.VisitDetailsFragment;
 import me.geoking.travelkeeper.fragments.VisitFragment;
 import me.geoking.travelkeeper.model.Holiday;
 import me.geoking.travelkeeper.model.AppDatabase;
@@ -49,7 +51,9 @@ import me.geoking.travelkeeper.model.Visit;
 import static android.graphics.BitmapFactory.decodeStream;
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, MainFragment.OnFragmentInteractionListener,
-        HolidayFragment.OnListFragmentInteractionListener, HolidayDetailsFragment.OnFragmentInteractionListener, HolidayDetailsEditFragment.OnFragmentInteractionListener, VisitFragment.OnFragmentInteractionListener {
+        HolidayFragment.OnListFragmentInteractionListener, HolidayDetailsFragment.OnFragmentInteractionListener, HolidayDetailsEditFragment.OnFragmentInteractionListener, VisitFragment.OnFragmentInteractionListener, VisitDetailsFragment.OnFragmentInteractionListener,
+        VisitDetailsEditFragment.OnFragmentInteractionListener
+{
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

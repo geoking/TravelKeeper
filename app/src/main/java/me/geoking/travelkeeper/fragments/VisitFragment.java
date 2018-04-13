@@ -5,7 +5,6 @@ import android.content.Context;
 import android.content.pm.PackageManager;
 import android.location.Location;
 import android.location.LocationManager;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
@@ -47,8 +46,8 @@ public class VisitFragment extends Fragment {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
-            case R.id.visitedAdd:
-                HolidayDetailsEditFragment addFragment = new HolidayDetailsEditFragment();
+            case R.id.visitAdd:
+                VisitDetailsEditFragment addFragment = new VisitDetailsEditFragment();
                 FragmentTransaction addNewTransaction =
                         getFragmentManager().beginTransaction();
                 addNewTransaction.replace(R.id.fragment_container, addFragment);
@@ -96,7 +95,7 @@ public class VisitFragment extends Fragment {
         }
         else {
             setHasOptionsMenu(true);
-            View view = inflater.inflate(R.layout.fragment_places_visited, container, false);
+            View view = inflater.inflate(R.layout.fragment_visited, container, false);
             ArrayList visits = (ArrayList) AppDatabase.getInstance().getVisitDao().getVisits();
 
             mMapView = (MapView) view.findViewById(R.id.visited_map);

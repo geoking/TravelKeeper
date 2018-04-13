@@ -83,7 +83,7 @@ public class HolidayFragment extends Fragment {
             return view;
         }
         else {
-            final View view = inflater.inflate(R.layout.fragment_holiday_list, container, false);
+            final View view = inflater.inflate(R.layout.fragment_holidays, container, false);
             setHasOptionsMenu(true);
             ImageView holidayImage = view.findViewById(R.id.holidays_image);
             TextView holidayTitle = view.findViewById(R.id.holidays_title);

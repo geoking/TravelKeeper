@@ -30,24 +30,16 @@ import java.util.Calendar;
 
 import me.geoking.travelkeeper.MainActivity;
 import me.geoking.travelkeeper.R;
-import me.geoking.travelkeeper.model.Holiday;
+import me.geoking.travelkeeper.model.Visit;
 
-import static me.geoking.travelkeeper.R.id.holiday_details_remove;
-import static me.geoking.travelkeeper.R.id.holiday_details_upload;
+import static me.geoking.travelkeeper.R.id.visit_details_remove;
+import static me.geoking.travelkeeper.R.id.visit_details_upload;
 
-/**
- * A simple {@link Fragment} subclass.
- * Activities that contain this fragment must implement the
- * {@link VisitDetailsEditFragment.OnFragmentInteractionListener} interface
- * to handle interaction events.
- * Use the {@link VisitDetailsEditFragment#newInstance} factory method to
- * create an instance of this fragment.
- */
 public class VisitDetailsEditFragment extends Fragment implements View.OnClickListener,  DatePickerDialog.OnDateSetListener{
 
-    private static final String HOLIDAY = "Holiday";
+    private static final String VISIT = "Visit";
 
-    private Holiday holiday;
+    private Visit visit;
 
     private OnFragmentInteractionListener mListener;
 
@@ -71,14 +63,14 @@ public class VisitDetailsEditFragment extends Fragment implements View.OnClickLi
         setHasOptionsMenu(true);
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
-            holiday = (Holiday) getArguments().getSerializable(HOLIDAY);
+            visit = (Visit) getArguments().getSerializable(VISIT);
         }
     }
 
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        inflater.inflate(R.menu.holiday_details_confirm, menu);
+        inflater.inflate(R.menu.visit_details_confirm, menu);
     }
 
     @Override
@@ -86,53 +78,44 @@ public class VisitDetailsEditFragment extends Fragment implements View.OnClickLi
         super.onResume();
         if (getArguments() != null) {
 
-            String title = holiday.getTitle();
-            String tags = holiday.getTags();
-            String startDate = holiday.getStartDate();
-            String endDate = holiday.getEndDate();
-            String notes = holiday.getNotes();
-            String imageLocation = holiday.getImageLocation();
+            String title = visit.getTitle();
+            String tags = visit.getTags();
+            String date = visit.getVisitDate();
+            String notes = visit.getNotes();
+            String imageLocation = visit.getImageLocation();
             getActivity().setTitle(title);
-            EditText holidayTitle = getActivity().findViewById(R.id.holiday_details_title);
-            EditText holidayTags = getActivity().findViewById(R.id.holiday_details_tags);
-            Button holidayDateStart = (Button) getActivity().findViewById(R.id.holiday_details_start);
-            Button holidayDateEnd = (Button) getActivity().findViewById(R.id.holiday_details_end);
-            EditText holidayNotes = getActivity().findViewById(R.id.holiday_details_notes);
+            EditText visitTitle = getActivity().findViewById(R.id.visit_details_title);
+            EditText visitTags = getActivity().findViewById(R.id.visit_details_tags);
+            Button visitDate = (Button) getActivity().findViewById(R.id.visit_details_date);
+            EditText visitNotes = getActivity().findViewById(R.id.visit_details_notes);
             if (imageLocation != null) {
-                ImageView holidayImage = getActivity().findViewById(R.id.holiday_details_image);
-                holidayImage.setImageBitmap(((MainActivity)getActivity()).loadImageFromStorage(holiday.getImageLocation(), holiday.getImageLocationUUID()));
+                ImageView visitImage = getActivity().findViewById(R.id.visit_details_image);
+                visitImage.setImageBitmap(((MainActivity)getActivity()).loadImageFromStorage(visit.getImageLocation(), visit.getImageLocationUUID()));
             }
-            holidayTitle.setText(title);
-            holidayTags.setText(tags);
-            holidayDateStart.setText(startDate);
-            holidayDateEnd.setText(endDate);
-            holidayNotes.setText(notes);
+            visitTitle.setText(title);
+            visitTags.setText(tags);
+            visitDate.setText(date);
+            visitNotes.setText(notes);
         }
         else {
-            String title = getActivity().getResources().getString(R.string.title_holiday_details_add);
+            String title = getActivity().getResources().getString(R.string.title_visit_details_add);
             getActivity().setTitle(title);
         }
 
     }
 
     public boolean checkInputErrors() {
-        EditText holidayTitle = (EditText)getActivity().findViewById(R.id.holiday_details_title);
-        Button startDateButton = (Button)getActivity().findViewById(R.id.holiday_details_start);
-        Button endDateButton = (Button)getActivity().findViewById(R.id.holiday_details_end);
-        String newTitle = holidayTitle.getText().toString();
-        String newStartDate = startDateButton.getText().toString();
-        String newEndDate = endDateButton.getText().toString();
+        EditText visitTitle = (EditText)getActivity().findViewById(R.id.visit_details_title);
+        Button dateButton = (Button)getActivity().findViewById(R.id.visit_details_date);
+        String newTitle = visitTitle.getText().toString();
+        String newStartDate = dateButton.getText().toString();
         boolean error = false;
         if (TextUtils.isEmpty(newTitle)) {
-            holidayTitle.setError("This must not be empty!");
+            visitTitle.setError("This must not be empty!");
             error = true;
         }
         if (newStartDate.equals("Start Date")) {
-            startDateButton.setError("This must not be empty!");
-            error = true;
-        }
-        if (newEndDate.equals("End Date")) {
-            endDateButton.setError("This must not be empty!");
+            dateButton.setError("This must not be empty!");
             error = true;
         }
 
@@ -146,9 +129,8 @@ public class VisitDetailsEditFragment extends Fragment implements View.OnClickLi
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View view = inflater.inflate(R.layout.fragment_holiday_details_edit, container, false);
-        final Button holidayDateStart = (Button) view.findViewById(R.id.holiday_details_start);
-        final Button holidayDateEnd = (Button) view.findViewById(R.id.holiday_details_end);
+        View view = inflater.inflate(R.layout.fragment_visit_details_edit, container, false);
+        final Button visitDate = (Button) view.findViewById(R.id.visit_details_date);
         final Calendar c = Calendar.getInstance();
         int mYear = c.get(Calendar.YEAR); // current year
         int mMonth = c.get(Calendar.MONTH); // current month
@@ -160,7 +142,7 @@ public class VisitDetailsEditFragment extends Fragment implements View.OnClickLi
             public void onDateSet(DatePicker view, int year,
                                   int monthOfYear, int dayOfMonth) {
                 // set day of month , month and year value in the edit text
-                holidayDateStart.setText(dayOfMonth + "/"
+                visitDate.setText(dayOfMonth + "/"
                         + (monthOfYear + 1) + "/" + year);
 
             }
@@ -172,29 +154,29 @@ public class VisitDetailsEditFragment extends Fragment implements View.OnClickLi
             public void onDateSet(DatePicker view, int year,
                                   int monthOfYear, int dayOfMonth) {
                 // set day of month , month and year value in the edit text
-                holidayDateEnd.setText(dayOfMonth + "/"
+                visitDate.setText(dayOfMonth + "/"
                         + (monthOfYear + 1) + "/" + year);
 
             }
         }, mYear, mMonth, mDay);
-        holidayDateStart.setOnClickListener(new View.OnClickListener() {
+        visitDate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 
                 datePickerDialogStart.show();
             }
         });
-        holidayDateEnd.setOnClickListener(new View.OnClickListener() {
+        visitDate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 
                 datePickerDialogEnd.show();
             }
         });
-        Button uploadButton = (Button) view.findViewById(holiday_details_upload);
-        Button removeButton = (Button) view.findViewById(holiday_details_remove);
-        if (holiday != null) {
-            if (holiday.getImageLocation() == null) {
+        Button uploadButton = (Button) view.findViewById(visit_details_upload);
+        Button removeButton = (Button) view.findViewById(visit_details_remove);
+        if (visit != null) {
+            if (visit.getImageLocation() == null) {
                 removeButton.setVisibility(View.GONE);
             }
         }
@@ -213,10 +195,10 @@ public class VisitDetailsEditFragment extends Fragment implements View.OnClickLi
     @Override
     public void onClick(View view) {
         switch (view.getId()) {
-            case holiday_details_upload:
+            case visit_details_upload:
                 startActivityForResult(new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.INTERNAL_CONTENT_URI), GET_FROM_GALLERY);
                 break;
-            case holiday_details_remove:
+            case visit_details_remove:
                 buildAlertDialog("Remove Image", "Are you sure you want to remove this image?\n\nThis process CANNOT be undone!");
 
         }
@@ -240,12 +222,12 @@ public class VisitDetailsEditFragment extends Fragment implements View.OnClickLi
                 e.printStackTrace();
             }
             if (!(bitmap == null)) {
-                ImageView holidayImg = getActivity().findViewById(R.id.holiday_details_image);
+                ImageView visitImg = getActivity().findViewById(R.id.visit_details_image);
                 Bitmap test = Bitmap.createScaledBitmap(bitmap, 600, 405, false);
-                holidayImg.setImageBitmap(test);
-                Button uploadButton = (Button) getView().findViewById(holiday_details_upload);
+                visitImg.setImageBitmap(test);
+                Button uploadButton = (Button) getView().findViewById(visit_details_upload);
                 uploadButton.setVisibility(View.GONE);
-                Button removeButton = (Button) getView().findViewById(holiday_details_remove);
+                Button removeButton = (Button) getView().findViewById(visit_details_remove);
                 removeButton.setVisibility(View.VISIBLE);
             }
         }
@@ -280,17 +262,6 @@ public class VisitDetailsEditFragment extends Fragment implements View.OnClickLi
 
     }
 
-
-    /**
-     * This interface must be implemented by activities that contain this
-     * fragment to allow an interaction in this fragment to be communicated
-     * to the activity and potentially other fragments contained in that
-     * activity.
-     * <p>
-     * See the Android Training lesson <a href=
-     * "http://developer.android.com/training/basics/fragments/communicating.html"
-     * >Communicating with Other Fragments</a> for more information.
-     */
     public interface OnFragmentInteractionListener {
         // TODO: Update argument type and name
         void onFragmentInteraction(Uri uri);
@@ -308,19 +279,19 @@ public class VisitDetailsEditFragment extends Fragment implements View.OnClickLi
                     .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface dialog, int which) {
 
-                            if (holiday != null) {
-                                if (holiday.getImageLocation() != null) {
-                                    File fdelete = new File(holiday.getImageLocation());
+                            if (visit != null) {
+                                if (visit.getImageLocation() != null) {
+                                    File fdelete = new File(visit.getImageLocation());
                                     fdelete.delete();
                                 }
-                                holiday.setImageLocation(null);
-                                holiday.setImageLocationUUID(null);
+                                visit.setImageLocation(null);
+                                visit.setImageLocationUUID(null);
                             }
-                            ImageView holidayImg = getActivity().findViewById(R.id.holiday_details_image);
-                            holidayImg.setImageDrawable(null);
-                            Button removeButton = (Button) getView().findViewById(holiday_details_remove);
+                            ImageView visitImg = getActivity().findViewById(R.id.visit_details_image);
+                            visitImg.setImageDrawable(null);
+                            Button removeButton = (Button) getView().findViewById(visit_details_remove);
                             removeButton.setVisibility(View.GONE);
-                            Button uploadButton = (Button) getView().findViewById(holiday_details_upload);
+                            Button uploadButton = (Button) getView().findViewById(visit_details_upload);
                             uploadButton.setVisibility(View.VISIBLE);
                         }
                     })

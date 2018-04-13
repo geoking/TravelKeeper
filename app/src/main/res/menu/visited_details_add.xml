@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <item
-        android:id="@+id/visitedAdd"
+        android:id="@+id/visitAdd"
         android:icon="@drawable/ic_add_white_24dp"
         android:title="Confirm"
         app:showAsAction="always"
