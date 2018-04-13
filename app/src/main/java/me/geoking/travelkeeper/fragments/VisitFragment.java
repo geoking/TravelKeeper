@@ -9,10 +9,14 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
@@ -41,6 +45,28 @@ public class VisitFragment extends Fragment {
     }
 
     @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.visitedAdd:
+                HolidayDetailsEditFragment addFragment = new HolidayDetailsEditFragment();
+                FragmentTransaction addNewTransaction =
+                        getFragmentManager().beginTransaction();
+                addNewTransaction.replace(R.id.fragment_container, addFragment);
+                addNewTransaction.addToBackStack(null);
+                addNewTransaction.commit();
+                return true;
+            default:
+                return onOptionsItemSelected(item);
+        }
+    }
+
+    @Override
+    public void onCreateOptionsMenu(
+            Menu menu, MenuInflater inflater) {
+        inflater.inflate(R.menu.visited_details_add, menu);
+    }
+
+    @Override
     public void onResume() {
         super.onResume();
         String title = getActivity().getResources().getString(R.string.title_places_visited);
@@ -64,7 +90,7 @@ public class VisitFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         if (AppDatabase.getInstance().getVisitDao().getVisits().size() == 0) {
-            View view = inflater.inflate(R.layout.fragment_holiday_noholiday, container, false);
+            View view = inflater.inflate(R.layout.fragment_visit_novisit, container, false);
             setHasOptionsMenu(true);
             return view;
         }

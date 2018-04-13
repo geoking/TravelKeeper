@@ -297,6 +297,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                         .show();
 
                 return true;
+
             default:
                 return super.onOptionsItemSelected(item);
         }
