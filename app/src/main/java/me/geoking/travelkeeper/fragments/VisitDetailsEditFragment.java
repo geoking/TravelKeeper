@@ -76,7 +76,6 @@ public class VisitDetailsEditFragment extends Fragment implements View.OnClickLi
             new LatLng(52.485403, -1.891407), new LatLng(52.487153, -1.887759));
 
 
-    private GeoDataClient mGeoDataClient;
     private GoogleApiClient mGoogleApiClient;
     private PlaceArrayAdapter mPlaceArrayAdapter;
 

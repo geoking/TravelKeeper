@@ -1,17 +1,22 @@
 package me.geoking.travelkeeper.fragments;
 
 import android.Manifest;
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.pm.PackageManager;
+import android.location.Geocoder;
 import android.location.Location;
 import android.location.LocationManager;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -19,12 +24,24 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.android.gms.common.api.ResultCallback;
+import com.google.android.gms.location.places.GeoDataClient;
+import com.google.android.gms.location.places.Place;
+import com.google.android.gms.location.places.PlaceBuffer;
+import com.google.android.gms.location.places.PlaceBufferResponse;
+import com.google.android.gms.location.places.Places;
+import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapView;
 import com.google.android.gms.maps.MapsInitializer;
 import com.google.android.gms.maps.OnMapReadyCallback;
+import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -33,12 +50,17 @@ import me.geoking.travelkeeper.R;
 import me.geoking.travelkeeper.model.AppDatabase;
 import me.geoking.travelkeeper.model.Visit;
 
-public class VisitFragment extends Fragment {
+import static android.content.ContentValues.TAG;
+
+public class VisitFragment extends Fragment implements GoogleApiClient.OnConnectionFailedListener,
+        GoogleApiClient.ConnectionCallbacks {
 
     private OnFragmentInteractionListener mListener;
     MapView mMapView;
     private GoogleMap googleMap;
     private int mColumnCount = 1;
+    private GoogleApiClient mGoogleApiClient;
+    private static final int GOOGLE_API_CLIENT_ID = 0;
 
     public VisitFragment() {
         // Required empty public constructor
@@ -97,7 +119,7 @@ public class VisitFragment extends Fragment {
         else {
             setHasOptionsMenu(true);
             View view = inflater.inflate(R.layout.fragment_visited, container, false);
-            ArrayList visits = (ArrayList) AppDatabase.getInstance().getVisitDao().getVisits();
+            final ArrayList visits = (ArrayList) AppDatabase.getInstance().getVisitDao().getVisits();
             Collections.reverse(visits);
 
             mMapView = (MapView) view.findViewById(R.id.visited_map);
@@ -110,32 +132,24 @@ public class VisitFragment extends Fragment {
             } catch (Exception e) {
                 e.printStackTrace();
             }
+            mGoogleApiClient = new GoogleApiClient.Builder(getContext())
+                    .addApi(Places.GEO_DATA_API)
+                    .enableAutoManage(getActivity(), GOOGLE_API_CLIENT_ID, this)
+                    .addConnectionCallbacks(this)
+                    .build();
 
             mMapView.getMapAsync(new OnMapReadyCallback() {
                 @Override
                 public void onMapReady(GoogleMap mMap) {
                     googleMap = mMap;
 
+                    buildMapMarkers(visits);
 
-                    if (ActivityCompat.checkSelfPermission(getActivity().getApplicationContext(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(getActivity().getApplicationContext(), Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-                        ActivityCompat.requestPermissions(getActivity(), new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, 1);
-                        LatLng london = new LatLng(51.5006715, -0.1247405);
-                        googleMap.addMarker(new MarkerOptions().position(london).title("Marker Title").snippet("Marker Description"));
+                    LatLng london = new LatLng(51.5006715, -0.1247405);
 
-                        // For zooming automatically to the location of the marker
-                        //CameraPosition cameraPosition = new CameraPosition.Builder().target(london).zoom(15).build();
-                        //googleMap.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
-                    } else {
-                        mMap.setMyLocationEnabled(true);
-                        LocationManager lm = (LocationManager) getActivity().getSystemService(Context.LOCATION_SERVICE);
-                        Location location = lm.getLastKnownLocation(LocationManager.GPS_PROVIDER);
-                        double longitude = location.getLongitude();
-                        double latitude = location.getLatitude();
-                        LatLng locationLatLng = new LatLng(latitude, longitude);
-                        // For zooming automatically to the location of the marker
-                        //CameraPosition cameraPosition = new CameraPosition.Builder().target(locationLatLng).zoom(15).build();
-                        //googleMap.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
-                    }
+                    // For zooming automatically to the location of the marker
+                    CameraPosition cameraPosition = new CameraPosition.Builder().target(london).zoom(1).build();
+                    googleMap.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
 
                     // For dropping a marker at a point on the Map
 
@@ -159,6 +173,36 @@ public class VisitFragment extends Fragment {
 
     }
 
+    public void buildMapMarkers(ArrayList visits) {
+        int i = 0;
+        while (i < visits.size()) {
+            Visit visit = (Visit)visits.get(i);
+            String id = visit.getPlaceid();
+            if (id != null) {
+                Places.GeoDataApi.getPlaceById(mGoogleApiClient, id).setResultCallback(new ResultCallback<PlaceBuffer>() {
+                    @Override
+                    public void onResult(@NonNull PlaceBuffer places) {
+                        if(places.getStatus().isSuccess() && places.getCount()>0){
+                            final Place myPlace = places.get(0);
+                            googleMap.addMarker(new MarkerOptions().position(myPlace.getLatLng()).title(myPlace.getName().toString()).snippet(myPlace.getAddress().toString()));
+                        }
+                        places.release();
+                    }
+                });
+            }
+            i++;
+
+        }
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        mGoogleApiClient.stopAutoManage(getActivity());
+        mGoogleApiClient.disconnect();
+    }
+
+
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
@@ -174,6 +218,25 @@ public class VisitFragment extends Fragment {
     public void onDetach() {
         super.onDetach();
         mListener = null;
+    }
+
+
+    @Override
+    public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
+
+        Log.e(TAG, "Google Places API connection failed with error code: "
+                + connectionResult.getErrorCode());
+
+    }
+
+    @Override
+    public void onConnected(@Nullable Bundle bundle) {
+
+    }
+
+    @Override
+    public void onConnectionSuspended(int i) {
+
     }
 
     public interface OnFragmentInteractionListener {
