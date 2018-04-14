@@ -33,6 +33,7 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Objects;
 import java.util.UUID;
 
@@ -578,4 +579,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         inputManager.hideSoftInputFromWindow(this.getCurrentFocus().getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
     }
 
+    @Override
+    public void onFragmentInteraction(ArrayList<Bitmap> list) {
+
+    }
 }

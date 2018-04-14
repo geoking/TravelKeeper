@@ -1,19 +1,31 @@
 package me.geoking.travelkeeper.fragments;
 
 import android.content.Context;
+import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.GridLayoutManager;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import java.util.ArrayList;
+
+import me.geoking.travelkeeper.MainActivity;
 import me.geoking.travelkeeper.R;
+import me.geoking.travelkeeper.adapters.ImageRecyclerViewAdapter;
+import me.geoking.travelkeeper.model.AppDatabase;
+import me.geoking.travelkeeper.model.Holiday;
+import me.geoking.travelkeeper.model.Visit;
 
 public class GalleryFragment extends Fragment {
     private static final String ARG_PARAM1 = "param1";
 
     private String mParam1;
+    private int mColumnCount = 4;
 
     private OnFragmentInteractionListener mListener;
 
@@ -40,14 +52,56 @@ public class GalleryFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_gallery, container, false);
+        View view = inflater.inflate(R.layout.fragment_gallery, container, false);
+
+        ArrayList holidays = (ArrayList) AppDatabase.getInstance().getHolidayDao().getHolidays();
+        ArrayList visits = (ArrayList) AppDatabase.getInstance().getVisitDao().getVisits();
+
+        ArrayList<Bitmap> images = new ArrayList<Bitmap>();
+        if (holidays.size() > 0) {
+            int i = 0;
+            while (i < holidays.size()) {
+                Holiday holiday = (Holiday) holidays.get(i);
+                String location = holiday.getImageLocation();
+                String uuid = holiday.getImageLocationUUID();
+                if (location != null || uuid != null) {
+                    Bitmap b = ((MainActivity) getActivity()).loadImageFromStorage(location, uuid);
+                    images.add(b);
+                }
+                i++;
+            }
+        }
+
+        if (visits.size() > 0) {
+            int i = 0;
+            while (i < visits.size()) {
+                Visit visit = (Visit) visits.get(i);
+                String location = visit.getImageLocation();
+                String uuid = visit.getImageLocationUUID();
+                if (location != null || uuid != null) {
+                    Bitmap b = ((MainActivity) getActivity()).loadImageFromStorage(location, uuid);
+                    images.add(b);
+                }
+                i++;
+            }
+        }
+
+
+        Context context = view.getContext();
+        RecyclerView recyclerView = (RecyclerView) view.findViewById(R.id.image_list);
+        if (mColumnCount <= 1) {
+            recyclerView.setLayoutManager(new LinearLayoutManager(context));
+        } else {
+            recyclerView.setLayoutManager(new GridLayoutManager(context, mColumnCount));
+        }
+        recyclerView.setAdapter(new ImageRecyclerViewAdapter(images, mListener));
+
+        return view;
     }
 
     // TODO: Rename method, update argument and hook method into UI event
     public void onButtonPressed(Uri uri) {
         if (mListener != null) {
-            mListener.onFragmentInteraction(uri);
         }
     }
 
@@ -70,6 +124,6 @@ public class GalleryFragment extends Fragment {
 
     public interface OnFragmentInteractionListener {
         // TODO: Update argument type and name
-        void onFragmentInteraction(Uri uri);
+        void onFragmentInteraction(ArrayList<Bitmap> list);
     }
 }
