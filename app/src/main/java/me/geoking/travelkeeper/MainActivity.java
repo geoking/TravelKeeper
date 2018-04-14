@@ -360,6 +360,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 String newVisitTags = editVisitTags.getText().toString();
                 String newVisitDate = dateVisitButton.getText().toString();
                 String newVisitNotes = editVisitNotes.getText().toString();
+                String placeid = visitDetailsEditFragment.getPlaceid();
                 if (!visitDetailsEditFragment.checkInputErrors()) {
                     return false;
                 }
@@ -369,6 +370,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                     visit.setTags(newVisitTags);
                     visit.setVisitDate(newVisitDate);
                     visit.setNotes(newVisitNotes);
+                    visit.setPlaceid(placeid);
                     if (newVisitBitmap != null) {
                         UUID uuid = UUID.randomUUID();
                         visit.setImageLocationUUID(uuid.toString());
@@ -389,7 +391,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                     if (uuid != null) {
                         uuidString = uuid.toString();
                     }
-                    Visit newVisit = addVisit(visit, newVisitTitle, newVisitTags, newVisitDate, newVisitNotes, visitLocation, uuidString);
+                    Visit newVisit = addVisit(visit, newVisitTitle, newVisitTags, newVisitDate, newVisitNotes, visitLocation, uuidString, placeid);
                     AppDatabase.getInstance().getVisitDao().insertVisit(newVisit);
                 }
                 super.onBackPressed();
@@ -560,13 +562,14 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         return holiday;
     }
 
-    public Visit addVisit (Visit visit, String title, String tags, String visitDate, String notes, String imageLocation, String uuid) {
+    public Visit addVisit (Visit visit, String title, String tags, String visitDate, String notes, String imageLocation, String uuid, String placeid) {
         visit.setTitle(title);
         visit.setTags(tags);
         visit.setVisitDate(visitDate);
         visit.setNotes(notes);
         visit.setImageLocation(imageLocation);
         visit.setImageLocationUUID(uuid);
+        visit.setPlaceid(placeid);
         return visit;
     }
 

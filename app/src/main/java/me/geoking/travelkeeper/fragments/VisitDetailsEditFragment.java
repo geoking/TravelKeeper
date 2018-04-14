@@ -27,12 +27,12 @@ import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.Toast;
 
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.common.api.PendingResult;
 import com.google.android.gms.common.api.ResultCallback;
+import com.google.android.gms.location.places.GeoDataClient;
 import com.google.android.gms.location.places.Place;
 import com.google.android.gms.location.places.PlaceBuffer;
 import com.google.android.gms.location.places.Places;
@@ -61,6 +61,7 @@ public class VisitDetailsEditFragment extends Fragment implements View.OnClickLi
     private static final String VISIT = "Visit";
 
     private Visit visit;
+    private String placeid = null;
 
     private OnFragmentInteractionListener mListener;
 
@@ -75,6 +76,7 @@ public class VisitDetailsEditFragment extends Fragment implements View.OnClickLi
             new LatLng(52.485403, -1.891407), new LatLng(52.487153, -1.887759));
 
 
+    private GeoDataClient mGeoDataClient;
     private GoogleApiClient mGoogleApiClient;
     private PlaceArrayAdapter mPlaceArrayAdapter;
 
@@ -157,6 +159,10 @@ public class VisitDetailsEditFragment extends Fragment implements View.OnClickLi
         return false;
     }
 
+    public String getPlaceid() {
+        return placeid;
+    }
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -214,7 +220,6 @@ public class VisitDetailsEditFragment extends Fragment implements View.OnClickLi
         mPlaceArrayAdapter = new PlaceArrayAdapter(getContext(), android.R.layout.simple_list_item_1,
                 BOUNDS_ASTON_UNI, null);
         mAutocompleteTextView.setAdapter(mPlaceArrayAdapter);
-
         return view;
     }
 
@@ -224,6 +229,7 @@ public class VisitDetailsEditFragment extends Fragment implements View.OnClickLi
         public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
             final PlaceArrayAdapter.PlaceAutocomplete item = mPlaceArrayAdapter.getItem(position);
+            placeid = String.valueOf(item.placeId);
             final String placeId = String.valueOf(item.placeId);
             Log.i(TAG, "Selected: " + item.description);
             PendingResult<PlaceBuffer> placeResult = Places.GeoDataApi
@@ -242,12 +248,6 @@ public class VisitDetailsEditFragment extends Fragment implements View.OnClickLi
                         places.getStatus().toString());
                 return;
             }
-            // Selecting the first object buffer.
-            final Place place = places.get(0);
-            CharSequence attributions = places.getAttributions();
-
-
-
         }
     };
 
@@ -347,11 +347,6 @@ public class VisitDetailsEditFragment extends Fragment implements View.OnClickLi
 
         Log.e(TAG, "Google Places API connection failed with error code: "
                 + connectionResult.getErrorCode());
-
-        Toast.makeText(getActivity(),
-                "Google Places API connection failed with error code:" +
-                        connectionResult.getErrorCode(),
-                Toast.LENGTH_LONG).show();
 
     }
 
