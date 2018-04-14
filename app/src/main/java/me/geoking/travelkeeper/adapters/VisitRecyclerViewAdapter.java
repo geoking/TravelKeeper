@@ -1,4 +1,4 @@
-package me.geoking.travelkeeper.fragments;
+package me.geoking.travelkeeper.adapters;
 
 import android.graphics.Typeface;
 import android.support.v7.widget.RecyclerView;
@@ -13,12 +13,12 @@ import me.geoking.travelkeeper.fragments.VisitFragment.OnFragmentInteractionList
 import me.geoking.travelkeeper.R;
 import me.geoking.travelkeeper.model.Visit;
 
-public class MyVisitRecyclerViewAdapter extends RecyclerView.Adapter<MyVisitRecyclerViewAdapter.ViewHolder> {
+public class VisitRecyclerViewAdapter extends RecyclerView.Adapter<VisitRecyclerViewAdapter.ViewHolder> {
 
     private final List<Visit> mVisits;
     private final OnFragmentInteractionListener mListener;
 
-    public MyVisitRecyclerViewAdapter(List<Visit> visits, OnFragmentInteractionListener listener) {
+    public VisitRecyclerViewAdapter(List<Visit> visits, OnFragmentInteractionListener listener) {
         mVisits = visits;
         mListener = listener;
     }

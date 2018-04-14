@@ -26,6 +26,7 @@ import java.util.Locale;
 
 import me.geoking.travelkeeper.MainActivity;
 import me.geoking.travelkeeper.R;
+import me.geoking.travelkeeper.adapters.HolidayRecyclerViewAdapter;
 import me.geoking.travelkeeper.model.AppDatabase;
 import me.geoking.travelkeeper.model.Holiday;
 
@@ -138,7 +139,7 @@ public class HolidayFragment extends Fragment {
                 } else {
                     recyclerView.setLayoutManager(new GridLayoutManager(context, mColumnCount));
                 }
-                recyclerView.setAdapter(new MyHolidayRecyclerViewAdapter(holidays, mListener));
+                recyclerView.setAdapter(new HolidayRecyclerViewAdapter(holidays, mListener));
 
 
             return view;

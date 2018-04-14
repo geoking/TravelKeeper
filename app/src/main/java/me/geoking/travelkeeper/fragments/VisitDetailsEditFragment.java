@@ -32,7 +32,6 @@ import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.common.api.PendingResult;
 import com.google.android.gms.common.api.ResultCallback;
-import com.google.android.gms.location.places.GeoDataClient;
 import com.google.android.gms.location.places.Place;
 import com.google.android.gms.location.places.PlaceBuffer;
 import com.google.android.gms.location.places.Places;
@@ -47,7 +46,7 @@ import java.util.Calendar;
 
 import me.geoking.travelkeeper.MainActivity;
 import me.geoking.travelkeeper.R;
-import me.geoking.travelkeeper.adapter.PlaceArrayAdapter;
+import me.geoking.travelkeeper.adapters.PlaceArrayAdapter;
 import me.geoking.travelkeeper.model.AppDatabase;
 import me.geoking.travelkeeper.model.Visit;
 

@@ -1,4 +1,4 @@
-package me.geoking.travelkeeper.adapter;
+package me.geoking.travelkeeper.adapters;
 
 import android.content.Context;
 import android.util.Log;

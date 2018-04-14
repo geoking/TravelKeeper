@@ -1,4 +1,4 @@
-package me.geoking.travelkeeper.fragments;
+package me.geoking.travelkeeper.adapters;
 
 import android.graphics.Typeface;
 import android.support.v7.widget.RecyclerView;
@@ -13,12 +13,12 @@ import me.geoking.travelkeeper.model.Holiday;
 
 import java.util.List;
 
-public class MyHolidayRecyclerViewAdapter extends RecyclerView.Adapter<MyHolidayRecyclerViewAdapter.ViewHolder> {
+public class HolidayRecyclerViewAdapter extends RecyclerView.Adapter<HolidayRecyclerViewAdapter.ViewHolder> {
 
     private final List<Holiday> mHolidays;
     private final OnListFragmentInteractionListener mListener;
 
-    public MyHolidayRecyclerViewAdapter(List<Holiday> holidays, OnListFragmentInteractionListener listener) {
+    public HolidayRecyclerViewAdapter(List<Holiday> holidays, OnListFragmentInteractionListener listener) {
         mHolidays = holidays;
         mListener = listener;
     }
