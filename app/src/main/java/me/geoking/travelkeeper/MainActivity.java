@@ -36,6 +36,7 @@ import java.io.IOException;
 import java.util.Objects;
 import java.util.UUID;
 
+import me.geoking.travelkeeper.fragments.GalleryFragment;
 import me.geoking.travelkeeper.fragments.HolidayDetailsEditFragment;
 import me.geoking.travelkeeper.fragments.HolidayDetailsFragment;
 import me.geoking.travelkeeper.fragments.HolidayFragment;
@@ -52,7 +53,7 @@ import static android.graphics.BitmapFactory.decodeStream;
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, MainFragment.OnFragmentInteractionListener,
         HolidayFragment.OnListFragmentInteractionListener, HolidayDetailsFragment.OnFragmentInteractionListener, HolidayDetailsEditFragment.OnFragmentInteractionListener, VisitFragment.OnFragmentInteractionListener, VisitDetailsFragment.OnFragmentInteractionListener,
-        VisitDetailsEditFragment.OnFragmentInteractionListener
+        VisitDetailsEditFragment.OnFragmentInteractionListener, GalleryFragment.OnFragmentInteractionListener
 {
 
     @Override
@@ -437,11 +438,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             tag = "visited";
             navigationView.setCheckedItem(R.id.nav_visited);
         } else if (id == R.id.nav_gallery) {
-            drawer.closeDrawer(GravityCompat.START);
-            return false;
-        } else if (id == R.id.nav_camera) {
-            drawer.closeDrawer(GravityCompat.START);
-            return false;
+            fragmentClass = GalleryFragment.class;
+            tag = "gallery";
+            navigationView.setCheckedItem(R.id.nav_gallery);
         } else if (id == R.id.nav_nearby) {
             if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
                 buildAlertDialog("Where are you again?", "This feature only works when we can receive your location. Please click 'OK' followed by 'Allow' and try that again!", true);

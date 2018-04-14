@@ -60,9 +60,11 @@ public class MainFragment extends Fragment implements View.OnClickListener {
 
         Button holidayButton = (Button) view.findViewById(R.id.button_holidays);
         Button visitedButton = (Button) view.findViewById(R.id.button_visited);
+        Button galleryButton = (Button) view.findViewById(R.id.button_gallery);
         Button nearbyButton = (Button) view.findViewById(R.id.button_nearby);
         holidayButton.setOnClickListener(this);
         visitedButton.setOnClickListener(this);
+        galleryButton.setOnClickListener(this);
         nearbyButton.setOnClickListener(this);
 
         return view;
@@ -80,6 +82,10 @@ public class MainFragment extends Fragment implements View.OnClickListener {
                 break;
             case R.id.button_visited:
                 item = menuNav.findItem(R.id.nav_visited);
+                ((MainActivity)getActivity()).onNavigationItemSelected(item);
+                break;
+            case R.id.button_gallery:
+                item = menuNav.findItem(R.id.nav_gallery);
                 ((MainActivity)getActivity()).onNavigationItemSelected(item);
                 break;
             case R.id.button_nearby:

@@ -50,6 +50,7 @@ import me.geoking.travelkeeper.adapters.PlaceArrayAdapter;
 import me.geoking.travelkeeper.model.AppDatabase;
 import me.geoking.travelkeeper.model.Visit;
 
+import static me.geoking.travelkeeper.R.id.visit_details_camera;
 import static me.geoking.travelkeeper.R.id.visit_details_remove;
 import static me.geoking.travelkeeper.R.id.visit_details_upload;
 
@@ -65,6 +66,7 @@ public class VisitDetailsEditFragment extends Fragment implements View.OnClickLi
     private OnFragmentInteractionListener mListener;
 
     public static final int GET_FROM_GALLERY = 3;
+    public static final int GET_FROM_CAMERA = 4;
 
     public Bitmap bitmap = null;
 
@@ -196,6 +198,7 @@ public class VisitDetailsEditFragment extends Fragment implements View.OnClickLi
         });
         Button uploadButton = (Button) view.findViewById(visit_details_upload);
         Button removeButton = (Button) view.findViewById(visit_details_remove);
+        Button cameraButton = (Button) view.findViewById(visit_details_camera);
         if (visit != null) {
             if (visit.getImageLocation() == null) {
                 removeButton.setVisibility(View.GONE);
@@ -207,6 +210,7 @@ public class VisitDetailsEditFragment extends Fragment implements View.OnClickLi
         }
         uploadButton.setOnClickListener(this);
         removeButton.setOnClickListener(this);
+        cameraButton.setOnClickListener(this);
 
         mAutocompleteTextView = (AutoCompleteTextView) view.findViewById(R.id.visit_details_title);
         mAutocompleteTextView.setThreshold(3);
@@ -278,7 +282,10 @@ public class VisitDetailsEditFragment extends Fragment implements View.OnClickLi
                 break;
             case visit_details_remove:
                 buildAlertDialog("Remove Image", "Are you sure you want to remove this image?\n\nThis process CANNOT be undone!");
-
+                break;
+            case visit_details_camera:
+                startActivityForResult(new Intent("android.media.action.IMAGE_CAPTURE"), GET_FROM_CAMERA);
+                break;
         }
     }
 
@@ -305,6 +312,21 @@ public class VisitDetailsEditFragment extends Fragment implements View.OnClickLi
                 visitImg.setImageBitmap(test);
                 Button uploadButton = (Button) getView().findViewById(visit_details_upload);
                 uploadButton.setVisibility(View.GONE);
+                Button removeButton = (Button) getView().findViewById(visit_details_remove);
+                removeButton.setVisibility(View.VISIBLE);
+            }
+        }
+
+        if (requestCode==GET_FROM_CAMERA && resultCode == Activity.RESULT_OK) {
+            bitmap = (Bitmap) data.getExtras().get("data");
+            if (!(bitmap == null)) {
+                ImageView visitImg = getActivity().findViewById(R.id.visit_details_image);
+                Bitmap test = Bitmap.createScaledBitmap(bitmap, 600, 405, false);
+                visitImg.setImageBitmap(test);
+                Button uploadButton = (Button) getView().findViewById(visit_details_upload);
+                uploadButton.setVisibility(View.GONE);
+                Button cameraButton = (Button) getView().findViewById(visit_details_camera);
+                cameraButton.setVisibility(View.GONE);
                 Button removeButton = (Button) getView().findViewById(visit_details_remove);
                 removeButton.setVisibility(View.VISIBLE);
             }

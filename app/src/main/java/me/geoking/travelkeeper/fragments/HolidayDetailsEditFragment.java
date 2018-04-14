@@ -31,7 +31,9 @@ import java.util.Calendar;
 import me.geoking.travelkeeper.MainActivity;
 import me.geoking.travelkeeper.R;
 import me.geoking.travelkeeper.model.Holiday;
+import me.geoking.travelkeeper.util.ImagePicker;
 
+import static me.geoking.travelkeeper.R.id.holiday_details_camera;
 import static me.geoking.travelkeeper.R.id.holiday_details_remove;
 import static me.geoking.travelkeeper.R.id.holiday_details_upload;
 
@@ -52,6 +54,7 @@ public class HolidayDetailsEditFragment extends Fragment implements View.OnClick
     private OnFragmentInteractionListener mListener;
 
     public static final int GET_FROM_GALLERY = 3;
+    public static final int GET_FROM_CAMERA = 4;
 
     public Bitmap bitmap = null;
 
@@ -193,6 +196,7 @@ public class HolidayDetailsEditFragment extends Fragment implements View.OnClick
         });
         Button uploadButton = (Button) view.findViewById(holiday_details_upload);
         Button removeButton = (Button) view.findViewById(holiday_details_remove);
+        Button cameraButton = (Button) view.findViewById(holiday_details_camera);
         if (holiday != null) {
             if (holiday.getImageLocation() == null) {
                 removeButton.setVisibility(View.GONE);
@@ -204,6 +208,7 @@ public class HolidayDetailsEditFragment extends Fragment implements View.OnClick
         }
         uploadButton.setOnClickListener(this);
         removeButton.setOnClickListener(this);
+        cameraButton.setOnClickListener(this);
 
 
 
@@ -218,7 +223,10 @@ public class HolidayDetailsEditFragment extends Fragment implements View.OnClick
                 break;
             case holiday_details_remove:
                 buildAlertDialog("Remove Image", "Are you sure you want to remove this image?\n\nThis process CANNOT be undone!");
-
+                break;
+            case holiday_details_camera:
+                startActivityForResult(new Intent("android.media.action.IMAGE_CAPTURE"), GET_FROM_CAMERA);
+                break;
         }
     }
 
@@ -245,6 +253,23 @@ public class HolidayDetailsEditFragment extends Fragment implements View.OnClick
                 holidayImg.setImageBitmap(test);
                 Button uploadButton = (Button) getView().findViewById(holiday_details_upload);
                 uploadButton.setVisibility(View.GONE);
+                Button cameraButton = (Button) getView().findViewById(holiday_details_camera);
+                cameraButton.setVisibility(View.GONE);
+                Button removeButton = (Button) getView().findViewById(holiday_details_remove);
+                removeButton.setVisibility(View.VISIBLE);
+            }
+        }
+
+        if (requestCode==GET_FROM_CAMERA && resultCode == Activity.RESULT_OK) {
+            bitmap = (Bitmap) data.getExtras().get("data");
+            if (!(bitmap == null)) {
+                ImageView holidayImg = getActivity().findViewById(R.id.holiday_details_image);
+                Bitmap test = Bitmap.createScaledBitmap(bitmap, 600, 405, false);
+                holidayImg.setImageBitmap(test);
+                Button uploadButton = (Button) getView().findViewById(holiday_details_upload);
+                uploadButton.setVisibility(View.GONE);
+                Button cameraButton = (Button) getView().findViewById(holiday_details_camera);
+                cameraButton.setVisibility(View.GONE);
                 Button removeButton = (Button) getView().findViewById(holiday_details_remove);
                 removeButton.setVisibility(View.VISIBLE);
             }
@@ -322,6 +347,8 @@ public class HolidayDetailsEditFragment extends Fragment implements View.OnClick
                             removeButton.setVisibility(View.GONE);
                             Button uploadButton = (Button) getView().findViewById(holiday_details_upload);
                             uploadButton.setVisibility(View.VISIBLE);
+                            Button cameraButton = (Button) getView().findViewById(holiday_details_camera);
+                            cameraButton.setVisibility(View.VISIBLE);
                         }
                     })
                     .setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener() {
