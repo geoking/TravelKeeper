@@ -34,7 +34,7 @@ public class MyVisitRecyclerViewAdapter extends RecyclerView.Adapter<MyVisitRecy
     public void onBindViewHolder(final ViewHolder holder, int position) {
         holder.mVisit = mVisits.get(position);
         holder.mVisitLetterView.setText(mVisits.get(position).getTitle());
-        holder.mVisitTitleView.setText(mVisits.get(position).getTitle());
+        holder.mVisitTitleView.setText(mVisits.get(position).getTitle() + " (" + mVisits.get(position).getVisitDate() + ")");
         holder.mVisitNotesView.setText(mVisits.get(position).getNotes());
 
         holder.mView.setOnClickListener(new View.OnClickListener() {

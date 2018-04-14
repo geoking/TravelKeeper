@@ -76,19 +76,29 @@
         <EditText
             android:id="@+id/visit_details_notes"
             android:layout_width="match_parent"
-            android:layout_height="106dp"
-            android:layout_marginBottom="8dp"
+            android:layout_height="49dp"
             android:layout_marginEnd="8dp"
             android:layout_marginStart="8dp"
             android:hint="@string/visit_details_notes"
             android:inputType="textMultiLine"
             android:singleLine="false"
-            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintBottom_toTopOf="@+id/add_visit_to_holiday"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/visit_details_title"
-            app:layout_constraintVertical_bias="0.849" />
+            app:layout_constraintTop_toBottomOf="@+id/visit_details_title" />
+
+        <Spinner
+            android:id="@+id/add_visit_to_holiday"
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginStart="8dp"
+            android:text="@string/visit_holiday_match"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/visit_details_notes" />
 
         <Button
             android:id="@+id/visit_details_upload"

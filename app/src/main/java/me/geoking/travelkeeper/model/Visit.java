@@ -26,6 +26,7 @@ public class Visit implements Serializable {
     private String imageLocationUUID;
     private String location;
     private String placeid;
+    private String address;
 
 
     public Visit() {
@@ -37,6 +38,7 @@ public class Visit implements Serializable {
         imageLocationUUID = null;
         location = null;
         placeid = null;
+        address = "";
     }
 
     public String getTitle() {
@@ -117,5 +119,13 @@ public class Visit implements Serializable {
 
     public void setPlaceid(String placeid) {
         this.placeid = placeid;
+    }
+
+    public String getAddress() {
+        return address;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
     }
 }

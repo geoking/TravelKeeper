@@ -361,16 +361,24 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 String newVisitDate = dateVisitButton.getText().toString();
                 String newVisitNotes = editVisitNotes.getText().toString();
                 String placeid = visitDetailsEditFragment.getPlaceid();
+                String newVisitAddress = "";
                 if (!visitDetailsEditFragment.checkInputErrors()) {
                     return false;
                 }
                 if (visitDetailsEditFragment.getArguments() != null) {
                     visit = (Visit) visitDetailsEditFragment.getArguments().getSerializable("Visit");
-                    visit.setTitle(newVisitTitle);
+
                     visit.setTags(newVisitTags);
                     visit.setVisitDate(newVisitDate);
                     visit.setNotes(newVisitNotes);
-                    visit.setPlaceid(placeid);
+                    if (placeid != null) {
+                        visit.setTitle(visitDetailsEditFragment.getPlaceName());
+                        visit.setAddress(visitDetailsEditFragment.getAddress());
+                        visit.setPlaceid(placeid);
+                    }
+                    else {
+                        visit.setTitle(newVisitTitle);
+                    }
                     if (newVisitBitmap != null) {
                         UUID uuid = UUID.randomUUID();
                         visit.setImageLocationUUID(uuid.toString());
@@ -391,7 +399,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                     if (uuid != null) {
                         uuidString = uuid.toString();
                     }
-                    Visit newVisit = addVisit(visit, newVisitTitle, newVisitTags, newVisitDate, newVisitNotes, visitLocation, uuidString, placeid);
+                    if (placeid != null) {
+                        newVisitAddress = visitDetailsEditFragment.getAddress();
+                        newVisitTitle = visitDetailsEditFragment.getPlaceName();
+                    }
+                    Visit newVisit = addVisit(visit, newVisitTitle, newVisitTags, newVisitDate, newVisitNotes, visitLocation, uuidString, placeid, newVisitAddress);
                     AppDatabase.getInstance().getVisitDao().insertVisit(newVisit);
                 }
                 super.onBackPressed();
@@ -458,10 +470,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     @Override
     public void onListFragmentInteraction(Holiday holiday) {
-        // Create the new fragment,
         HolidayDetailsFragment newFragment = new HolidayDetailsFragment();
-        // add an argument specifying the holiday it should show
-        // note that the DummyItem class must implement Serializable
         Bundle args = new Bundle();
         args.putSerializable("Holiday", holiday);
         newFragment.setArguments(args);
@@ -470,21 +479,15 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         FragmentTransaction transaction =
                 getSupportFragmentManager().beginTransaction();
 
-        // Replace whatever is in the fragment_container view with this fragment,
-        // and add the transaction to the back stack so the user can navigate back
         transaction.replace(R.id.fragment_container, newFragment);
         transaction.addToBackStack(null);
 
-        // Commit the transaction
         transaction.commit();
     }
 
     @Override
     public void onListFragmentInteraction(Visit visit) {
-        // Create the new fragment,
         VisitDetailsFragment newFragment = new VisitDetailsFragment();
-        // add an argument specifying the holiday it should show
-        // note that the DummyItem class must implement Serializable
         Bundle args = new Bundle();
         args.putSerializable("Visit", visit);
         newFragment.setArguments(args);
@@ -493,12 +496,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         FragmentTransaction transaction =
                 getSupportFragmentManager().beginTransaction();
 
-        // Replace whatever is in the fragment_container view with this fragment,
-        // and add the transaction to the back stack so the user can navigate back
         transaction.replace(R.id.fragment_container, newFragment);
         transaction.addToBackStack(null);
 
-        // Commit the transaction
         transaction.commit();
     }
 
@@ -562,7 +562,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         return holiday;
     }
 
-    public Visit addVisit (Visit visit, String title, String tags, String visitDate, String notes, String imageLocation, String uuid, String placeid) {
+    public Visit addVisit (Visit visit, String title, String tags, String visitDate, String notes, String imageLocation, String uuid, String placeid, String address) {
         visit.setTitle(title);
         visit.setTags(tags);
         visit.setVisitDate(visitDate);
@@ -570,6 +570,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         visit.setImageLocation(imageLocation);
         visit.setImageLocationUUID(uuid);
         visit.setPlaceid(placeid);
+        visit.setAddress(address);
         return visit;
     }
 

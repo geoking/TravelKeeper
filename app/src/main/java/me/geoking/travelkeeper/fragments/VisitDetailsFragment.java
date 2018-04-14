@@ -81,11 +81,13 @@ public class VisitDetailsFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_visit_details, container, false);
 
         TextView titleField = view.findViewById(R.id.visit_view_details_title);
+        TextView addressField = view.findViewById(R.id.visit_view_details_address);
         TextView tagsField = view.findViewById(R.id.visit_view_details_tags);
         TextView startButton = view.findViewById(R.id.visit_view_details_date);
         TextView notesField = view.findViewById(R.id.visit_view_details_notes);
         ImageView visitImage = view.findViewById(R.id.visit_view_details_image);
         titleField.setText(visit.getTitle());
+        addressField.setText(visit.getAddress());
         tagsField.setText(visit.getTags());
         startButton.setText(visit.getVisitDate());
         notesField.setText(visit.getNotes());

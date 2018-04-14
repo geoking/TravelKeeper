@@ -13,6 +13,7 @@
     <string name="holiday_details_notes">Holiday Notes</string>
     <string name="holiday_details_tags">Holiday Tags</string>
     <string name="title_visit_details">Place Visited</string>
+    <string name="title_visit_address">""</string>
     <string name="title_visit_details_edit">Edit Visit</string>
     <string name="title_visit_details_add">Add Visit</string>
     <string name="title_places_visited">Places Visited</string>
@@ -21,6 +22,7 @@
     <string name="holiday_details_start">Start Date</string>
     <string name="holiday_details_end">End Date</string>
     <string name="visit_details_date">Date Of Visit</string>
+    <string name="visit_holiday_match">Assign to holiday...</string>
     <string name="button_nearby">Nearby Places</string>
     <string name="button_gallery">Travel Gallery</string>
     <string name="button_visited">Places Visited</string>

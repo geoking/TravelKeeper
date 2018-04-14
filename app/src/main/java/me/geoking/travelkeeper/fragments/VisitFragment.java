@@ -148,7 +148,7 @@ public class VisitFragment extends Fragment implements GoogleApiClient.OnConnect
                     LatLng london = new LatLng(51.5006715, -0.1247405);
 
                     // For zooming automatically to the location of the marker
-                    CameraPosition cameraPosition = new CameraPosition.Builder().target(london).zoom(1).build();
+                    CameraPosition cameraPosition = new CameraPosition.Builder().target(london).zoom(0).build();
                     googleMap.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
 
                     // For dropping a marker at a point on the Map
@@ -198,8 +198,10 @@ public class VisitFragment extends Fragment implements GoogleApiClient.OnConnect
     @Override
     public void onPause() {
         super.onPause();
-        mGoogleApiClient.stopAutoManage(getActivity());
-        mGoogleApiClient.disconnect();
+        if (mGoogleApiClient != null) {
+            mGoogleApiClient.stopAutoManage(getActivity());
+            mGoogleApiClient.disconnect();
+        }
     }
 
 

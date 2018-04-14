@@ -69,6 +69,9 @@ public class VisitDetailsEditFragment extends Fragment implements View.OnClickLi
 
     public Bitmap bitmap = null;
 
+    public String newTitleString = null;
+    public String newAddress = "";
+
     private static final String TAG = "MainActivity";
     private static final int GOOGLE_API_CLIENT_ID = 0;
     private AutoCompleteTextView mAutocompleteTextView;
@@ -229,6 +232,17 @@ public class VisitDetailsEditFragment extends Fragment implements View.OnClickLi
 
             final PlaceArrayAdapter.PlaceAutocomplete item = mPlaceArrayAdapter.getItem(position);
             placeid = String.valueOf(item.placeId);
+            Places.GeoDataApi.getPlaceById(mGoogleApiClient, placeid).setResultCallback(new ResultCallback<PlaceBuffer>() {
+                @Override
+                public void onResult(@NonNull PlaceBuffer places) {
+                    if(places.getStatus().isSuccess() && places.getCount()>0){
+                        final Place myPlace = places.get(0);
+                        newTitleString = myPlace.getName().toString();
+                        newAddress = myPlace.getAddress().toString();
+                    }
+                    places.release();
+                }
+            });
             final String placeId = String.valueOf(item.placeId);
             Log.i(TAG, "Selected: " + item.description);
             PendingResult<PlaceBuffer> placeResult = Places.GeoDataApi
@@ -362,32 +376,41 @@ public class VisitDetailsEditFragment extends Fragment implements View.OnClickLi
             builder = new AlertDialog.Builder(getContext());
         }
         builder.setTitle(title)
-                    .setMessage(message)
-                    .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
-                        public void onClick(DialogInterface dialog, int which) {
+                .setMessage(message)
+                .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
 
-                            if (visit != null) {
-                                if (visit.getImageLocation() != null) {
-                                    File fdelete = new File(visit.getImageLocation());
-                                    fdelete.delete();
-                                }
-                                visit.setImageLocation(null);
-                                visit.setImageLocationUUID(null);
+                        if (visit != null) {
+                            if (visit.getImageLocation() != null) {
+                                File fdelete = new File(visit.getImageLocation());
+                                fdelete.delete();
                             }
-                            ImageView visitImg = getActivity().findViewById(R.id.visit_details_image);
-                            visitImg.setImageDrawable(null);
-                            Button removeButton = (Button) getView().findViewById(visit_details_remove);
-                            removeButton.setVisibility(View.GONE);
-                            Button uploadButton = (Button) getView().findViewById(visit_details_upload);
-                            uploadButton.setVisibility(View.VISIBLE);
+                            visit.setImageLocation(null);
+                            visit.setImageLocationUUID(null);
                         }
-                    })
-                    .setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener() {
-                        public void onClick(DialogInterface dialog, int which) {
-                            // do nothing
-                        }
-                    })
-                    .setIcon(R.drawable.ic_warning_black_24dp)
-                    .show();
-        }
+                        ImageView visitImg = getActivity().findViewById(R.id.visit_details_image);
+                        visitImg.setImageDrawable(null);
+                        Button removeButton = (Button) getView().findViewById(visit_details_remove);
+                        removeButton.setVisibility(View.GONE);
+                        Button uploadButton = (Button) getView().findViewById(visit_details_upload);
+                        uploadButton.setVisibility(View.VISIBLE);
+                    }
+                })
+                .setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        // do nothing
+                    }
+                })
+                .setIcon(R.drawable.ic_warning_black_24dp)
+                .show();
+    }
+
+    public String getPlaceName() {
+        return newTitleString;
+    }
+
+    public String getAddress() {
+        return newAddress;
+    }
+
 }
