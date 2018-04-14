@@ -100,7 +100,8 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/visit_details_notes" />
 
-        <Button
+        <Button style="@style/Widget.AppCompat.Button.Colored"
+            android:theme="@style/AppTheme.Button"
             android:id="@+id/visit_details_upload"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -117,7 +118,8 @@
             app:layout_constraintTop_toTopOf="@+id/visit_details_image"
             app:layout_constraintVertical_bias="0.0" />
 
-        <Button
+        <Button style="@style/Widget.AppCompat.Button.Colored"
+            android:theme="@style/AppTheme.Button"
             android:id="@+id/visit_details_remove"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -134,7 +136,8 @@
             app:layout_constraintTop_toTopOf="@+id/visit_details_image"
             app:layout_constraintVertical_bias="0.0" />
 
-        <Button
+        <Button style="@style/Widget.AppCompat.Button.Colored"
+            android:theme="@style/AppTheme.Button"
             android:id="@+id/visit_details_camera"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
