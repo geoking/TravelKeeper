@@ -1,9 +1,11 @@
 package me.geoking.travelkeeper.fragments;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Location;
 import android.location.LocationManager;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
@@ -21,26 +23,40 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 
 import android.Manifest;
+import android.widget.Button;
 
 import java.util.List;
 
 import me.geoking.travelkeeper.R;
 
 import static android.content.Context.LOCATION_SERVICE;
+import static me.geoking.travelkeeper.R.id.places_parks;
+import static me.geoking.travelkeeper.R.id.places_shopping;
+import static me.geoking.travelkeeper.R.id.places_to_eat;
+import static me.geoking.travelkeeper.R.id.places_tourism;
 
-public class NearbyPlacesFragment extends Fragment {
+public class NearbyPlacesFragment extends Fragment implements View.OnClickListener {
 
     MapView mMapView;
     private GoogleMap googleMap;
     LocationManager mLocationManager;
     Location myLocation;
+    private Intent browserIntent;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View rootView = inflater.inflate(R.layout.fragment_nearby_places, container, false);
+        View view = inflater.inflate(R.layout.fragment_nearby_places, container, false);
 
-        mMapView = (MapView) rootView.findViewById(R.id.mapView);
+        mMapView = (MapView) view.findViewById(R.id.mapView);
         mMapView.onCreate(savedInstanceState);
+        Button restuarantButton = (Button) view.findViewById(R.id.places_to_eat);
+        restuarantButton.setOnClickListener(this);
+        Button parksButton = (Button) view.findViewById(R.id.places_parks);
+        parksButton.setOnClickListener(this);
+        Button shoppingButton = (Button) view.findViewById(R.id.places_shopping);
+        shoppingButton.setOnClickListener(this);
+        Button tourismButton = (Button) view.findViewById(R.id.places_tourism);
+        tourismButton.setOnClickListener(this);
 
         mMapView.onResume(); // needed to get the map to display immediately
 
@@ -82,7 +98,7 @@ public class NearbyPlacesFragment extends Fragment {
             }
         });
 
-        return rootView;
+        return view;
     }
 
     @Override
@@ -134,5 +150,27 @@ public class NearbyPlacesFragment extends Fragment {
             }
         }
         return bestLocation;
+    }
+
+    @Override
+    public void onClick(View view) {
+        switch (view.getId()) {
+            case places_to_eat:
+                browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://www.google.com/maps/search/?api=1&query=restaurants"));
+                startActivity(browserIntent);
+                break;
+            case places_parks:
+                browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://www.google.com/maps/search/?api=1&query=parks"));
+                startActivity(browserIntent);
+                break;
+            case places_shopping:
+                browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://www.google.com/maps/search/?api=1&query=shops"));
+                startActivity(browserIntent);
+                break;
+            case places_tourism:
+                browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://www.google.com/maps/search/?api=1&query=tourist+attractions"));
+                startActivity(browserIntent);
+                break;
+        }
     }
 }

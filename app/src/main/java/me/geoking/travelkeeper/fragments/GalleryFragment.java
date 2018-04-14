@@ -25,7 +25,7 @@ public class GalleryFragment extends Fragment {
     private static final String ARG_PARAM1 = "param1";
 
     private String mParam1;
-    private int mColumnCount = 4;
+    private int mColumnCount = 3;
 
     private OnFragmentInteractionListener mListener;
 
@@ -50,12 +50,18 @@ public class GalleryFragment extends Fragment {
     }
 
     @Override
+    public void onResume() {
+        super.onResume();
+        String title = getActivity().getResources().getString(R.string.title_gallery);
+        getActivity().setTitle(title);
+    }
+
+    @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_gallery, container, false);
-
         ArrayList holidays = (ArrayList) AppDatabase.getInstance().getHolidayDao().getHolidays();
         ArrayList visits = (ArrayList) AppDatabase.getInstance().getVisitDao().getVisits();
+        View view;
 
         ArrayList<Bitmap> images = new ArrayList<Bitmap>();
         if (holidays.size() > 0) {
@@ -86,16 +92,20 @@ public class GalleryFragment extends Fragment {
             }
         }
 
-
-        Context context = view.getContext();
-        RecyclerView recyclerView = (RecyclerView) view.findViewById(R.id.image_list);
-        if (mColumnCount <= 1) {
-            recyclerView.setLayoutManager(new LinearLayoutManager(context));
-        } else {
-            recyclerView.setLayoutManager(new GridLayoutManager(context, mColumnCount));
+        if (!(images.isEmpty())) {
+            view = inflater.inflate(R.layout.fragment_gallery, container, false);
+            Context context = view.getContext();
+            RecyclerView recyclerView = (RecyclerView) view.findViewById(R.id.image_list);
+            if (mColumnCount <= 1) {
+                recyclerView.setLayoutManager(new LinearLayoutManager(context));
+            } else {
+                recyclerView.setLayoutManager(new GridLayoutManager(context, mColumnCount));
+            }
+            recyclerView.setAdapter(new ImageRecyclerViewAdapter(images, mListener));
         }
-        recyclerView.setAdapter(new ImageRecyclerViewAdapter(images, mListener));
-
+        else {
+            view = inflater.inflate(R.layout.fragment_gallery_noimages, container, false);
+        }
         return view;
     }
 

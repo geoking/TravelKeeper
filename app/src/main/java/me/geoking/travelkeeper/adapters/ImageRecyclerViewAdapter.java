@@ -59,11 +59,13 @@ public class ImageRecyclerViewAdapter extends RecyclerView.Adapter<ImageRecycler
         public final View mView;
         public Bitmap mImage;
         public ImageView mImageView;
+        public TextView mTextView;
 
         public ViewHolder(View view) {
             super(view);
             mView = view;
             mImageView = (ImageView) view.findViewById(R.id.gallery_image);
+            mTextView = (TextView) view.findViewById(R.id.gallery_title);
         }
 
         @Override

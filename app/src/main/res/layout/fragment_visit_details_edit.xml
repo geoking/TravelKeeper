@@ -26,7 +26,7 @@
         <AutoCompleteTextView
             android:id="@+id/visit_details_title"
             android:layout_width="match_parent"
-            android:layout_height="49dp"
+            android:layout_height="52dp"
             android:layout_marginBottom="8dp"
             android:layout_marginEnd="8dp"
             android:layout_marginStart="8dp"
@@ -40,6 +40,20 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/visit_details_image"
             app:layout_constraintVertical_bias="1.0" />
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"
+            android:layout_marginEnd="8dp"
+            android:layout_marginStart="8dp"
+            android:src="@drawable/powered_by_google_light"
+            app:layout_constraintBottom_toTopOf="@+id/visit_details_tags"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="1.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/visit_details_title" />
 
         <EditText
             android:id="@+id/visit_details_tags"
@@ -57,7 +71,8 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/visit_details_image" />
 
-        <Button
+        <Button style="@style/Widget.AppCompat.Button.Colored"
+            android:theme="@style/AppTheme.Button"
             android:id="@+id/visit_details_date"
             android:layout_width="0dp"
             android:layout_height="49dp"
@@ -100,9 +115,9 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/visit_details_notes" />
 
-        <Button style="@style/Widget.AppCompat.Button.Colored"
-            android:theme="@style/AppTheme.Button"
+        <Button
             android:id="@+id/visit_details_upload"
+            style="@style/Widget.AppCompat.Button.Colored"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginBottom="8dp"
@@ -111,6 +126,7 @@
             android:layout_marginTop="8dp"
             android:text="@string/upload"
             android:textAppearance="@android:style/TextAppearance.Material.Menu"
+            android:theme="@style/AppTheme.Button"
             app:layout_constraintBottom_toBottomOf="@+id/visit_details_image"
             app:layout_constraintEnd_toEndOf="@+id/visit_details_image"
             app:layout_constraintHorizontal_bias="1.0"
@@ -118,9 +134,9 @@
             app:layout_constraintTop_toTopOf="@+id/visit_details_image"
             app:layout_constraintVertical_bias="0.0" />
 
-        <Button style="@style/Widget.AppCompat.Button.Colored"
-            android:theme="@style/AppTheme.Button"
+        <Button
             android:id="@+id/visit_details_remove"
+            style="@style/Widget.AppCompat.Button.Colored"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginBottom="8dp"
@@ -129,6 +145,7 @@
             android:layout_marginTop="8dp"
             android:text="@string/remove"
             android:textAppearance="@android:style/TextAppearance.Material.Menu"
+            android:theme="@style/AppTheme.Button"
             app:layout_constraintBottom_toBottomOf="@+id/visit_details_image"
             app:layout_constraintEnd_toEndOf="@+id/visit_details_image"
             app:layout_constraintHorizontal_bias="1.0"
@@ -136,9 +153,9 @@
             app:layout_constraintTop_toTopOf="@+id/visit_details_image"
             app:layout_constraintVertical_bias="0.0" />
 
-        <Button style="@style/Widget.AppCompat.Button.Colored"
-            android:theme="@style/AppTheme.Button"
+        <Button
             android:id="@+id/visit_details_camera"
+            style="@style/Widget.AppCompat.Button.Colored"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginBottom="8dp"
@@ -147,6 +164,7 @@
             android:layout_marginTop="8dp"
             android:text="@string/camera"
             android:textAppearance="@android:style/TextAppearance.Material.Menu"
+            android:theme="@style/AppTheme.Button"
             app:layout_constraintBottom_toBottomOf="@+id/visit_details_image"
             app:layout_constraintEnd_toEndOf="@+id/visit_details_image"
             app:layout_constraintHorizontal_bias="0.0"

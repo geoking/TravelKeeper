@@ -19,6 +19,7 @@
     <string name="title_places_visited">Places Visited</string>
     <string name="visit_details_notes">Visit Notes</string>
     <string name="visit_details_tags">Visit Tags</string>
+    <string name="title_gallery">Travel Gallery</string>
     <string name="holiday_details_start">Start Date</string>
     <string name="holiday_details_end">End Date</string>
     <string name="visit_details_date">Date Of Visit</string>
@@ -33,11 +34,16 @@
     <string name="navigation_title">TravelKeeper Navigation</string>
     <string name="no_holiday_text">No holidays! \n\n\nTo add a holiday, click the \'\+\' button in the top right corner.</string>
     <string name="no_visit_text">No places visited! \n\n\nTo add a visited place, click the \'\+\' button in the top right corner.</string>
+    <string name="no_images_text">No images found within the app! \n\nAdd a holiday or place image to see images here.</string>
     <string name="title_activity_nearby">Nearby Places</string>
     <string name="holiday_details_to">to</string>
     <string name="upload">Choose Image</string>
     <string name="remove">Remove Image</string>
     <string name="camera">Take Photo</string>
     <string name="holidays_title_text">A Holiday</string>
+    <string name="places_parks_title">Parks</string>
+    <string name="places_shopping_title">Shops</string>
+    <string name="places_tourism_title">Tourist</string>
+    <string name="places_restaurants_title">Restaurants</string>
 
 </resources>
