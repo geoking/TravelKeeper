@@ -36,7 +36,7 @@ public class ImageRecyclerViewAdapter extends RecyclerView.Adapter<ImageRecycler
     @Override
     public void onBindViewHolder(final ViewHolder holder, int position) {
         holder.mImage = mImages.get(position);
-
+        holder.mImageView.setImageBitmap(mImages.get(position));
         holder.mView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
