@@ -380,6 +380,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                     }
                     else {
                         visit.setTitle(newVisitTitle);
+                        visit.setAddress(null);
+                        visit.setPlaceid(null);
                     }
                     if (newVisitBitmap != null) {
                         UUID uuid = UUID.randomUUID();

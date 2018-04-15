@@ -30,7 +30,7 @@
             android:layout_marginBottom="8dp"
             android:layout_marginEnd="8dp"
             android:layout_marginStart="8dp"
-            android:layout_marginTop="8dp"
+            android:layout_marginTop="7dp"
             android:hint="@string/title_visit_details"
             android:singleLine="true"
             android:textAppearance="@android:style/TextAppearance.Material.Medium"
@@ -106,7 +106,8 @@
         <Spinner
             android:id="@+id/add_visit_to_holiday"
             android:layout_width="match_parent"
-            android:layout_height="60dp"
+            android:layout_height="27dp"
+            android:layout_marginBottom="8dp"
             android:layout_marginEnd="8dp"
             android:layout_marginStart="8dp"
             android:text="@string/visit_holiday_match"
