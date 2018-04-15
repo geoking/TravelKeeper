@@ -85,11 +85,17 @@ public class NearbyPlacesFragment extends Fragment implements View.OnClickListen
                     LocationManager lm = (LocationManager) getActivity().getSystemService(LOCATION_SERVICE);
                     myLocation = getLastKnownLocation();
                     Location location = myLocation;
-                    double longitude = location.getLongitude();
-                    double latitude = location.getLatitude();
-                    LatLng locationLatLng = new LatLng(latitude, longitude);
-                    // For zooming automatically to the location of the marker
-                    CameraPosition cameraPosition = new CameraPosition.Builder().target(locationLatLng).zoom(15).build();
+                    CameraPosition cameraPosition;
+                    if (myLocation != null) {
+                        double longitude = location.getLongitude();
+                        double latitude = location.getLatitude();
+                        LatLng locationLatLng = new LatLng(latitude, longitude);
+                        cameraPosition = new CameraPosition.Builder().target(locationLatLng).zoom(15).build();
+                    }
+                    else {
+                        LatLng london = new LatLng(52.486636, -1.891116);
+                        cameraPosition = new CameraPosition.Builder().target(london).zoom(15).build();
+                    }
                     googleMap.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
                 }
 
