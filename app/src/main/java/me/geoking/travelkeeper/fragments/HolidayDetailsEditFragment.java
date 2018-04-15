@@ -241,7 +241,7 @@ public class HolidayDetailsEditFragment extends Fragment implements View.OnClick
             }
             if (!(bitmap == null)) {
                 ImageView holidayImg = getActivity().findViewById(R.id.holiday_details_image);
-                Bitmap test = Bitmap.createScaledBitmap(bitmap, 600, 405, false);
+                Bitmap test = Bitmap.createScaledBitmap(bitmap, holidayImg.getWidth(), holidayImg.getHeight(), false);
                 holidayImg.setImageBitmap(test);
                 Button uploadButton = (Button) getView().findViewById(holiday_details_upload);
                 uploadButton.setVisibility(View.GONE);
@@ -256,7 +256,7 @@ public class HolidayDetailsEditFragment extends Fragment implements View.OnClick
             bitmap = (Bitmap) data.getExtras().get("data");
             if (!(bitmap == null)) {
                 ImageView holidayImg = getActivity().findViewById(R.id.holiday_details_image);
-                Bitmap test = Bitmap.createScaledBitmap(bitmap, 600, 405, false);
+                Bitmap test = Bitmap.createScaledBitmap(bitmap, holidayImg.getWidth(), holidayImg.getHeight(), false);
                 holidayImg.setImageBitmap(test);
                 Button uploadButton = (Button) getView().findViewById(holiday_details_upload);
                 uploadButton.setVisibility(View.GONE);

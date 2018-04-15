@@ -311,7 +311,7 @@ public class VisitDetailsEditFragment extends Fragment implements View.OnClickLi
             }
             if (!(bitmap == null)) {
                 ImageView visitImg = getActivity().findViewById(R.id.visit_details_image);
-                Bitmap test = Bitmap.createScaledBitmap(bitmap, 600, 405, false);
+                Bitmap test = Bitmap.createScaledBitmap(bitmap, visitImg.getWidth(), visitImg.getHeight(), false);
                 visitImg.setImageBitmap(test);
                 Button uploadButton = (Button) getView().findViewById(visit_details_upload);
                 uploadButton.setVisibility(View.GONE);
@@ -324,7 +324,7 @@ public class VisitDetailsEditFragment extends Fragment implements View.OnClickLi
             bitmap = (Bitmap) data.getExtras().get("data");
             if (!(bitmap == null)) {
                 ImageView visitImg = getActivity().findViewById(R.id.visit_details_image);
-                Bitmap test = Bitmap.createScaledBitmap(bitmap, 600, 405, false);
+                Bitmap test = Bitmap.createScaledBitmap(bitmap, visitImg.getWidth(), visitImg.getHeight(), false);
                 visitImg.setImageBitmap(test);
                 Button uploadButton = (Button) getView().findViewById(visit_details_upload);
                 uploadButton.setVisibility(View.GONE);

@@ -16,7 +16,7 @@
         <ImageView
             android:id="@+id/holiday_details_image"
             android:layout_width="0dp"
-            android:layout_height="290dp"
+            android:layout_height="0dp"
             android:src="@drawable/side_nav_bar"
             app:layout_constraintBottom_toTopOf="@+id/holiday_details_title"
             app:layout_constraintEnd_toEndOf="parent"
@@ -30,7 +30,7 @@
             android:layout_marginBottom="8dp"
             android:layout_marginEnd="8dp"
             android:layout_marginStart="8dp"
-            android:layout_marginTop="8dp"
+            android:layout_marginTop="32dp"
             android:hint="@string/title_holiday_details"
             android:singleLine="true"
             android:textAppearance="@android:style/TextAppearance.Material.Medium"
@@ -58,9 +58,9 @@
             app:layout_constraintTop_toBottomOf="@+id/holiday_details_image"
             app:layout_constraintVertical_bias="0.984" />
 
-        <Button style="@style/Widget.AppCompat.Button.Colored"
-            android:theme="@style/AppTheme.Button"
+        <Button
             android:id="@+id/holiday_details_start"
+            style="@style/Widget.AppCompat.Button.Colored"
             android:layout_width="156dp"
             android:layout_height="49dp"
             android:layout_marginBottom="8dp"
@@ -68,6 +68,7 @@
             android:layout_marginStart="8dp"
             android:text="@string/holiday_details_start"
             android:textAppearance="@android:style/TextAppearance.Material.Menu"
+            android:theme="@style/AppTheme.Button"
             app:layout_constraintBottom_toTopOf="@+id/holiday_details_notes"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"
@@ -87,9 +88,9 @@
             app:layout_constraintStart_toEndOf="@+id/holiday_details_start"
             app:layout_constraintTop_toBottomOf="@+id/holiday_details_tags" />
 
-        <Button style="@style/Widget.AppCompat.Button.Colored"
-        android:theme="@style/AppTheme.Button"
+        <Button
             android:id="@+id/holiday_details_end"
+            style="@style/Widget.AppCompat.Button.Colored"
             android:layout_width="156dp"
             android:layout_height="49dp"
             android:layout_marginBottom="8dp"
@@ -97,9 +98,10 @@
             android:layout_marginStart="8dp"
             android:text="@string/holiday_details_end"
             android:textAppearance="@android:style/TextAppearance.Material.Menu"
+            android:theme="@style/AppTheme.Button"
             app:layout_constraintBottom_toTopOf="@+id/holiday_details_notes"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.962"
+            app:layout_constraintHorizontal_bias="1.0"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/holiday_details_image"
             app:layout_constraintVertical_bias="1.0" />
@@ -107,8 +109,8 @@
         <EditText
             android:id="@+id/holiday_details_notes"
             android:layout_width="match_parent"
-            android:layout_height="106dp"
-            android:layout_marginBottom="16dp"
+            android:layout_height="80dp"
+            android:layout_marginBottom="8dp"
             android:layout_marginEnd="8dp"
             android:layout_marginStart="8dp"
             android:hint="@string/holiday_details_notes"
@@ -118,7 +120,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/holiday_details_title"
+            app:layout_constraintTop_toBottomOf="@+id/holiday_details_to"
             app:layout_constraintVertical_bias="0.849" />
 
         <Button style="@style/Widget.AppCompat.Button.Colored"
