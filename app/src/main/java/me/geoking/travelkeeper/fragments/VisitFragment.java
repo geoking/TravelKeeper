@@ -1,5 +1,6 @@
 package me.geoking.travelkeeper.fragments;
 
+import android.arch.persistence.room.OnConflictStrategy;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -83,6 +84,10 @@ public class VisitFragment extends Fragment implements GoogleApiClient.OnConnect
         super.onResume();
         String title = getActivity().getResources().getString(R.string.title_places_visited);
         getActivity().setTitle(title);
+        if (mGoogleApiClient != null){
+            mGoogleApiClient.reconnect();
+        }
+
     }
 
     public static VisitFragment newInstance(String param1, String param2) {
@@ -193,7 +198,6 @@ public class VisitFragment extends Fragment implements GoogleApiClient.OnConnect
             mGoogleApiClient.disconnect();
         }
     }
-
 
     @Override
     public void onAttach(Context context) {

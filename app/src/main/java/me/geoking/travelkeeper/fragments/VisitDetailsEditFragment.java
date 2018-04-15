@@ -138,6 +138,9 @@ public class VisitDetailsEditFragment extends Fragment implements View.OnClickLi
             String title = getActivity().getResources().getString(R.string.title_visit_details_add);
             getActivity().setTitle(title);
         }
+        if (mGoogleApiClient != null){
+            mGoogleApiClient.reconnect();
+        }
 
     }
 
