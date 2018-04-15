@@ -44,7 +44,7 @@ public class ImageRecyclerViewAdapter extends RecyclerView.Adapter<ImageRecycler
                     // Notify the active callbacks interface (the activity, if the
                     // fragment is attached to one) that an holiday has been selected.
                     Bitmap image = holder.mImage;
-                    //mListener.onFragmentInteraction(image);
+                    mListener.onFragmentInteraction(image);
                 }
             }
         });

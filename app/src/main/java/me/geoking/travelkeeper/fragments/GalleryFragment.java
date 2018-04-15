@@ -134,6 +134,6 @@ public class GalleryFragment extends Fragment {
 
     public interface OnFragmentInteractionListener {
         // TODO: Update argument type and name
-        void onFragmentInteraction(ArrayList<Bitmap> list);
+        void onFragmentInteraction(Bitmap bitmap);
     }
 }

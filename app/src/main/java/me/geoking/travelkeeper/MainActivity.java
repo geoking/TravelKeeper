@@ -28,6 +28,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -38,6 +39,7 @@ import java.util.Objects;
 import java.util.UUID;
 
 import me.geoking.travelkeeper.fragments.GalleryFragment;
+import me.geoking.travelkeeper.fragments.GalleryImageFragment;
 import me.geoking.travelkeeper.fragments.HolidayDetailsEditFragment;
 import me.geoking.travelkeeper.fragments.HolidayDetailsFragment;
 import me.geoking.travelkeeper.fragments.HolidayFragment;
@@ -54,7 +56,7 @@ import static android.graphics.BitmapFactory.decodeStream;
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, MainFragment.OnFragmentInteractionListener,
         HolidayFragment.OnListFragmentInteractionListener, HolidayDetailsFragment.OnFragmentInteractionListener, HolidayDetailsEditFragment.OnFragmentInteractionListener, VisitFragment.OnFragmentInteractionListener, VisitDetailsFragment.OnFragmentInteractionListener,
-        VisitDetailsEditFragment.OnFragmentInteractionListener, GalleryFragment.OnFragmentInteractionListener
+        VisitDetailsEditFragment.OnFragmentInteractionListener, GalleryFragment.OnFragmentInteractionListener, GalleryImageFragment.OnFragmentInteractionListener
 {
 
     @Override
@@ -77,8 +79,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setCheckedItem(R.id.nav_home);
         navigationView.setNavigationItemSelectedListener(this);
-
-
     }
 
     @Override
@@ -580,7 +580,21 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     }
 
     @Override
-    public void onFragmentInteraction(ArrayList<Bitmap> list) {
+    public void onFragmentInteraction(Bitmap bitmap) {
+        GalleryImageFragment newFragment = new GalleryImageFragment();
+        ByteArrayOutputStream stream = new ByteArrayOutputStream();
+        bitmap.compress(Bitmap.CompressFormat.PNG, 100, stream);
+        byte[] byteArray = stream.toByteArray();
+        Bundle args = new Bundle();
+        args.putByteArray("Image", byteArray);
+        newFragment.setArguments(args);
 
+        FragmentTransaction transaction =
+                getSupportFragmentManager().beginTransaction();
+
+        transaction.replace(R.id.fragment_container, newFragment);
+        transaction.addToBackStack(null);
+
+        transaction.commit();
     }
 }

@@ -9,11 +9,4 @@
         app:showAsAction="always"
         />
 
-    <item
-        android:id="@+id/holidayEdit"
-        android:icon="@drawable/ic_edit_white_24dp"
-        android:title="Edit"
-        app:showAsAction="always"
-        />
-
 </menu>

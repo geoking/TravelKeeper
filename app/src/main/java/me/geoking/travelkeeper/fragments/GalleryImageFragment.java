@@ -1,6 +1,8 @@
 package me.geoking.travelkeeper.fragments;
 
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -20,7 +22,7 @@ import me.geoking.travelkeeper.model.Holiday;
 public class GalleryImageFragment extends Fragment {
     private static final String HOLIDAY = "Holiday";
 
-    private Holiday holiday;
+    private Bitmap bitmap;
 
     private OnFragmentInteractionListener mListener;
 
@@ -40,14 +42,15 @@ public class GalleryImageFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
-            holiday = (Holiday) getArguments().getSerializable(HOLIDAY);
+            byte[] byteArray = getArguments().getByteArray("Image");
+            bitmap = BitmapFactory.decodeByteArray(byteArray, 0, byteArray.length);
         }
     }
 
     @Override
     public void onResume() {
         super.onResume();
-        String title = holiday.getTitle();
+        String title = "Photo";
         getActivity().setTitle(title);
     }
 
@@ -55,22 +58,11 @@ public class GalleryImageFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View view = inflater.inflate(R.layout.fragment_holiday_details, container, false);
+        View view = inflater.inflate(R.layout.fragment_gallery_image, container, false);
 
-        TextView titleField = view.findViewById(R.id.holiday_view_details_title);
-        TextView tagsField = view.findViewById(R.id.holiday_view_details_tags);
-        TextView startButton = view.findViewById(R.id.holiday_view_details_start);
-        TextView endButton = view.findViewById(R.id.holiday_view_details_end);
-        TextView notesField = view.findViewById(R.id.holiday_view_details_notes);
-        ImageView holidayImage = view.findViewById(R.id.holiday_view_details_image);
-        titleField.setText(holiday.getTitle());
-        tagsField.setText(holiday.getTags());
-        startButton.setText(holiday.getStartDate());
-        endButton.setText(holiday.getEndDate());
-        notesField.setText(holiday.getNotes());
-        notesField.setMovementMethod(new ScrollingMovementMethod());
-        if (holiday.getImageLocation() != null) {
-            holidayImage.setImageBitmap(((MainActivity)getActivity()).loadImageFromStorage(holiday.getImageLocation(), holiday.getImageLocationUUID()));
+        ImageView holidayImage = view.findViewById(R.id.gallery_image_zoom);
+        if (bitmap != null) {
+            holidayImage.setImageBitmap(bitmap);
         }
         setHasOptionsMenu(true);
         return view;
@@ -80,7 +72,7 @@ public class GalleryImageFragment extends Fragment {
     @Override
     public void onCreateOptionsMenu(
             Menu menu, MenuInflater inflater) {
-        inflater.inflate(R.menu.holiday_details_edit, menu);
+        inflater.inflate(R.menu.share, menu);
     }
 
     @Override

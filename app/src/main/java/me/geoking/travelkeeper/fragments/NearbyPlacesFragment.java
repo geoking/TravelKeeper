@@ -74,7 +74,7 @@ public class NearbyPlacesFragment extends Fragment implements View.OnClickListen
 
                 if (ActivityCompat.checkSelfPermission(getActivity().getApplicationContext(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(getActivity().getApplicationContext(), Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
                     ActivityCompat.requestPermissions(getActivity(), new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, 1);
-                    LatLng london = new LatLng(51.5006715, -0.1247405);
+                    LatLng london = new LatLng(52.486636, -1.891116);
                     googleMap.addMarker(new MarkerOptions().position(london).title("Marker Title").snippet("Marker Description"));
 
                     // For zooming automatically to the location of the marker

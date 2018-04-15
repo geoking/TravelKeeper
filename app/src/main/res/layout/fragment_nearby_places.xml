@@ -23,7 +23,8 @@
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintVertical_bias="0.0" />
 
-        <Button
+        <Button style="@style/Widget.AppCompat.Button.Colored"
+            android:theme="@style/AppTheme.Button"
             android:id="@+id/places_to_eat"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -33,7 +34,8 @@
             app:layout_constraintStart_toEndOf="@+id/places_tourism"
             app:layout_constraintTop_toBottomOf="@+id/mapView" />
 
-        <Button
+        <Button style="@style/Widget.AppCompat.Button.Colored"
+            android:theme="@style/AppTheme.Button"
             android:id="@+id/places_tourism"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -44,7 +46,8 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/mapView" />
 
-        <Button
+        <Button style="@style/Widget.AppCompat.Button.Colored"
+            android:theme="@style/AppTheme.Button"
             android:id="@+id/places_shopping"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -54,7 +57,8 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/places_tourism" />
 
-        <Button
+        <Button style="@style/Widget.AppCompat.Button.Colored"
+            android:theme="@style/AppTheme.Button"
             android:id="@+id/places_parks"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
